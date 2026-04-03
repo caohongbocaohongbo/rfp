@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>酒店RFP招标平台 - 专业的会议服务与报价管理</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0a192f 0%, #112240 50%, #233554 100%);
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .nav-blur {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.95);
+    }
+    .hero-pattern {
+      background-image: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+    }
+    .step-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, transparent);
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900">RFP<span class="text-blue-600">酒店</span></span>
+        </div>
+
+        <!-- 菜单项 -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">首页</a>
+          <a href="#features" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">解决方案</a>
+          <a href="#process" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">流程说明</a>
+          <a href="#about" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">关于我们</a>
+          <a href="#contact" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">联系我们</a>
+        </div>
+
+        <!-- CTA按钮 -->
+        <button class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300">
+          立即招标
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 首屏 Hero -->
+  <section class="gradient-bg hero-pattern min-h-screen flex items-center pt-20">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <div class="inline-block px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/20">
+            <span class="text-blue-400 text-sm font-medium">专业的酒店会议RFP平台</span>
+          </div>
+          <h1 class="text-5xl md:text-6xl font-bold text-white leading-tight">
+            重新定义<br>
+            <span class="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">酒店会议招标</span><br>
+            全流程
+          </h1>
+          <p class="text-xl text-gray-300 leading-relaxed">
+            连接企业需求与优质酒店资源，简化RFP流程，提升招标效率，为您的会议活动找到最佳匹配
+          </p>
+          <div class="flex space-x-4">
+            <button class="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+              开始使用
+            </button>
+            <button class="border-2 border-white/30 text-white px-8 py-4 rounded-lg font-medium hover:bg-white/10 transition-all duration-300">
+              了解更多
+            </button>
+          </div>
+          <div class="flex items-center space-x-8 pt-8">
+            <div>
+              <div class="text-3xl font-bold text-white">500+</div>
+              <div class="text-gray-400 text-sm">合作酒店</div>
+            </div>
+            <div class="w-px h-12 bg-gray-600"></div>
+            <div>
+              <div class="text-3xl font-bold text-white">2000+</div>
+              <div class="text-gray-400 text-sm">成功案例</div>
+            </div>
+            <div class="w-px h-12 bg-gray-600"></div>
+            <div>
+              <div class="text-3xl font-bold text-white">98%</div>
+              <div class="text-gray-400 text-sm">客户满意度</div>
+            </div>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+            <div class="bg-white rounded-xl p-6 shadow-2xl">
+              <div class="flex items-center space-x-3 mb-6">
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+              </div>
+              <div class="space-y-4">
+                <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+                <div class="h-4 bg-gray-100 rounded w-1/2"></div>
+                <div class="h-32 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg flex items-center justify-center">
+                  <svg class="w-16 h-16 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                </div>
+                <div class="flex justify-between items-center">
+                  <div class="h-8 bg-blue-600 rounded w-24"></div>
+                  <div class="h-8 bg-gray-200 rounded w-20"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 装饰元素 -->
+          <div class="absolute -top-4 -right-4 w-24 h-24 bg-blue-500/20 rounded-full blur-xl"></div>
+          <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心优势 -->
+  <section id="features" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">核心优势</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          基于领先的技术平台，为您提供专业、高效的酒店RFP解决方案
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- 卡片1 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover transition-all duration-300">
+          <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">高效匹配</h3>
+          <p class="text-gray-600 leading-relaxed">
+            智能算法精准匹配企业需求与酒店资源，大幅缩短招标周期，提升工作效率
+          </p>
+        </div>
+
+        <!-- 卡片2 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover transition-all duration-300">
+          <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">安全可靠</h3>
+          <p class="text-gray-600 leading-relaxed">
+            企业级安全保障，数据加密传输，严格的权限管理体系，确保信息安全
+          </p>
+        </div>
+
+        <!-- 卡片3 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover transition-all duration-300">
+          <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">数据分析</h3>
+          <p class="text-gray-600 leading-relaxed">
+            全程数据追踪，智能分析报告，助您优化招标策略，提升决策质量
+          </p>
+        </div>
+
+        <!-- 卡片4 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover transition-all duration-300">
+          <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">优质资源</h3>
+          <p class="text-gray-600 leading-relaxed">
+            覆盖全国主要城市的星级酒店和会议中心，满足各类会议活动需求
+          </p>
+        </div>
+
+        <!-- 卡片5 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover transition-all duration-300">
+          <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">快速响应</h3>
+          <p class="text-gray-600 leading-relaxed">
+            实时消息通知，快速报价响应，缩短沟通成本，提升合作效率
+          </p>
+        </div>
+
+        <!-- 卡片6 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover transition-all duration-300">
+          <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">专业服务</h3>
+          <p class="text-gray-600 leading-relaxed">
+            7x24小时客服支持，专业顾问团队，全程协助您的招标流程
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RFP流程 -->
+  <section id="process" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">RFP招标流程</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          简单四步，完成从需求发布到招标确认的全流程
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- 步骤1 -->
+        <div class="relative">
+          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-100">
+            <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 text-white text-2xl font-bold">
+              1
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">注册登录</h3>
+            <p class="text-gray-600 leading-relaxed">
+              企业注册账号，完成企业认证，开始使用平台服务
+            </p>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-300 to-transparent"></div>
+        </div>
+
+        <!-- 步骤2 -->
+        <div class="relative">
+          <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
+            <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-white text-2xl font-bold">
+              2
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">发布需求</h3>
+            <p class="text-gray-600 leading-relaxed">
+              填写会议需求详情，包括时间、地点、人数、预算等信息
+            </p>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-indigo-300 to-transparent"></div>
+        </div>
+
+        <!-- 步骤3 -->
+        <div class="relative">
+          <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 border border-purple-100">
+            <div class="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mb-6 text-white text-2xl font-bold">
+              3
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">接收报价</h3>
+            <p class="text-gray-600 leading-relaxed">
+              酒店响应需求并提交报价，您可以查看并比较不同方案
+            </p>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-purple-300 to-transparent"></div>
+        </div>
+
+        <!-- 步骤4 -->
+        <div class="relative">
+          <div class="bg-gradient-to-br from-pink-50 to-red-50 rounded-2xl p-8 border border-pink-100">
+            <div class="w-16 h-16 bg-pink-600 rounded-2xl flex items-center justify-center mb-6 text-white text-2xl font-bold">
+              4
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">确认合作</h3>
+            <p class="text-gray-600 leading-relaxed">
+              选择最优方案，与酒店确认合作，完成招标流程
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于我们 -->
+  <section id="about" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="text-4xl font-bold text-gray-900 mb-6">关于我们</h2>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+            我们致力于打造专业的酒店会议RFP平台，连接企业需求与优质酒店资源，通过技术创新和服务优化，为用户提供高效、安全、可靠的招标解决方案。
+          </p>
+          <div class="space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-1">专业团队</h4>
+                <p class="text-gray-600">拥有多年酒店行业和互联网技术经验的专业团队</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-1">创新技术</h4>
+                <p class="text-gray-600">采用最新技术架构，确保平台稳定性和用户体验</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4">
+              <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-1">客户至上</h4>
+                <p class="text-gray-600">以客户需求为导向，持续优化产品和服务</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="h-64 bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
+              <svg class="w-32 h-32 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <div class="p-8">
+              <div class="grid grid-cols-2 gap-6">
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-blue-600">5+</div>
+                  <div class="text-gray-600 text-sm mt-1">年行业经验</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-blue-600">100+</div>
+                  <div class="text-gray-600 text-sm mt-1">城市覆盖</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-blue-600">10000+</div>
+                  <div class="text-gray-600 text-sm mt-1">服务企业</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-3xl font-bold text-blue-600">99%</div>
+                  <div class="text-gray-600 text-sm mt-1">好评率</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA区域 -->
+  <section class="py-24 bg-gradient-to-br from-blue-600 to-indigo-700">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold text-white mb-6">准备好开始了吗？</h2>
+      <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+        立即注册，体验专业的酒店RFP招标服务，为您的会议活动找到完美匹配
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg">
+          免费注册
+        </button>
+        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white/10 transition-all duration-300">
+          预约演示
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer id="contact" class="bg-gray-900 text-gray-400 py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+        <div>
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <span class="text-xl font-bold text-white">RFP<span class="text-blue-400">酒店</span></span>
+          </div>
+          <p class="text-sm leading-relaxed">
+            专业的酒店会议RFP平台，连接企业需求与优质酒店资源
+          </p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">产品服务</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">RFP招标</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">酒店管理</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">数据分析</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">API接口</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">关于我们</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white transition-colors">公司介绍</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">团队成员</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">招贤纳士</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">联系方式</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">联系我们</h4>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <span>contact@rfp-hotel.com</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              </svg>
+              <span>400-888-8888</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span>北京市朝阳区建国路88号</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-sm">
+        <p>&copy; 2024 RFP酒店平台. 保留所有权利. | <a href="#" class="hover:text-white">隐私政策</a> | <a href="#" class="hover:text-white">服务条款</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('shadow-lg');
+      } else {
+        nav.classList.remove('shadow-lg');
+      }
+    });
+  </script>
+</body>
+</html>

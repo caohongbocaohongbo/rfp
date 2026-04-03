@@ -1,0 +1,23 @@
+{
+  "name": "rfp-hotel-platform",
+  "version": "1.0.0",
+  "description": "酒店RFP招标平台 - 专业的会议服务与报价管理",
+  "main": "index.html",
+  "scripts": {
+    "start": "./start.sh",
+    "preview": "python3 -m http.server 8000",
+    "serve": "npx http-server -p 8000"
+  },
+  "keywords": [
+    "rfp",
+    "hotel",
+    "bidding",
+    "meeting",
+    "platform"
+  ],
+  "author": "RFP Hotel Platform Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
