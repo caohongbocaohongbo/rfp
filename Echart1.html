@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>酒店业务数据分析可视化</title>
   <!-- 引入Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
   <!-- 引入ECharts -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
   <!-- 配置Tailwind自定义主题 -->
   <script>
     tailwind.config = {
+      mode: 'jit',
+      important: true,
       theme: {
         extend: {
           colors: {
@@ -41,70 +43,80 @@
         content-visibility: auto;
       }
       .card-shadow {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.08);
       }
       .chart-container {
         height: 320px;
       }
+      .chart-border {
+        border-color: rgba(216, 227, 246, 1);
+      }
     }
   </style>
 </head>
-<body class="bg-neutral-100 font-inter text-neutral-700 min-h-screen">
+<body class="bg-white font-inter text-neutral-700">
 
   <!-- 图表展示区 -->
-  <main class="container mx-auto px-4 pb-12" style="margin:30px auto;">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      <!-- 报价状态占比图表 - 标准环形饼图 -->
-      <div class="bg-white rounded-lg p-5 card-shadow">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-lg text-neutral-700">报价状态占比</h3>
-          <div class="flex space-x-2">
-            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">间夜量</button>
-            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">金额</button>
+  <main class="w-[1248px] h-[832px] flex flex-col justify-start items-start" style="margin:30px auto;">
+    <div class="w-[1248px] h-[404px] flex flex-row justify-start items-center mb-[24px]">
+      <!-- 报价状态占比图表 -->
+      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px]">
+        <div class="w-[572px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价状态占比</h3>
+          <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
+            <div class="w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end">
+              <span class="mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]">间夜量</span>
+            </div>
+            <div class="w-[52px] h-[28px] rounded-[4px] flex justify-center items-end">
+              <span class="mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">金额</span>
+            </div>
           </div>
         </div>
         <div id="quoteStatusChart" class="chart-container"></div>
       </div>
-      
-      <!-- 酒店星级占比图表 - 玫瑰饼图 -->
-      <div class="bg-white rounded-lg p-5 card-shadow">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-lg text-neutral-700">酒店星级占比</h3>
-          <div class="flex space-x-2">
-            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">间夜量</button>
-            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">金额</button>
+
+      <!-- 酒店星级占比图表 -->
+      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px]">
+        <div class="w-[572px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">酒店星级占比</h3>
+          <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
+            <div class="w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end">
+              <span class="mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]">间夜量</span>
+            </div>
+            <div class="w-[52px] h-[28px] rounded-[4px] flex justify-center items-end">
+              <span class="mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">金额</span>
+            </div>
           </div>
         </div>
         <div id="hotelStarChart" class="chart-container"></div>
       </div>
     </div>
-    
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- 报价类型占比图表 - 南丁格尔图 -->
-      <div class="bg-white rounded-lg p-5 card-shadow">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-lg text-neutral-700">报价类型占比</h3>
-          <div class="flex space-x-2">
-            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">间夜量</button>
-            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">金额</button>
+
+    <div class="w-[1248px] h-[404px] flex flex-row justify-start items-center">
+      <!-- 报价类型占比图表 -->
+      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px]">
+        <div class="w-[572px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价类型占比</h3>
+          <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
+            <div class="w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end">
+              <span class="mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]">间夜量</span>
+            </div>
+            <div class="w-[52px] h-[28px] rounded-[4px] flex justify-center items-end">
+              <span class="mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">金额</span>
+            </div>
           </div>
         </div>
         <div id="quoteTypeChart" class="chart-container"></div>
       </div>
-      
-      <!-- 报价涨跌趋势图表 - 堆叠折线+柱状组合图 -->
-      <div class="bg-white rounded-lg p-5 card-shadow">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-lg text-neutral-700">报价涨跌趋势</h3>
-          <div class="flex space-x-2">
-            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">间夜量</button>
-            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">金额</button>
-          </div>
+
+      <!-- 报价涨跌趋势图表 -->
+      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px]">
+        <div class="w-[572px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价涨跌趋势</h3>
         </div>
         <div id="quoteTrendChart" class="chart-container"></div>
       </div>
     </div>
-    
   </main>
 
 
