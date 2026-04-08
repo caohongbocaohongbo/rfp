@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>酒店业务数据分析可视化</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <!-- 引入ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+    tailwind.config = {
+      mode: 'jit',
+      important: true,
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            success: '#00B42A',
+            warning: '#FF7D00',
+            danger: '#F53F3F',
+            neutral: {
+              100: '#F2F3F5',
+              200: '#E5E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-shadow {
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.08);
+      }
+      .chart-container {
+        height: 320px;
+        width: 100%;
+      }
+      .chart-border {
+        border-color: rgba(216, 227, 246, 1);
+      }
+    }
+
+    /* 响应式断点 */
+    @media (max-width: 768px) {
+      .chart-card {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-bottom: 24px;
+      }
+      .chart-row {
+        flex-direction: column !important;
+        height: auto;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .chart-card {
+        width: calc(50% - 8px) !important;
+        margin-right: 16px !important;
+      }
+      .chart-row .chart-card:last-child {
+        margin-right: 0 !important;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .chart-card {
+        width: calc(50% - 12px) !important;
+        margin-right: 24px !important;
+      }
+      .chart-row .chart-card:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white font-inter text-neutral-700">
+
+  <!-- 图表展示区 -->
+  <main class="w-full min-h-[832px] flex flex-col justify-start items-center px-[15px]">
+    <div class="w-full h-[404px] flex flex-row justify-start items-center mb-[24px] chart-row">
+      <!-- 报价状态占比图表 -->
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px] chart-card">
+        <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价状态占比</h3>
+          <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
+            <button id="quoteStatus-night-btn" class="w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end transition-all duration-200 hover:bg-gray-50">
+              <span class="mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-medium tracking-[-0.15px]">间夜量</span>
+            </button>
+            <button id="quoteStatus-amount-btn" class="w-[52px] h-[28px] rounded-[4px] flex justify-center items-end transition-all duration-200 hover:bg-gray-100">
+              <span class="mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">金额</span>
+            </button>
+          </div>
+        </div>
+        <div id="quoteStatusChart" class="chart-container"></div>
+      </div>
+
+      <!-- 酒店星级占比图表 -->
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] chart-card">
+        <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">酒店星级占比</h3>
+          <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
+            <button id="hotelStar-night-btn" class="w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end transition-all duration-200 hover:bg-gray-50">
+              <span class="mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-medium tracking-[-0.15px]">间夜量</span>
+            </button>
+            <button id="hotelStar-amount-btn" class="w-[52px] h-[28px] rounded-[4px] flex justify-center items-end transition-all duration-200 hover:bg-gray-100">
+              <span class="mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">金额</span>
+            </button>
+          </div>
+        </div>
+        <div id="hotelStarChart" class="chart-container"></div>
+      </div>
+    </div>
+
+    <div class="w-full h-[404px] flex flex-row justify-start items-center chart-row">
+      <!-- 报价类型占比图表 -->
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px] chart-card">
+        <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价类型占比</h3>
+          <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
+            <button id="quoteType-night-btn" class="w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end transition-all duration-200 hover:bg-gray-50">
+              <span class="mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-medium tracking-[-0.15px]">间夜量</span>
+            </button>
+            <button id="quoteType-amount-btn" class="w-[52px] h-[28px] rounded-[4px] flex justify-center items-end transition-all duration-200 hover:bg-gray-100">
+              <span class="mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">金额</span>
+            </button>
+          </div>
+        </div>
+        <div id="quoteTypeChart" class="chart-container"></div>
+      </div>
+
+      <!-- 报价涨跌趋势图表 -->
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] chart-card">
+        <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
+          <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价涨跌趋势</h3>
+        </div>
+        <div id="quoteTrendChart" class="chart-container"></div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- ECharts初始化脚本 -->
+  <script>
+    // 检查ECharts是否加载成功
+    function checkEChartsLoaded() {
+      if (typeof echarts === 'undefined') {
+        console.error('ECharts library failed to load');
+        document.body.innerHTML = '<div style="padding: 20px; color: red;">ECharts库加载失败，请检查网络连接或刷新页面</div>';
+        return false;
+      }
+      console.log('ECharts loaded successfully, version:', echarts.version);
+      return true;
+    }
+
+    // 统一商务蓝色配色方案（不同透明度/饱和度）
+    const blueColors = [
+      '#165DFF', // 主蓝色
+      '#4080FF',
+      '#699EFF',
+      '#91BAFF',
+      '#B8D1FF',
+      '#D3E2FF',
+      '#E5EEFF',
+      '#F0F5FF',
+      '#F8FAFF'
+    ];
+
+    // 图表实例存储
+    let quoteStatusChart, hotelStarChart, quoteTypeChart, quoteTrendChart;
+
+    // 数据切换状态
+    let quoteStatusDataType = 'night'; // 'night' or 'amount'
+    let hotelStarDataType = 'night';
+    let quoteTypeDataType = 'night';
+    let quoteTrendDataType = 'night';
+
+    // 1. 报价状态占比数据
+    const quoteStatusData = {
+      night: [
+        { value: 1280, name: '新报价' },
+        { value: 960, name: '议价中' },
+        { value: 720, name: '修订报价' },
+        { value: 1850, name: '保持原价' },
+        { value: 1120, name: '已中签' },
+        { value: 480, name: '已拒绝' },
+        { value: 650, name: '未报价' },
+        { value: 210, name: '放弃报价' },
+        { value: 380, name: '集团折扣' }
+      ],
+      amount: [
+        { value: 384000, name: '新报价' },
+        { value: 288000, name: '议价中' },
+        { value: 216000, name: '修订报价' },
+        { value: 555000, name: '保持原价' },
+        { value: 336000, name: '已中签' },
+        { value: 144000, name: '已拒绝' },
+        { value: 195000, name: '未报价' },
+        { value: 63000, name: '放弃报价' },
+        { value: 114000, name: '集团折扣' }
+      ]
+    };
+
+    // 2. 酒店星级占比数据
+    const hotelStarData = {
+      night: [
+        { value: 1120, name: '五星级' },
+        { value: 980, name: '豪华型' },
+        { value: 1350, name: '四星级' },
+        { value: 890, name: '高档型' },
+        { value: 670, name: '三星级' },
+        { value: 760, name: '舒适型' },
+        { value: 410, name: '二星级及以下' },
+        { value: 1680, name: '经济型' },
+        { value: 360, name: '公寓/其它' }
+      ],
+      amount: [
+        { value: 560000, name: '五星级' },
+        { value: 490000, name: '豪华型' },
+        { value: 675000, name: '四星级' },
+        { value: 445000, name: '高档型' },
+        { value: 335000, name: '三星级' },
+        { value: 380000, name: '舒适型' },
+        { value: 205000, name: '二星级及以下' },
+        { value: 840000, name: '经济型' },
+        { value: 180000, name: '公寓/其它' }
+      ]
+    };
+
+    // 3. 报价类型占比数据
+    const quoteTypeData = {
+      night: [
+        { value: 3680, name: '固定价' },
+        { value: 1850, name: '集团折扣价' },
+        { value: 1260, name: '非协议价' }
+      ],
+      amount: [
+        { value: 1104000, name: '固定价' },
+        { value: 555000, name: '集团折扣价' },
+        { value: 378000, name: '非协议价' }
+      ]
+    };
+
+    // 4. 报价涨跌趋势数据
+    const quoteTrendData = {
+      night: {
+        bar: {
+          涨价: [120,135,150,165,180,175,160,155,145,130,125,140],
+          持平: [280,290,300,310,320,315,305,295,285,275,265,280],
+          降价: [95,85,75,65,55,60,70,80,90,100,110,95]
+        },
+        line: {
+          签约中: [150,160,170,180,190,185,175,165,155,145,150,160],
+          放弃报价: [25,22,18,15,12,10,13,16,20,23,25,20],
+          已拒绝: [45,42,38,32,28,25,30,35,40,42,38,35]
+        }
+      },
+      amount: {
+        bar: {
+          涨价: [3600,4050,4500,4950,5400,5250,4800,4650,4350,3750,3750,4200],
+          持平: [8400,8700,9000,9300,9600,9450,9150,8850,8550,8250,7950,8400],
+          降价: [2850,2550,2250,1950,1650,1800,2100,2400,2700,3000,3300,2850]
+        },
+        line: {
+          签约中: [4500,4800,5100,5400,5700,5550,5250,4950,4650,4350,4500,4800],
+          放弃报价: [750,660,540,450,360,300,390,480,600,720,750,600],
+          已拒绝: [1350,1260,1140,960,840,750,900,1050,1200,1260,1140,1050]
+        }
+      }
+    };
+
+    // 按钮样式更新函数
+    function updateButtonStyle(prefix, type) {
+      try {
+        const nightBtn = document.getElementById(`${prefix}-night-btn`);
+        const amountBtn = document.getElementById(`${prefix}-amount-btn`);
+
+        if (!nightBtn || !amountBtn) {
+          console.error(`Buttons not found for prefix: ${prefix}`);
+          return;
+        }
+
+        if (type === 'night') {
+          nightBtn.className = 'w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-white mr-[8px] flex justify-end items-end transition-all duration-200 hover:bg-gray-50';
+          nightBtn.querySelector('span').className = 'mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-medium tracking-[-0.15px]';
+
+          amountBtn.className = 'w-[52px] h-[28px] rounded-[4px] flex justify-center items-end transition-all duration-200 hover:bg-gray-100';
+          amountBtn.querySelector('span').className = 'mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]';
+        } else {
+          nightBtn.className = 'w-[64px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-transparent mr-[8px] flex justify-end items-end transition-all duration-200 hover:bg-gray-100';
+          nightBtn.querySelector('span').className = 'mb-[3.50px] mr-[10px] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]';
+
+          amountBtn.className = 'w-[52px] h-[28px] rounded-[4px] bg-white border-[rgba(239,239,243,1)] border-solid border flex justify-center items-end transition-all duration-200 hover:bg-gray-50';
+          amountBtn.querySelector('span').className = 'mb-[3.50px] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-medium tracking-[-0.15px]';
+        }
+      } catch (error) {
+        console.error('Error updating button style:', error);
+      }
+    }
+
+    // 1. 报价状态占比 - 标准环形饼图
+    function initQuoteStatusChart() {
+      try {
+        const chartDom = document.getElementById('quoteStatusChart');
+        if (!chartDom) {
+          console.error('quoteStatusChart container not found');
+          return;
+        }
+        
+        quoteStatusChart = echarts.init(chartDom);
+        
+        const option = {
+          tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+              const suffix = quoteStatusDataType === 'night' ? ' 间夜' : ' 元';
+              return `${params.name}: ${params.value.toLocaleString()}${suffix} (${params.percent}%)`;
+            }
+          },
+          legend: {
+            orient: 'vertical',
+            right: 0,
+            top: 'center',
+            textStyle: { fontSize: 12, color: '#4E5969' }
+          },
+          series: [{
+            name: '报价状态',
+            type: 'pie',
+            radius: ['40%', '75%'],
+            center: ['38%', '50%'],
+            itemStyle: {
+              borderRadius: 6,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            data: quoteStatusData[quoteStatusDataType],
+            color: blueColors
+          }]
+        };
+        
+        quoteStatusChart.setOption(option);
+        console.log('Quote status chart initialized successfully');
+
+        // 绑定按钮事件
+        const nightBtn = document.getElementById('quoteStatus-night-btn');
+        const amountBtn = document.getElementById('quoteStatus-amount-btn');
+        
+        if (nightBtn) {
+          nightBtn.addEventListener('click', () => {
+            quoteStatusDataType = 'night';
+            quoteStatusChart.setOption({ series: [{ data: quoteStatusData[quoteStatusDataType] }] });
+            updateButtonStyle('quoteStatus', 'night');
+          });
+        }
+        
+        if (amountBtn) {
+          amountBtn.addEventListener('click', () => {
+            quoteStatusDataType = 'amount';
+            quoteStatusChart.setOption({ series: [{ data: quoteStatusData[quoteStatusDataType] }] });
+            updateButtonStyle('quoteStatus', 'amount');
+          });
+        }
+      } catch (error) {
+        console.error('Error initializing quote status chart:', error);
+      }
+    }
+
+    // 2. 酒店星级占比 - 玫瑰饼图（半径区分大小）
+    function initHotelStarChart() {
+      try {
+        const chartDom = document.getElementById('hotelStarChart');
+        if (!chartDom) {
+          console.error('hotelStarChart container not found');
+          return;
+        }
+        
+        hotelStarChart = echarts.init(chartDom);
+        
+        const option = {
+          tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+              const suffix = hotelStarDataType === 'night' ? ' 间夜' : ' 元';
+              return `${params.name}: ${params.value.toLocaleString()}${suffix} (${params.percent}%)`;
+            }
+          },
+          legend: {
+            orient: 'vertical',
+            right: 0,
+            top: 'center',
+            textStyle: { fontSize: 11, color: '#4E5969' }
+          },
+          series: [{
+            name: '酒店星级',
+            type: 'pie',
+            radius: ['20%', '70%'],
+            center: ['40%', '50%'],
+            roseType: 'radius',
+            itemStyle: {
+              borderRadius: 4,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            data: hotelStarData[hotelStarDataType],
+            color: blueColors
+          }]
+        };
+        
+        hotelStarChart.setOption(option);
+        console.log('Hotel star chart initialized successfully');
+
+        // 绑定按钮事件
+        const nightBtn = document.getElementById('hotelStar-night-btn');
+        const amountBtn = document.getElementById('hotelStar-amount-btn');
+        
+        if (nightBtn) {
+          nightBtn.addEventListener('click', () => {
+            hotelStarDataType = 'night';
+            hotelStarChart.setOption({ series: [{ data: hotelStarData[hotelStarDataType] }] });
+            updateButtonStyle('hotelStar', 'night');
+          });
+        }
+        
+        if (amountBtn) {
+          amountBtn.addEventListener('click', () => {
+            hotelStarDataType = 'amount';
+            hotelStarChart.setOption({ series: [{ data: hotelStarData[hotelStarDataType] }] });
+            updateButtonStyle('hotelStar', 'amount');
+          });
+        }
+      } catch (error) {
+        console.error('Error initializing hotel star chart:', error);
+      }
+    }
+
+    // 3. 报价类型占比 - 南丁格尔图（面积区分）
+    function initQuoteTypeChart() {
+      try {
+        const chartDom = document.getElementById('quoteTypeChart');
+        if (!chartDom) {
+          console.error('quoteTypeChart container not found');
+          return;
+        }
+        
+        quoteTypeChart = echarts.init(chartDom);
+        
+        const option = {
+          tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+              const suffix = quoteTypeDataType === 'night' ? ' 间夜' : ' 元';
+              return `${params.name}: ${params.value.toLocaleString()}${suffix} (${params.percent}%)`;
+            }
+          },
+          legend: {
+            bottom: 0,
+            left: 'center',
+            textStyle: { fontSize: 12, color: '#4E5969' }
+          },
+          series: [{
+            name: '报价类型',
+            type: 'pie',
+            radius: ['15%', '70%'],
+            center: ['50%', '40%'],
+            roseType: 'area',
+            itemStyle: {
+              borderRadius: 8,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            label: {
+              formatter: function(params) {
+                return `${params.name}\n${params.percent}%`;
+              }
+            },
+            data: quoteTypeData[quoteTypeDataType],
+            color: ['#165DFF', '#699EFF', '#B8D1FF']
+          }]
+        };
+        
+        quoteTypeChart.setOption(option);
+        console.log('Quote type chart initialized successfully');
+
+        // 绑定按钮事件
+        const nightBtn = document.getElementById('quoteType-night-btn');
+        const amountBtn = document.getElementById('quoteType-amount-btn');
+        
+        if (nightBtn) {
+          nightBtn.addEventListener('click', () => {
+            quoteTypeDataType = 'night';
+            quoteTypeChart.setOption({ series: [{ data: quoteTypeData[quoteTypeDataType] }] });
+            updateButtonStyle('quoteType', 'night');
+          });
+        }
+        
+        if (amountBtn) {
+          amountBtn.addEventListener('click', () => {
+            quoteTypeDataType = 'amount';
+            quoteTypeChart.setOption({ series: [{ data: quoteTypeData[quoteTypeDataType] }] });
+            updateButtonStyle('quoteType', 'amount');
+          });
+        }
+      } catch (error) {
+        console.error('Error initializing quote type chart:', error);
+      }
+    }
+
+    // 4. 报价涨跌趋势 - 堆叠折线+柱状组合图
+    function initQuoteTrendChart() {
+      try {
+        const chartDom = document.getElementById('quoteTrendChart');
+        if (!chartDom) {
+          console.error('quoteTrendChart container not found');
+          return;
+        }
+        
+        quoteTrendChart = echarts.init(chartDom);
+        
+        const option = {
+          tooltip: { 
+            trigger: 'axis',
+            formatter: function(params) {
+              const suffix = quoteTrendDataType === 'night' ? ' 间夜' : ' 元';
+              let result = `${params[0].axisValue}<br/>`;
+              params.forEach(param => {
+                result += `${param.marker}${param.seriesName}: ${param.value.toLocaleString()}${suffix}<br/>`;
+              });
+              return result;
+            }
+          },
+          legend: {
+            data: ['涨价','持平','降价','签约中','放弃报价','已拒绝'],
+            bottom: 0,
+            textStyle: { color: '#4E5969' }
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            top: '10%',
+            bottom: '15%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+            axisLine: { lineStyle: { color: '#C9CDD4' } }
+          },
+          yAxis: {
+            type: 'value',
+            axisLine: { lineStyle: { color: '#C9CDD4' } }
+          },
+          series: [
+            { name: '涨价', type: 'bar', stack: 'total', itemStyle: { color: '#165DFF' }, data: quoteTrendData[quoteTrendDataType].bar.涨价 },
+            { name: '持平', type: 'bar', stack: 'total', itemStyle: { color: '#4080FF' }, data: quoteTrendData[quoteTrendDataType].bar.持平 },
+            { name: '降价', type: 'bar', stack: 'total', itemStyle: { color: '#91BAFF' }, data: quoteTrendData[quoteTrendDataType].bar.降价 },
+            { name: '签约中', type: 'line', smooth: true, itemStyle: { color: '#165DFF' }, lineStyle: { width: 3 }, data: quoteTrendData[quoteTrendDataType].line.签约中 },
+            { name: '放弃报价', type: 'line', smooth: true, itemStyle: { color: '#699EFF' }, lineStyle: { width: 3 }, data: quoteTrendData[quoteTrendDataType].line.放弃报价 },
+            { name: '已拒绝', type: 'line', smooth: true, itemStyle: { color: '#B8D1FF' }, lineStyle: { width: 3 }, data: quoteTrendData[quoteTrendDataType].line.已拒绝 }
+          ]
+        };
+        
+        quoteTrendChart.setOption(option);
+        console.log('Quote trend chart initialized successfully');
+      } catch (error) {
+        console.error('Error initializing quote trend chart:', error);
+      }
+    }
+
+    // 响应式处理函数
+    function handleResize() {
+      try {
+        // 添加延迟以确保DOM布局完成
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(function() {
+          if (quoteStatusChart) quoteStatusChart.resize();
+          if (hotelStarChart) hotelStarChart.resize();
+          if (quoteTypeChart) quoteTypeChart.resize();
+          if (quoteTrendChart) quoteTrendChart.resize();
+          console.log('Charts resized successfully');
+        }, 250);
+      } catch (error) {
+        console.error('Error during resize:', error);
+      }
+    }
+
+    // 初始化所有图表
+    function initializeAllCharts() {
+      try {
+        // 检查ECharts是否加载
+        if (!checkEChartsLoaded()) {
+          return;
+        }
+
+        console.log('Initializing all charts...');
+        console.log('Window width:', window.innerWidth);
+        
+        initQuoteStatusChart();
+        initHotelStarChart();
+        initQuoteTypeChart();
+        initQuoteTrendChart();
+        
+        // 添加窗口大小变化监听
+        window.addEventListener('resize', handleResize);
+        console.log('All charts initialized successfully');
+        
+        // 验证布局
+        setTimeout(function() {
+          const firstCard = document.querySelector('.chart-card');
+          if (firstCard) {
+            console.log('First card width:', firstCard.offsetWidth);
+          }
+        }, 500);
+      } catch (error) {
+        console.error('Error during chart initialization:', error);
+      }
+    }
+
+    // 等待DOM和ECharts加载完成
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeAllCharts);
+    } else {
+      initializeAllCharts();
+    }
+
+    // 窗口加载完成后再次确保图表渲染
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        console.log('Re-initializing charts after window load...');
+        initializeAllCharts();
+      }, 100);
+    });
+  </script>
+</body>
+</html>
