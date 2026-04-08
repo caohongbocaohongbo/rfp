@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>酒店业务数据分析可视化</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            success: '#00B42A',
+            warning: '#FF7D00',
+            danger: '#F53F3F',
+            neutral: {
+              100: '#F2F3F5',
+              200: '#E5E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-shadow {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      .chart-container {
+        height: 320px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-neutral-100 font-inter text-neutral-700 min-h-screen">
+
+  <!-- 图表展示区 -->
+  <main class="container mx-auto px-4 pb-12" style="margin:30px auto;">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <!-- 报价状态占比图表 - 标准环形饼图 -->
+      <div class="bg-white rounded-lg p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-semibold text-lg text-neutral-700">报价状态占比</h3>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">间夜量</button>
+            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">金额</button>
+          </div>
+        </div>
+        <div id="quoteStatusChart" class="chart-container"></div>
+      </div>
+      
+      <!-- 酒店星级占比图表 - 玫瑰饼图 -->
+      <div class="bg-white rounded-lg p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-semibold text-lg text-neutral-700">酒店星级占比</h3>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">间夜量</button>
+            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">金额</button>
+          </div>
+        </div>
+        <div id="hotelStarChart" class="chart-container"></div>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- 报价类型占比图表 - 南丁格尔图 -->
+      <div class="bg-white rounded-lg p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-semibold text-lg text-neutral-700">报价类型占比</h3>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">间夜量</button>
+            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">金额</button>
+          </div>
+        </div>
+        <div id="quoteTypeChart" class="chart-container"></div>
+      </div>
+      
+      <!-- 报价涨跌趋势图表 - 堆叠折线+柱状组合图 -->
+      <div class="bg-white rounded-lg p-5 card-shadow">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-semibold text-lg text-neutral-700">报价涨跌趋势</h3>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 rounded text-sm text-neutral-500 hover:bg-neutral-100 transition-colors">间夜量</button>
+            <button class="px-3 py-1 bg-neutral-100 rounded text-sm hover:bg-neutral-200 transition-colors active">金额</button>
+          </div>
+        </div>
+        <div id="quoteTrendChart" class="chart-container"></div>
+      </div>
+    </div>
+    
+  </main>
+
+
+  <!-- ECharts初始化脚本 -->
+  <script>
+    // 等待DOM加载完成
+    document.addEventListener('DOMContentLoaded', function() {
+      // 初始化所有图表
+      initQuoteStatusChart();
+      initHotelStarChart();
+      initQuoteTypeChart();
+      initQuoteTrendChart();
+    });
+
+    // 统一商务蓝色配色方案（不同透明度/饱和度）
+    const blueColors = [
+      '#165DFF', // 主蓝色
+      '#4080FF',
+      '#699EFF',
+      '#91BAFF',
+      '#B8D1FF',
+      '#D3E2FF',
+      '#E5EEFF',
+      '#F0F5FF',
+      '#F8FAFF'
+    ];
+
+    // 1. 报价状态占比 - 标准环形饼图
+    function initQuoteStatusChart() {
+      const chartDom = document.getElementById('quoteStatusChart');
+      const myChart = echarts.init(chartDom);
+      
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)'
+        },
+        legend: {
+          orient: 'vertical',
+          right: 0,
+          top: 'center',
+          textStyle: { fontSize: 12, color: '#4E5969' }
+        },
+        series: [{
+          name: '报价状态',
+          type: 'pie',
+          radius: ['40%', '75%'],
+          center: ['38%', '50%'],
+          itemStyle: {
+            borderRadius: 6,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          data: [
+            { value: 1280, name: '新报价' },
+            { value: 960, name: '议价中' },
+            { value: 720, name: '修订报价' },
+            { value: 1850, name: '保持原价' },
+            { value: 1120, name: '已中签' },
+            { value: 480, name: '已拒绝' },
+            { value: 650, name: '未报价' },
+            { value: 210, name: '放弃报价' },
+            { value: 380, name: '集团折扣' }
+          ],
+          color: blueColors
+        }]
+      };
+      
+      myChart.setOption(option);
+      window.addEventListener('resize', () => myChart.resize());
+    }
+
+    // 2. 酒店星级占比 - 玫瑰饼图（半径区分大小）
+    function initHotelStarChart() {
+      const chartDom = document.getElementById('hotelStarChart');
+      const myChart = echarts.init(chartDom);
+      
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)'
+        },
+        legend: {
+          orient: 'vertical',
+          right: 0,
+          top: 'center',
+          textStyle: { fontSize: 11, color: '#4E5969' }
+        },
+        series: [{
+          name: '酒店星级',
+          type: 'pie',
+          radius: ['20%', '70%'],
+          center: ['40%', '50%'],
+          roseType: 'radius',
+          itemStyle: {
+            borderRadius: 4,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          data: [
+            { value: 1120, name: '五星级' },
+            { value: 980, name: '豪华型' },
+            { value: 1350, name: '四星级' },
+            { value: 890, name: '高档型' },
+            { value: 670, name: '三星级' },
+            { value: 760, name: '舒适型' },
+            { value: 410, name: '二星级及以下' },
+            { value: 1680, name: '经济型' },
+            { value: 360, name: '公寓/其它' }
+          ],
+          color: blueColors
+        }]
+      };
+      
+      myChart.setOption(option);
+      window.addEventListener('resize', () => myChart.resize());
+    }
+
+    // 3. 报价类型占比 - 南丁格尔图（面积区分）
+    function initQuoteTypeChart() {
+      const chartDom = document.getElementById('quoteTypeChart');
+      const myChart = echarts.init(chartDom);
+      
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)'
+        },
+        legend: {
+          bottom: 0,
+          left: 'center',
+          textStyle: { fontSize: 12, color: '#4E5969' }
+        },
+        series: [{
+          name: '报价类型',
+          type: 'pie',
+          radius: ['15%', '70%'],
+          center: ['50%', '40%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 8,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            formatter: '{b}\n{d}%'
+          },
+          data: [
+            { value: 3680, name: '固定价' },
+            { value: 1850, name: '集团折扣价' },
+            { value: 1260, name: '非协议价' }
+          ],
+          color: ['#165DFF', '#699EFF', '#B8D1FF']
+        }]
+      };
+      
+      myChart.setOption(option);
+      window.addEventListener('resize', () => myChart.resize());
+    }
+
+    // 4. 报价涨跌趋势 - 堆叠折线+柱状组合图
+    function initQuoteTrendChart() {
+      const chartDom = document.getElementById('quoteTrendChart');
+      const myChart = echarts.init(chartDom);
+      
+      const option = {
+        tooltip: { trigger: 'axis' },
+        legend: {
+          data: ['涨价','持平','降价','签约中','放弃报价','已拒绝'],
+          bottom: 0,
+          textStyle: { color: '#4E5969' }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          top: '10%',
+          bottom: '15%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+          axisLine: { lineStyle: { color: '#C9CDD4' } }
+        },
+        yAxis: { 
+          type: 'value',
+          axisLine: { lineStyle: { color: '#C9CDD4' } }
+        },
+        series: [
+          { name: '涨价', type: 'bar', stack: 'total', itemStyle: { color: '#165DFF' }, data: [120,135,150,165,180,175,160,155,145,130,125,140] },
+          { name: '持平', type: 'bar', stack: 'total', itemStyle: { color: '#4080FF' }, data: [280,290,300,310,320,315,305,295,285,275,265,280] },
+          { name: '降价', type: 'bar', stack: 'total', itemStyle: { color: '#91BAFF' }, data: [95,85,75,65,55,60,70,80,90,100,110,95] },
+          { name: '签约中', type: 'line', smooth: true, itemStyle: { color: '#165DFF' }, lineStyle: { width: 3 }, data: [150,160,170,180,190,185,175,165,155,145,150,160] },
+          { name: '放弃报价', type: 'line', smooth: true, itemStyle: { color: '#699EFF' }, lineStyle: { width: 3 }, data: [25,22,18,15,12,10,13,16,20,23,25,20] },
+          { name: '已拒绝', type: 'line', smooth: true, itemStyle: { color: '#B8D1FF' }, lineStyle: { width: 3 }, data: [45,42,38,32,28,25,30,35,40,42,38,35] }
+        ]
+      };
+      
+      myChart.setOption(option);
+      window.addEventListener('resize', () => myChart.resize());
+    }
+  </script>
+</body>
+</html>
