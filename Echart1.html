@@ -53,15 +53,48 @@
         border-color: rgba(216, 227, 246, 1);
       }
     }
+
+    /* 响应式断点 */
+    @media (max-width: 768px) {
+      .chart-card {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-bottom: 24px;
+      }
+      .chart-row {
+        flex-direction: column !important;
+        height: auto;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .chart-card {
+        width: calc(50% - 8px) !important;
+        margin-right: 16px !important;
+      }
+      .chart-row .chart-card:last-child {
+        margin-right: 0 !important;
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .chart-card {
+        width: calc(50% - 12px) !important;
+        margin-right: 24px !important;
+      }
+      .chart-row .chart-card:last-child {
+        margin-right: 0 !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-white font-inter text-neutral-700">
 
   <!-- 图表展示区 -->
-  <main class="w-full max-w-[1248px] min-h-[832px] flex flex-col justify-start items-start" style="margin:30px auto;">
-    <div class="w-full h-[404px] flex flex-row justify-start items-center mb-[24px]">
+  <main class="w-full min-h-[832px] flex flex-col justify-start items-center px-[15px]">
+    <div class="w-full h-[404px] flex flex-row justify-start items-center mb-[24px] chart-row">
       <!-- 报价状态占比图表 -->
-      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px]">
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px] chart-card">
         <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
           <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价状态占比</h3>
           <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
@@ -77,7 +110,7 @@
       </div>
 
       <!-- 酒店星级占比图表 -->
-      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px]">
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] chart-card">
         <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
           <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">酒店星级占比</h3>
           <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
@@ -93,9 +126,9 @@
       </div>
     </div>
 
-    <div class="w-full h-[404px] flex flex-row justify-start items-center">
+    <div class="w-full h-[404px] flex flex-row justify-start items-center chart-row">
       <!-- 报价类型占比图表 -->
-      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px]">
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[24px] chart-card">
         <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
           <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价类型占比</h3>
           <div class="w-[126px] h-[28px] rounded-[50px] border-[rgba(239,239,243,1)] border-solid border bg-[rgba(242,243,245,1)] flex flex-row justify-start items-center pr-px pl-px">
@@ -111,7 +144,7 @@
       </div>
 
       <!-- 报价涨跌趋势图表 -->
-      <div class="w-[612px] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px]">
+      <div class="w-[calc(50%-12px)] h-[404px] rounded-[8px] border chart-border card-shadow bg-white flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] chart-card">
         <div class="w-full h-[28px] flex flex-row justify-between items-center mb-[16px]">
           <h3 class="text-[18px] whitespace-nowrap text-[rgba(29,33,41,1)] leading-[28px] font-semibold tracking-[-0.44px]">报价涨跌趋势</h3>
         </div>
@@ -550,10 +583,15 @@
     // 响应式处理函数
     function handleResize() {
       try {
-        if (quoteStatusChart) quoteStatusChart.resize();
-        if (hotelStarChart) hotelStarChart.resize();
-        if (quoteTypeChart) quoteTypeChart.resize();
-        if (quoteTrendChart) quoteTrendChart.resize();
+        // 添加延迟以确保DOM布局完成
+        clearTimeout(window.resizeTimer);
+        window.resizeTimer = setTimeout(function() {
+          if (quoteStatusChart) quoteStatusChart.resize();
+          if (hotelStarChart) hotelStarChart.resize();
+          if (quoteTypeChart) quoteTypeChart.resize();
+          if (quoteTrendChart) quoteTrendChart.resize();
+          console.log('Charts resized successfully');
+        }, 250);
       } catch (error) {
         console.error('Error during resize:', error);
       }
@@ -568,6 +606,8 @@
         }
 
         console.log('Initializing all charts...');
+        console.log('Window width:', window.innerWidth);
+        
         initQuoteStatusChart();
         initHotelStarChart();
         initQuoteTypeChart();
@@ -576,6 +616,14 @@
         // 添加窗口大小变化监听
         window.addEventListener('resize', handleResize);
         console.log('All charts initialized successfully');
+        
+        // 验证布局
+        setTimeout(function() {
+          const firstCard = document.querySelector('.chart-card');
+          if (firstCard) {
+            console.log('First card width:', firstCard.offsetWidth);
+          }
+        }, 500);
       } catch (error) {
         console.error('Error during chart initialization:', error);
       }
