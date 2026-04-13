@@ -209,7 +209,7 @@
     let quoteTypeDataType = 'hotel';
     let quoteTrendDataType = 'hotel';
 
-    // 1. 报价状态占比数据 - 新增酒店维度
+    // 1. 报价状态占比数据 - 新增酒店维度（已移除集团折扣）
     const quoteStatusData = {
       hotel: [
         { value: 320, name: '新报价' },
@@ -219,8 +219,7 @@
         { value: 380, name: '已中签' },
         { value: 180, name: '已拒绝' },
         { value: 220, name: '未报价' },
-        { value: 120, name: '放弃报价' },
-        { value: 160, name: '集团折扣' }
+        { value: 120, name: '放弃报价' }
       ],
       night: [
         { value: 1280, name: '新报价' },
@@ -230,8 +229,7 @@
         { value: 1120, name: '已中签' },
         { value: 480, name: '已拒绝' },
         { value: 650, name: '未报价' },
-        { value: 210, name: '放弃报价' },
-        { value: 380, name: '集团折扣' }
+        { value: 210, name: '放弃报价' }
       ],
       amount: [
         { value: 384000, name: '新报价' },
@@ -241,8 +239,7 @@
         { value: 336000, name: '已中签' },
         { value: 144000, name: '已拒绝' },
         { value: 195000, name: '未报价' },
-        { value: 63000, name: '放弃报价' },
-        { value: 114000, name: '集团折扣' }
+        { value: 63000, name: '放弃报价' }
       ]
     };
 
@@ -260,26 +257,24 @@
         { value: 140, name: '公寓/其它' }
       ],
       night: [
-        { value: 1120, name: '五星级' },
-        { value: 980, name: '豪华型' },
-        { value: 1350, name: '四星级' },
-        { value: 890, name: '高档型' },
-        { value: 670, name: '三星级' },
-        { value: 760, name: '舒适型' },
-        { value: 410, name: '二星级及以下' },
-        { value: 1680, name: '经济型' },
-        { value: 360, name: '公寓/其它' }
+        { value: 1280, name: '新报价' },
+        { value: 960, name: '议价中' },
+        { value: 720, name: '修订报价' },
+        { value: 1850, name: '保持原价' },
+        { value: 1120, name: '已中签' },
+        { value: 480, name: '已拒绝' },
+        { value: 650, name: '未报价' },
+        { value: 210, name: '放弃报价' }
       ],
       amount: [
-        { value: 560000, name: '五星级' },
-        { value: 490000, name: '豪华型' },
-        { value: 675000, name: '四星级' },
-        { value: 445000, name: '高档型' },
-        { value: 335000, name: '三星级' },
-        { value: 380000, name: '舒适型' },
-        { value: 205000, name: '二星级及以下' },
-        { value: 840000, name: '经济型' },
-        { value: 180000, name: '公寓/其它' }
+        { value: 384000, name: '新报价' },
+        { value: 288000, name: '议价中' },
+        { value: 216000, name: '修订报价' },
+        { value: 555000, name: '保持原价' },
+        { value: 336000, name: '已中签' },
+        { value: 144000, name: '已拒绝' },
+        { value: 195000, name: '未报价' },
+        { value: 63000, name: '放弃报价' }
       ]
     };
 
@@ -392,7 +387,7 @@
       }
     }
 
-    // 1. 报价状态占比 - 水平条形图
+    // 1. 报价状态占比 - 环形饼图（去除集团折扣）
     function initQuoteStatusChart() {
       try {
         const chartDom = document.getElementById('quoteStatusChart');
@@ -404,64 +399,41 @@
         quoteStatusChart = echarts.init(chartDom);
 
         const currentData = quoteStatusData[quoteStatusDataType];
-        const sortedData = [...currentData].sort((a, b) => b.value - a.value);
-        const categories = sortedData.map(item => item.name);
-        const values = sortedData.map(item => item.value);
-
+        
+        const suffixMap = { hotel: ' 家', night: ' 间夜', amount: ' 元' };
+        
         const option = {
           tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'shadow' },
+            trigger: 'item',
             formatter: function(params) {
-              const suffixMap = { hotel: ' 家', night: ' 间夜', amount: ' 元' };
               const suffix = suffixMap[quoteStatusDataType];
-              const item = params[0];
-              const total = values.reduce((a, b) => a + b, 0);
-              const percent = ((item.value / total) * 100).toFixed(1);
-              return `${item.name}: ${item.value.toLocaleString()}${suffix} (${percent}%)`;
+              return `${params.name}: ${params.value.toLocaleString()}${suffix} (${params.percent}%)`;
             }
           },
-          grid: {
-            left: '3%',
-            right: '15%',
-            top: '5%',
-            bottom: '5%',
-            containLabel: true
-          },
-          xAxis: {
-            type: 'value',
-            axisLine: { lineStyle: { color: '#C9CDD4' } },
-            splitLine: { lineStyle: { color: '#E5E6EB', type: 'dashed' } }
-          },
-          yAxis: {
-            type: 'category',
-            data: categories,
-            axisLine: { lineStyle: { color: '#C9CDD4' } },
-            axisLabel: { color: '#4E5969', fontSize: 12 }
+          legend: {
+            orient: 'vertical',
+            right: 0,
+            top: 'center',
+            textStyle: { fontSize: 12, color: '#4E5969' }
           },
           series: [{
             name: '报价状态',
-            type: 'bar',
-            data: values,
+            type: 'pie',
+            radius: ['40%', '75%'],
+            center: ['38%', '50%'],
             itemStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                { offset: 0, color: '#91BAFF' },
-                { offset: 1, color: '#165DFF' }
-              ]),
-              borderRadius: [0, 4, 4, 0]
+              borderRadius: 6,
+              borderColor: '#fff',
+              borderWidth: 2
             },
-            barWidth: '60%',
             label: {
               show: true,
-              position: 'right',
-              formatter: function(params) {
-                const total = values.reduce((a, b) => a + b, 0);
-                const percent = ((params.value / total) * 100).toFixed(1);
-                return `${percent}%`;
-              },
+              formatter: '{b}',
               color: '#4E5969',
               fontSize: 11
-            }
+            },
+            data: currentData,
+            color: blueColors
           }]
         };
 
