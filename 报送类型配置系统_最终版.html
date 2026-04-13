@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报送类型配置管理系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 页面切换 */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 列表页面 */
+        .list-page {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 30px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .page-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1976D2;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #efefef;
+        }
+
+        .btn-small {
+            padding: 4px 12px;
+            font-size: 12px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+
+        .btn-small:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #388E3C;
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        table th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+            font-size: 13px;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        table tr:hover {
+            background: #fafafa;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #c8e6c9;
+            color: #1b5e20;
+        }
+
+        .badge-error {
+            background: #ffcdd2;
+            color: #b71c1c;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-top: 24px;
+        }
+
+        .pagination button {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .pagination button:hover:not(.active) {
+            background: #f5f5f5;
+        }
+
+        /* 详情页面 */
+        .detail-page {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 30px;
+        }
+
+        .detail-header {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .detail-header button {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .detail-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        /* 选项卡 */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: #2196F3;
+        }
+
+        .tab.active {
+            color: #2196F3;
+            border-bottom-color: #2196F3;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group.full {
+            grid-template-columns: 1fr;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        label .required {
+            color: #f44336;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 13px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* 多选框/单选框 */
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* 文件上传 */
+        .file-upload {
+            border: 2px dashed #2196F3;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            background: #f0f2f5;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        /* 字段配置表格 */
+        .field-config-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            border: 1px solid #e0e0e0;
+            font-size: 12px;
+        }
+
+        .field-config-table th,
+        .field-config-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .field-config-table th {
+            background: #f5f5f5;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .field-config-table input[type="text"],
+        .field-config-table input[type="number"],
+        .field-config-table select {
+            padding: 4px 8px;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .field-config-table input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* 枚举配置 */
+        .enum-config {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+
+        .enum-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .enum-item input[type="radio"] {
+            width: 14px;
+            height: 14px;
+        }
+
+        .enum-item input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* 页脚按钮 */
+        .form-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 2px;
+            font-size: 13px;
+            color: #1976D2;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 2px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        /* 日志组件 */
+        .log-item {
+            padding: 12px;
+            border-left: 3px solid #2196F3;
+            background: #f5f5f5;
+            margin-bottom: 8px;
+            border-radius: 2px;
+        }
+
+        .log-time {
+            font-weight: 600;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .log-content {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 1200px) {
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📋 报送类型配置管理系统</h1>
+    </header>
+
+    <div class="container">
+        <!-- ==================== 列表页面 ==================== -->
+        <div id="listPage" class="page active">
+            <div class="list-page">
+                <div class="page-header">
+                    <h2>报送类型配置</h2>
+                    <button class="btn-primary" onclick="switchToDetail()">+ 新增报送类型</button>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>报送类型编码</th>
+                            <th>报送类型名称</th>
+                            <th>批量导入模板</th>
+                            <th>可用机构</th>
+                            <th>状态</th>
+                            <th>创建人 / 创建时间</th>
+                            <th>修改人 / 修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FIXED_PRICE_MANAGED</td>
+                            <td>固定价-托管</td>
+                            <td>fixed_price_template_v1.xlsx</td>
+                            <td>红色加力</td>
+                            <td><span class="badge badge-success">已启用</span></td>
+                            <td>张三 / 2026-01-15 10:30</td>
+                            <td>李四 / 2026-03-10 14:20</td>
+                            <td>
+                                <div class="action-group">
+                                    <button class="btn-small" onclick="switchToDetail()">编辑</button>
+                                    <button class="btn-small" onclick="toggleStatus(this)">停用</button>
+                                    <button class="btn-small btn-danger" onclick="if(confirm('确定删除?')) alert('已删除')">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>DISCOUNT_PRICE_MANAGED</td>
+                            <td>折扣价-托管</td>
+                            <td>discount_price_template_v1.xlsx</td>
+                            <td>携程商旅</td>
+                            <td><span class="badge badge-success">已启用</span></td>
+                            <td>王五 / 2026-01-20 09:15</td>
+                            <td>赵六 / 2026-02-28 16:45</td>
+                            <td>
+                                <div class="action-group">
+                                    <button class="btn-small" onclick="switchToDetail()">编辑</button>
+                                    <button class="btn-small" onclick="toggleStatus(this)">停用</button>
+                                    <button class="btn-small btn-danger" onclick="if(confirm('确定删除?')) alert('已删除')">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>...</button>
+                    <button>10</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 详情页面 ==================== -->
+        <div id="detailPage" class="page">
+            <div class="detail-page">
+                <div class="detail-header">
+                    <button class="btn-secondary" onclick="switchToList()">← 返回</button>
+                    <h2>新增报送类型</h2>
+                </div>
+
+                <!-- 选项卡 -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('basic', this)">基础配置</div>
+                    <div class="tab" onclick="switchTab('customer', this)">客户运营</div>
+                    <div class="tab" onclick="switchTab('business', this)">商务沟通</div>
+                    <div class="tab" onclick="switchTab('online', this)">上线配置</div>
+                </div>
+
+                <!-- 基础配置 -->
+                <div id="basic" class="tab-content active">
+                    <div class="form-group">
+                        <div>
+                            <label>编码 <span class="required">*</span></label>
+                            <input type="text" placeholder="如：FIXED_PRICE_MANAGED">
+                        </div>
+                        <div>
+                            <label>报送类型名称 <span class="required">*</span></label>
+                            <input type="text" placeholder="如：固定价-托管">
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>批量导入模板上传 <span class="required">*</span></label>
+                        <div class="file-upload" onclick="document.getElementById('templateFile').click()">
+                            📁 点击上传或拖拽文件到此处（仅支持 .xlsx 格式）
+                            <input type="file" id="templateFile" accept=".xlsx">
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>报送类型可用机构 <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="org1" checked>
+                                <label for="org1">红色加力</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="org2" checked>
+                                <label for="org2">京东商旅</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="org3">
+                                <label for="org3">携程商旅</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="org4">
+                                <label for="org4">北京分公司</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>修改日志</label>
+                        <div>
+                            <div class="log-item">
+                                <div class="log-time">2026-03-10 14:20 - 李四</div>
+                                <div class="log-content">更新了报送类型名称和可用机构配置</div>
+                            </div>
+                            <div class="log-item">
+                                <div class="log-time">2026-01-15 10:30 - 张三</div>
+                                <div class="log-content">创建了报送类型"固定价-托管"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button class="btn-secondary" onclick="switchToList()">取消</button>
+                        <button class="btn-primary" onclick="switchTab('customer', document.querySelectorAll('.tab')[1])">保存并下一步</button>
+                    </div>
+                </div>
+
+                <!-- 客户运营 -->
+                <div id="customer" class="tab-content">
+                    <div class="info-box">
+                        配置客户运营阶段的字段属性。对于单选框类型的字段，可在"枚举配置"列自定义各个枚举的展示与否
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="field-config-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px;">字段名</th>
+                                    <th style="width: 100px;">字段类型</th>
+                                    <th style="width: 60px;">是否展示</th>
+                                    <th style="width: 60px;">是否启用</th>
+                                    <th style="width: 50px;">必填</th>
+                                    <th style="width: 180px;">默认值/枚举配置</th>
+                                    <th style="width: 140px;">字段别名</th>
+                                    <th style="width: 60px;">排序</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>客户运营</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="客户运营"></td>
+                                    <td><input type="number" value="1" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>酒店类型</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="hotel_type">
+                                                <input type="checkbox" checked>
+                                                <span>单体</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="hotel_type">
+                                                <input type="checkbox" checked>
+                                                <span>国内集团</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="hotel_type">
+                                                <input type="checkbox" checked>
+                                                <span>国际集团</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="酒店类型"></td>
+                                    <td><input type="number" value="2" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>签约对象</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="sign_object">
+                                                <input type="checkbox" checked>
+                                                <span>单店</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="sign_object">
+                                                <input type="checkbox" checked>
+                                                <span>集团</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="sign_object">
+                                                <input type="checkbox" checked>
+                                                <span>敏感集团-单店</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="签约对象"></td>
+                                    <td><input type="number" value="3" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>客户名称</td>
+                                    <td>联想文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="客户名称"></td>
+                                    <td><input type="number" value="4" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>服务客户直接</td>
+                                    <td>联想文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="服务客户直接"></td>
+                                    <td><input type="number" value="5" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>服务客户间接</td>
+                                    <td>联想文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="服务客户间接"></td>
+                                    <td><input type="number" value="6" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>报送酒店</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="报送酒店"></td>
+                                    <td><input type="number" value="7" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>对应房仓酒店</td>
+                                    <td>联想文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="对应房仓酒店"></td>
+                                    <td><input type="number" value="8" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>酒店ID</td>
+                                    <td>文本（只读）</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="自动生成" disabled></td>
+                                    <td><input type="text" value="酒店ID"></td>
+                                    <td><input type="number" value="9" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>客户报送日期</td>
+                                    <td>日期组件</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="date"></td>
+                                    <td><input type="text" value="客户报送日期"></td>
+                                    <td><input type="number" value="10" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>报送方式</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="submit_method">
+                                                <input type="checkbox" checked>
+                                                <span>代签</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="submit_method">
+                                                <input type="checkbox" checked>
+                                                <span>托管</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="submit_method">
+                                                <input type="checkbox" checked>
+                                                <span>续价</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="submit_method">
+                                                <input type="checkbox" checked>
+                                                <span>直采</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="报送方式"></td>
+                                    <td><input type="number" value="11" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>协议有效日期</td>
+                                    <td>日期段组件</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="text" placeholder="范围"></td>
+                                    <td><input type="text" value="协议有效日期"></td>
+                                    <td><input type="number" value="12" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>酒店联系人</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="酒店联系人"></td>
+                                    <td><input type="number" value="13" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>酒店联系电话</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="酒店联系电话"></td>
+                                    <td><input type="number" value="14" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>酒店联系邮箱</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="酒店联系邮箱"></td>
+                                    <td><input type="number" value="15" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>是否代结算</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="is_settlement">
+                                                <input type="checkbox" checked>
+                                                <span>是</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="is_settlement">
+                                                <input type="checkbox" checked>
+                                                <span>否</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="是否代结算"></td>
+                                    <td><input type="number" value="16" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>收取方式</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="collection_method">
+                                                <input type="checkbox" checked>
+                                                <span>加至房费一起结算</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="collection_method">
+                                                <input type="checkbox" checked>
+                                                <span>单独结算</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="收取方式"></td>
+                                    <td><input type="number" value="17" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>服务费类型</td>
+                                    <td>下拉列表</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <select>
+                                            <option value="">-- 选择 --</option>
+                                            <option value="total">房费总额</option>
+                                            <option value="order">每张订单</option>
+                                            <option value="night">每个间夜</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" value="服务费类型"></td>
+                                    <td><input type="number" value="18" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>收取方式（服务费）</td>
+                                    <td>下拉列表</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <select>
+                                            <option value="">-- 选择 --</option>
+                                            <option value="fixed">固定值</option>
+                                            <option value="percent">百分比</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" value="收取方式"></td>
+                                    <td><input type="number" value="19" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>服务费金额</td>
+                                    <td>数字框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="number" placeholder="0.00"></td>
+                                    <td><input type="text" value="服务费金额"></td>
+                                    <td><input type="number" value="20" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>增值权益</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="增值权益"></td>
+                                    <td><input type="number" value="21" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>报送状态</td>
+                                    <td>组合选择</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="一级、二级选择" disabled></td>
+                                    <td><input type="text" value="报送状态"></td>
+                                    <td><input type="number" value="22" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>营业执照</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="营业执照"></td>
+                                    <td><input type="number" value="23" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>内部备注</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="内部备注"></td>
+                                    <td><input type="number" value="24" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>附件</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="附件"></td>
+                                    <td><input type="number" value="25" style="width: 50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-footer">
+                        <button class="btn-secondary" onclick="switchTab('basic', document.querySelectorAll('.tab')[0])">上一步</button>
+                        <button class="btn-secondary" onclick="switchToList()">保存</button>
+                        <button class="btn-primary" onclick="switchTab('business', document.querySelectorAll('.tab')[2])">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 商务沟通 -->
+                <div id="business" class="tab-content">
+                    <div class="info-box">
+                        配置商务沟通阶段的字段属性。对于单选框类型的字段，可在"枚举配置"列自定义各个枚举的展示与否
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="field-config-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px;">字段名</th>
+                                    <th style="width: 100px;">字段类型</th>
+                                    <th style="width: 60px;">是否展示</th>
+                                    <th style="width: 60px;">是否启用</th>
+                                    <th style="width: 50px;">必填</th>
+                                    <th style="width: 180px;">默认值/枚举配置</th>
+                                    <th style="width: 140px;">字段别名</th>
+                                    <th style="width: 60px;">排序</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>产品经理</td>
+                                    <td>文本（展示）</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="展示值"></td>
+                                    <td><input type="text" value="产品经理"></td>
+                                    <td><input type="number" value="1" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>是否新增供应商</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="new_supplier">
+                                                <input type="checkbox" checked>
+                                                <span>需要</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="new_supplier">
+                                                <input type="checkbox" checked>
+                                                <span>不需要</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="是否新增供应商"></td>
+                                    <td><input type="number" value="2" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>产品是否落地</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="product_landed">
+                                                <input type="checkbox" checked>
+                                                <span>落地</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="product_landed">
+                                                <input type="checkbox" checked>
+                                                <span>不落地</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="产品是否落地"></td>
+                                    <td><input type="number" value="3" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>新开订单通</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="new_order">
+                                                <input type="checkbox" checked>
+                                                <span>需要</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="new_order">
+                                                <input type="checkbox" checked>
+                                                <span>不需要</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="新开订单通"></td>
+                                    <td><input type="number" value="4" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>供应商</td>
+                                    <td>联想列表</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="供应商"></td>
+                                    <td><input type="number" value="5" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>服务客户直接</td>
+                                    <td>联想列表</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="服务客户直接"></td>
+                                    <td><input type="number" value="6" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>服务客户间接</td>
+                                    <td>联想列表</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="服务客户间接"></td>
+                                    <td><input type="number" value="7" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>主体名称</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="主体名称"></td>
+                                    <td><input type="number" value="8" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>纳税人识别号</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="纳税人识别号"></td>
+                                    <td><input type="number" value="9" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>开户银行</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="开户银行"></td>
+                                    <td><input type="number" value="10" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>开户名</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="开户名"></td>
+                                    <td><input type="number" value="11" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>银行账号</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="银行账号"></td>
+                                    <td><input type="number" value="12" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>支行联行号</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="支行联行号"></td>
+                                    <td><input type="number" value="13" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>接收水单凭证邮箱</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="接收水单凭证邮箱"></td>
+                                    <td><input type="number" value="14" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>结算对象</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_object">
+                                                <input type="checkbox" checked>
+                                                <span>单店</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_object">
+                                                <input type="checkbox" checked>
+                                                <span>集团</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="结算对象"></td>
+                                    <td><input type="number" value="15" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>结算方式</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_method">
+                                                <input type="checkbox" checked>
+                                                <span>自助结算</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_method">
+                                                <input type="checkbox" checked>
+                                                <span>在线付款</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_method">
+                                                <input type="checkbox" checked>
+                                                <span>线下打款</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_method">
+                                                <input type="checkbox" checked>
+                                                <span>到店付</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="结算方式"></td>
+                                    <td><input type="number" value="16" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>结算时间控制</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config" style="max-height: 200px;">
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_time">
+                                                <input type="checkbox" checked>
+                                                <span>下单结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_time">
+                                                <input type="checkbox" checked>
+                                                <span>入住日结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_time">
+                                                <input type="checkbox" checked>
+                                                <span>离店日结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_time">
+                                                <input type="checkbox" checked>
+                                                <span>离店周结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_time">
+                                                <input type="checkbox" checked>
+                                                <span>离店半月结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_time">
+                                                <input type="checkbox" checked>
+                                                <span>离店月结</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="结算时间控制"></td>
+                                    <td><input type="number" value="17" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>产品类型</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="product_type">
+                                                <input type="checkbox" checked>
+                                                <span>仅现付</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="product_type">
+                                                <input type="checkbox" checked>
+                                                <span>仅预付</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="product_type">
+                                                <input type="checkbox" checked>
+                                                <span>现付+预付</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="产品类型"></td>
+                                    <td><input type="number" value="18" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>结算周期</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_cycle">
+                                                <input type="checkbox" checked>
+                                                <span>月结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_cycle">
+                                                <input type="checkbox" checked>
+                                                <span>半月结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_cycle">
+                                                <input type="checkbox" checked>
+                                                <span>周结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_cycle">
+                                                <input type="checkbox" checked>
+                                                <span>单结</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="settlement_cycle">
+                                                <input type="checkbox" checked>
+                                                <span>日结</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="结算周期"></td>
+                                    <td><input type="number" value="19" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>自动推付款</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="auto_payment">
+                                                <input type="checkbox" checked>
+                                                <span>离店</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="auto_payment">
+                                                <input type="checkbox" checked>
+                                                <span>入住</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="auto_payment">
+                                                <input type="checkbox" checked>
+                                                <span>下单</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="自动推付款"></td>
+                                    <td><input type="number" value="20" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>通道商</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config" style="max-height: 200px;">
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>订单通</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>畅联</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>绿云</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>住哲</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>Amadeus</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>Sabre</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>德比</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>别样红</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>云掌柜</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>订单来了</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>Opera</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>其他直连/API</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="channel_provider">
+                                                <input type="checkbox" checked>
+                                                <span>其他/线下</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="通道商"></td>
+                                    <td><input type="number" value="21" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>发票</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="invoice">
+                                                <input type="checkbox" checked>
+                                                <span>普票</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="invoice">
+                                                <input type="checkbox" checked>
+                                                <span>专票</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="发票"></td>
+                                    <td><input type="number" value="22" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>报送状态</td>
+                                    <td>组合选择</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="一级、二级选择" disabled></td>
+                                    <td><input type="text" value="报送状态"></td>
+                                    <td><input type="number" value="23" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>营业执照</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="营业执照"></td>
+                                    <td><input type="number" value="24" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>供应商性质</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="supplier_type">
+                                                <input type="checkbox" checked>
+                                                <span>常规酒店</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="supplier_type">
+                                                <input type="checkbox" checked>
+                                                <span>非常规酒店</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="供应商性质"></td>
+                                    <td><input type="number" value="25" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>我方合作主体</td>
+                                    <td>下拉列表</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <select>
+                                            <option value="">-- 选择 --</option>
+                                            <option value="subject1">合作主体1</option>
+                                            <option value="subject2">合作主体2</option>
+                                            <option value="subject3">合作主体3</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" value="我方合作主体"></td>
+                                    <td><input type="number" value="26" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>付款方式</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="payment_method">
+                                                <input type="checkbox" checked>
+                                                <span>对公</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="payment_method">
+                                                <input type="checkbox" checked>
+                                                <span>对私</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="付款方式"></td>
+                                    <td><input type="number" value="27" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>对私证明</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="对私证明"></td>
+                                    <td><input type="number" value="28" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>合同</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="合同"></td>
+                                    <td><input type="number" value="29" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>内部备注</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="内部备注"></td>
+                                    <td><input type="number" value="30" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>附件</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="附件"></td>
+                                    <td><input type="number" value="31" style="width: 50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-footer">
+                        <button class="btn-secondary" onclick="switchTab('customer', document.querySelectorAll('.tab')[1])">上一步</button>
+                        <button class="btn-secondary" onclick="switchToList()">保存</button>
+                        <button class="btn-primary" onclick="switchTab('online', document.querySelectorAll('.tab')[3])">下一步</button>
+                    </div>
+                </div>
+
+                <!-- 上线配置 -->
+                <div id="online" class="tab-content">
+                    <div class="info-box">
+                        配置上线配置阶段的字段属性
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="field-config-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px;">字段名</th>
+                                    <th style="width: 100px;">字段类型</th>
+                                    <th style="width: 60px;">是否展示</th>
+                                    <th style="width: 60px;">是否启用</th>
+                                    <th style="width: 50px;">必填</th>
+                                    <th style="width: 180px;">默认值/枚举配置</th>
+                                    <th style="width: 140px;">字段别名</th>
+                                    <th style="width: 60px;">排序</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>合同状态</td>
+                                    <td>单选框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="contract_status">
+                                                <input type="checkbox" checked>
+                                                <span>合同已回收</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="contract_status">
+                                                <input type="checkbox" checked>
+                                                <span>合同未回收</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="合同状态"></td>
+                                    <td><input type="number" value="1" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>标记事项</td>
+                                    <td>单选框（不可修改）</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <div class="enum-config">
+                                            <div class="enum-item">
+                                                <input type="radio" name="mark_item">
+                                                <input type="checkbox" checked>
+                                                <span>续价</span>
+                                            </div>
+                                            <div class="enum-item">
+                                                <input type="radio" name="mark_item">
+                                                <input type="checkbox" checked>
+                                                <span>酒店上线</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" value="标记事项"></td>
+                                    <td><input type="number" value="2" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>待办事项</td>
+                                    <td>组件</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="动态展示待办任务" disabled></td>
+                                    <td><input type="text" value="待办事项"></td>
+                                    <td><input type="number" value="3" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>报送状态</td>
+                                    <td>组合选择</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="一级、二级选择" disabled></td>
+                                    <td><input type="text" value="报送状态"></td>
+                                    <td><input type="number" value="4" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>内部备注</td>
+                                    <td>文本框</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td><input type="text" placeholder="默认值"></td>
+                                    <td><input type="text" value="内部备注"></td>
+                                    <td><input type="number" value="5" style="width: 50px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>附件</td>
+                                    <td>附件上传</td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox" checked></td>
+                                    <td><input type="checkbox"></td>
+                                    <td>--</td>
+                                    <td><input type="text" value="附件"></td>
+                                    <td><input type="number" value="6" style="width: 50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="warning-box">
+                        ⚠️ 注意：上线配置阶段的某些字段为系统自动计算，不支持手动修改。请确保前面阶段的配置已正确保存。
+                    </div>
+
+                    <div class="form-footer">
+                        <button class="btn-secondary" onclick="switchTab('business', document.querySelectorAll('.tab')[2])">上一步</button>
+                        <button class="btn-secondary" onclick="switchToList()">保存</button>
+                        <button class="btn-success" onclick="publishConfig()">发布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchToDetail() {
+            document.getElementById('listPage').classList.remove('active');
+            document.getElementById('detailPage').classList.add('active');
+        }
+
+        function switchToList() {
+            document.getElementById('listPage').classList.add('active');
+            document.getElementById('detailPage').classList.remove('active');
+        }
+
+        function switchTab(tabId, tabElement) {
+            // 隐藏所有tab内容
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // 显示目标tab内容
+            document.getElementById(tabId).classList.add('active');
+
+            // 更新tab按钮高亮
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabElement.classList.add('active');
+        }
+
+        function toggleStatus(btn) {
+            if (btn.textContent.includes('停用')) {
+                btn.textContent = '启用';
+            } else {
+                btn.textContent = '停用';
+            }
+        }
+
+        function publishConfig() {
+            alert('✅ 报送类型配置已发布！');
+            switchToList();
+        }
+
+        // 文件上传处理
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileUpload = document.getElementById('templateFile');
+            if (fileUpload) {
+                fileUpload.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        alert('✅ 文件 ' + e.target.files[0].name + ' 上传成功！');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
