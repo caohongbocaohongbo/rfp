@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>报送任务明细 - 运营通</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      mode: 'jit',
+      important: true,
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    }
+    .sidebar-gradient {
+      background: linear-gradient(180deg, #0a1628 0%, #0d1a2d 100%);
+    }
+    .menu-item:hover {
+      background: rgba(59, 130, 246, 0.15);
+    }
+    .menu-item.active {
+      background: #3b82f6;
+    }
+    .search-btn {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    }
+    .export-btn {
+      background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    }
+    .table-header {
+      background: #f8fafc;
+    }
+    .status-online {
+      color: #10b981;
+    }
+    .status-tag {
+      color: #f59e0b;
+    }
+    .breadcrumb-link:hover {
+      color: #3b82f6;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-700">
+  <div class="flex min-h-screen">
+    <!-- 左侧侧边栏 -->
+    <aside class="w-[200px] sidebar-gradient flex-shrink-0">
+      <!-- Logo区域 -->
+      <div class="h-14 flex items-center px-4 border-b border-gray-700/30">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded bg-blue-500 flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+            </svg>
+          </div>
+          <span class="text-white text-lg font-medium">运营通</span>
+        </div>
+      </div>
+
+      <!-- 导航菜单 -->
+      <nav class="py-2">
+        <!-- 首页 -->
+        <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-300 hover:text-white transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <span class="text-sm">首页</span>
+        </a>
+
+        <!-- 报送 -->
+        <div class="menu-item active flex items-center justify-between px-4 py-3 text-white cursor-pointer">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span class="text-sm">报送</span>
+          </div>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+
+        <!-- 客户配置 -->
+        <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-300 hover:text-white transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+          <span class="text-sm">客户配置</span>
+          <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <!-- 订单配置 -->
+        <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-300 hover:text-white transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+          </svg>
+          <span class="text-sm">订单配置</span>
+          <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+
+        <!-- 报表中心 -->
+        <div class="mt-1">
+          <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-300 hover:text-white transition-colors">
+            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            <span class="text-sm">报表中心</span>
+            <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </a>
+          <!-- 子菜单 -->
+          <div class="bg-gray-800/50">
+            <a href="#" class="flex items-center px-4 py-2.5 pl-12 text-gray-400 hover:text-white text-sm transition-colors">
+              首页
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 pl-12 text-gray-400 hover:text-white text-sm transition-colors">
+              导出结果
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 pl-12 text-gray-400 hover:text-white text-sm transition-colors">
+              数据透视看板
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 pl-12 text-gray-400 hover:text-white text-sm transition-colors">
+              上线可订看板
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 pl-12 text-blue-400 text-sm transition-colors border-l-2 border-blue-500 bg-blue-500/10">
+              报送任务明细
+            </a>
+          </div>
+        </div>
+
+        <!-- 导出结果 -->
+        <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-300 hover:text-white transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          <span class="text-sm">导出结果</span>
+        </a>
+
+        <!-- 系统管理 -->
+        <a href="#" class="menu-item flex items-center px-4 py-3 text-gray-300 hover:text-white transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <span class="text-sm">系统管理</span>
+          <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- 右侧主内容区 -->
+    <div class="flex-1 flex flex-col min-h-screen">
+      <!-- 顶部导航栏 -->
+      <header class="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4">
+        <!-- 面包屑 -->
+        <div class="flex items-center text-sm text-gray-500">
+          <span class="breadcrumb-link cursor-pointer hover:text-blue-600">报表中心</span>
+          <svg class="w-4 h-4 mx-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+          <span class="text-gray-700">报送任务明细</span>
+        </div>
+
+        <!-- 右侧工具栏 -->
+        <div class="flex items-center space-x-4">
+          <!-- 搜索 -->
+          <button class="p-2 text-gray-500 hover:text-gray-700">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+
+          <!-- 全屏 -->
+          <button class="p-2 text-gray-500 hover:text-gray-700">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+            </svg>
+          </button>
+
+          <!-- 通知 -->
+          <button class="p-2 text-gray-500 hover:text-gray-700 relative">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+            </svg>
+          </button>
+
+          <!-- 用户信息 -->
+          <div class="flex items-center space-x-2 cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-gray-300 overflow-hidden">
+              <img src="export-task-assets/image_1.png" alt="用户头像" class="w-full h-full object-cover">
+            </div>
+            <span class="text-sm text-gray-700">中国移动</span>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+
+          <!-- 设置 -->
+          <button class="p-2 text-gray-500 hover:text-gray-700">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- 页面标签栏 -->
+      <div class="bg-white border-b border-gray-200 px-4">
+        <div class="flex items-center space-x-1">
+          <a href="#" class="px-4 py-3 text-sm text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-500 transition-colors">首页</a>
+          <a href="#" class="px-4 py-3 text-sm text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-500 transition-colors">导出结果</a>
+          <a href="#" class="px-4 py-3 text-sm text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-500 transition-colors">数据透视看板</a>
+          <a href="#" class="px-4 py-3 text-sm text-gray-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-500 transition-colors">上线可订看板</a>
+          <a href="#" class="px-4 py-3 text-sm text-blue-600 border-b-2 border-blue-500 flex items-center">
+            报送任务明细
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 主内容区域 -->
+      <main class="flex-1 p-4">
+        <!-- 筛选区域 -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
+          <div class="grid grid-cols-5 gap-4">
+            <!-- 场景 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">场景</label>
+              <span class="text-blue-500 cursor-pointer" title="帮助">?</span>
+              <div class="flex-1 relative">
+                <select class="w-full h-9 px-3 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer">
+                  <option>请选择场景类型</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 报送方式 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">报送方式</label>
+              <div class="flex-1 relative">
+                <select class="w-full h-9 px-3 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer">
+                  <option>请选择报送方式</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 对应房仓酒店ID -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">对应房仓酒店ID</label>
+              <div class="flex-1">
+                <input type="text" placeholder="房仓酒店ID,英文逗号隔开" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 对应房仓酒店 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">对应房仓酒店</label>
+              <div class="flex-1">
+                <input type="text" placeholder="请输入对应房仓酒店" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 签约酒店集团 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">签约酒店集团</label>
+              <div class="flex-1">
+                <input type="text" placeholder="请输入搜索签约集团" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 客户名称 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">客户名称</label>
+              <div class="flex-1">
+                <input type="text" placeholder="请输入搜索客户" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 间接服务客户 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">间接服务客户</label>
+              <div class="flex-1">
+                <input type="text" placeholder="请输入搜索间接客户" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 报送酒店/集团 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">报送酒店/集团</label>
+              <div class="flex-1">
+                <input type="text" placeholder="请输入" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 当前跟进人 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">当前跟进人</label>
+              <div class="flex-1">
+                <input type="text" placeholder="请输入" class="w-full h-9 px-3 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+              </div>
+            </div>
+
+            <!-- 报送状态 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">报送状态</label>
+              <div class="flex-1 relative">
+                <select class="w-full h-9 px-3 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer">
+                  <option>请搜索</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 沟通情况 -->
+            <div class="flex items-center space-x-2">
+              <label class="text-sm text-gray-600 whitespace-nowrap">沟通情况</label>
+              <div class="flex-1 relative">
+                <select class="w-full h-9 px-3 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:border-blue-500 appearance-none cursor-pointer">
+                  <option>请选择</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 按钮组 -->
+            <div class="flex items-center space-x-2 col-span-2">
+              <button class="search-btn h-9 px-6 text-white text-sm font-medium rounded flex items-center space-x-1 hover:opacity-90 transition-opacity">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <span>搜索</span>
+              </button>
+              <button class="h-9 px-4 text-gray-600 text-sm border border-gray-300 rounded bg-white hover:bg-gray-50 transition-colors flex items-center space-x-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                <span>重置</span>
+              </button>
+              <button class="h-9 px-4 text-blue-600 text-sm hover:text-blue-700 transition-colors flex items-center">
+                <span class="mr-1">+</span>保存当前筛选
+              </button>
+              <button class="h-9 px-4 text-blue-600 text-sm hover:text-blue-700 transition-colors flex items-center">
+                展开
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+                <span class="ml-1 w-4 h-4 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">1</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 操作按钮区 -->
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center space-x-2">
+            <button class="export-btn h-8 px-4 text-white text-sm rounded flex items-center space-x-1 hover:opacity-90 transition-opacity">
+              <span>导出房型级别</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <button class="export-btn h-8 px-4 text-white text-sm rounded flex items-center space-x-1 hover:opacity-90 transition-opacity">
+              <span>导出酒店级别</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+            </button>
+            <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+            <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </button>
+            <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 数据表格 -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="table-header border-b border-gray-200">
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">任务ID</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">任务创建时间/报送日期</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">场景</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">酒店类型/签约酒店集团</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">签约对象</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">报送方式</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">客户信息</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">服务客户</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">报送状态</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">报送信息</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">酒店地址</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">对应房仓信息</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">领取机构</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                  <td class="px-4 py-4 text-sm text-gray-700">46306</td>
+                  <td class="px-4 py-4 text-sm text-gray-700">
+                    <div>2025-12-23</div>
+                    <div>2025-12-23</div>
+                  </td>
+                  <td class="px-4 py-4 text-sm text-gray-700">折扣价-国内集团</td>
+                  <td class="px-4 py-4 text-sm text-gray-700">
+                    <div>国内集团</div>
+                    <div>雅斯特</div>
+                  </td>
+                  <td class="px-4 py-4 text-sm text-gray-700">集团</td>
+                  <td class="px-4 py-4 text-sm text-gray-700">托管</td>
+                  <td class="px-4 py-4 text-sm text-gray-700">
+                    <div>招商局协议专订(胜意)</div>
+                    <div class="text-gray-500">ID:F01476985</div>
+                    <div class="inline-block mt-1 px-2 py-0.5 bg-pink-100 text-pink-600 text-xs rounded">KA</div>
+                  </td>
+                  <td class="px-4 py-4 text-sm text-gray-700">
+                    <div>直接：招商局</div>
+                    <div>间接：招商局</div>
+                  </td>
+                  <td class="px-4 py-4 text-sm">
+                    <div class="status-online">已上线</div>
+                    <div class="status-tag">仅预付</div>
+                  </td>
+                  <td class="px-4 py-4 text-sm text-gray-700">雅斯特</td>
+                  <td class="px-4 py-4 text-sm text-gray-700"></td>
+                  <td class="px-4 py-4 text-sm text-gray-700">
+                    <div>雅斯特</div>
+                    <div class="text-gray-500">ID:32633</div>
+                  </td>
+                  <td class="px-4 py-4 text-sm text-gray-700"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 分页 -->
+          <div class="flex items-center justify-end px-4 py-3 border-t border-gray-200">
+            <div class="flex items-center space-x-4">
+              <span class="text-sm text-gray-600">共 1 条</span>
+              <div class="flex items-center space-x-2">
+                <span class="text-sm text-gray-600">50条/页</span>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+              <div class="flex items-center space-x-1">
+                <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-400 hover:bg-gray-50">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                </button>
+                <button class="w-8 h-8 flex items-center justify-center rounded bg-blue-500 text-white text-sm">1</button>
+                <button class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-400 hover:bg-gray-50">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-sm text-gray-600">前往</span>
+                <input type="text" value="1" class="w-10 h-8 px-2 text-sm text-center border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                <span class="text-sm text-gray-600">页</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // 表格行交互效果
+    document.querySelectorAll('tbody tr').forEach(row => {
+      row.addEventListener('mouseenter', function() {
+        this.classList.add('bg-blue-50');
+      });
+      row.addEventListener('mouseleave', function() {
+        this.classList.remove('bg-blue-50');
+      });
+    });
+
+    // 搜索按钮点击效果
+    document.querySelector('.search-btn').addEventListener('click', function() {
+      console.log('执行搜索...');
+    });
+
+    // 重置按钮点击效果
+    document.querySelector('button:has(svg):has(span)').addEventListener('click', function() {
+      if (this.textContent.includes('重置')) {
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+          input.value = '';
+        });
+        document.querySelectorAll('select').forEach(select => {
+          select.selectedIndex = 0;
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>订单通 - 加力商旅专项价</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --text: #121417;
+      --muted: #667085;
+      --line: #e6e9ef;
+      --primary: #e42313;
+      --primary-dark: #c41f11;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --amber: #f59e0b;
+      --amber-soft: #fef3c7;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --shadow-sm: 0 8px 24px rgba(18, 20, 23, 0.04);
+      --shadow-md: 0 14px 40px rgba(18, 20, 23, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 40px 28px;
+      display: grid;
+      grid-template-columns: minmax(680px, 1fr) 420px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .left-zone {
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 28px;
+      padding: 40px;
+      align-items: center;
+    }
+
+    .tag {
+      width: fit-content;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 44px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+    }
+
+    .hero-desc {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 70ch;
+    }
+
+    .cta-row {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(228, 35, 19, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: #fff;
+      color: #111827;
+      border: 1px solid var(--line);
+    }
+
+    .hero-list {
+      margin-top: 16px;
+      color: #1f2937;
+      font-size: 14px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .visual-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .visual-cover {
+      height: 220px;
+      background: center / cover no-repeat url("https://images.unsplash.com/photo-1604114138177-573e4efcab6b?auto=format&fit=crop&w=1200&q=80");
+    }
+
+    .visual-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--line);
+    }
+
+    .metric {
+      padding: 14px;
+      border-right: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .metric:last-child { border-right: none; }
+
+    .metric strong {
+      display: block;
+      color: #111827;
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+
+    .section {
+      padding: 28px 32px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .section-sub {
+      margin-top: -8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .steps, .adv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .step-card, .adv-card {
+      background: #fafbfc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .step-card {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .step-card:hover,
+    .step-card.active,
+    .adv-card:hover {
+      border-color: #d0d7e2;
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+
+    .step-no {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      margin-bottom: 8px;
+    }
+
+    .step-title, .adv-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .step-desc, .adv-desc {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .final-cta {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #0d0d0d;
+      color: #fff;
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+
+    .right-zone {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .right-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .right-sub {
+      margin: -4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .preview-shell {
+      background: #f6f8fb;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .browser {
+      background: #fff;
+      border: 1px solid #dfe5ef;
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .hero-preview {
+      height: 160px;
+      border-radius: 12px;
+      border: 1px solid #d8e1ea;
+      background: center / cover no-repeat url("https://images.unsplash.com/photo-1764476751164-16ad4cce2cd0?auto=format&fit=crop&w=1200&q=80");
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 8px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid #d8e1ea;
+      background: #fff;
+      color: #1f2937;
+      font-size: 12px;
+      padding: 0 10px;
+      outline: none;
+    }
+
+    .filters input:focus,
+    .filters select:focus { border-color: #a9b9cf; }
+
+    .results {
+      display: grid;
+      gap: 10px;
+    }
+
+    .hotel {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 10px;
+      align-items: start;
+      transition: box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .hotel:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .hotel-cover {
+      border-radius: 10px;
+      width: 96px;
+      height: 96px;
+      border: 1px solid #d8e1ea;
+      background: center / cover no-repeat;
+    }
+
+    .hotel-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .stars {
+      margin-top: 2px;
+      color: var(--amber);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .chips {
+      margin-top: 6px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      border-radius: 8px;
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .chip-blue {
+      background: var(--blue-soft);
+      color: var(--blue);
+      border: 1px solid #bfdbfe;
+    }
+
+    .chip-amber {
+      background: var(--amber-soft);
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .price-row {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ota {
+      color: #94a3b8;
+      font-size: 10px;
+      text-decoration: line-through;
+    }
+
+    .special {
+      color: #ea580c;
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .book-btn {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 9px;
+      border: 1px solid #d91f11;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 58px;
+    }
+
+    .book-btn:hover { background: var(--primary-dark); }
+
+    .empty {
+      border: 1px dashed #d1d7e2;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-md);
+      font-size: 13px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: all 220ms ease;
+      z-index: 50;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1180px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+      .right-zone { position: static; }
+      .hero { grid-template-columns: 1fr; }
+      h1 { font-size: 34px; }
+      .steps, .adv-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" id="top">
+    <section class="left-zone" aria-label="产品说明区">
+      <article class="panel hero">
+        <div>
+          <div class="tag">企业商旅酒店专项价</div>
+          <h1>把差旅酒店采购、审批和结算，收进一个更省心的报价入口</h1>
+          <p class="hero-desc">协议酒店自动匹配，审批链路内嵌报价，入住后自动回传账单，采购、行政和员工都能更快看懂、更快下单。</p>
+          <div class="cta-row">
+            <button class="btn-primary" id="goPreview">查看专项价方案</button>
+            <button class="btn-ghost" id="demoBtn">预约演示</button>
+          </div>
+          <div class="hero-list">
+            <span>全国核心商圈酒店与集团连锁同步接入</span>
+            <span>出行政策、审批节点、预算口径自动校验</span>
+            <span>差标、房量、节省金额实时可见</span>
+          </div>
+        </div>
+        <div class="visual-card" aria-hidden="true">
+          <div class="visual-cover"></div>
+          <div class="visual-metrics">
+            <div class="metric"><strong>18%</strong>平均节省</div>
+            <div class="metric"><strong>&lt; 5 秒</strong>响应速度</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel section" aria-label="流程步骤区">
+        <h2>从规则配置到入住结算，只保留 3 个清晰动作</h2>
+        <p class="section-sub">点击卡片可聚焦查看每一步的关键价值点</p>
+        <div class="steps" id="stepCards">
+          <div class="step-card active" tabindex="0">
+            <div class="step-no">01</div>
+            <h3 class="step-title">录入企业差旅规则</h3>
+            <p class="step-desc">按城市等级、房型、预算上限一次配置，后续所有员工下单都自动命中规则。</p>
+          </div>
+          <div class="step-card" tabindex="0">
+            <div class="step-no">02</div>
+            <h3 class="step-title">员工进入统一报价入口</h3>
+            <p class="step-desc">系统优先展示协议价与可订酒店，同步标记是否符合差标，减少人工判断。</p>
+          </div>
+          <div class="step-card" tabindex="0">
+            <div class="step-no">03</div>
+            <h3 class="step-title">入住后自动回传结算信息</h3>
+            <p class="step-desc">订单、账单与报销凭证自动关联，财务直接核销，差旅数据自动沉淀。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel section" aria-label="优势区">
+        <h2>为什么企业更愿意把酒店采购交给专项价</h2>
+        <div class="adv-grid">
+          <div class="adv-card">
+            <h3 class="adv-title">覆盖更广，协议价更稳</h3>
+            <p class="adv-desc">核心城市与热门商圈长期维护专项价池，采购不需要逐城重新谈价。</p>
+          </div>
+          <div class="adv-card">
+            <h3 class="adv-title">规则更清，控费更自然</h3>
+            <p class="adv-desc">按部门、职级、项目设置差旅口径，超标时只在必要节点触发审批。</p>
+          </div>
+          <div class="adv-card">
+            <h3 class="adv-title">体验更顺，结算闭环更快</h3>
+            <p class="adv-desc">员工端直接预订，管理员看政策匹配，财务端拿到可核销的数据链路。</p>
+          </div>
+        </div>
+        <div class="final-cta">
+          <span>现在开通企业专项价，首月免服务费</span>
+          <button class="btn-primary" id="startBtn">立即开通</button>
+        </div>
+      </article>
+    </section>
+
+    <aside class="panel right-zone" aria-label="报价展示区" id="previewPanel">
+      <h2 class="right-title">报价展示预览</h2>
+      <p class="right-sub">企业侧报价结果示意，突出专享价、权益与预订决策</p>
+
+      <div class="preview-shell">
+        <div class="browser">
+          <div class="dots" aria-hidden="true">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          </div>
+          <div class="hero-preview"></div>
+
+          <div class="filters">
+            <input id="filterCity" type="text" placeholder="城市" />
+            <input id="filterDate" type="text" placeholder="入住日期" />
+            <input id="filterHotel" type="text" placeholder="酒店名称" />
+            <select id="filterRoom" aria-label="房间数">
+              <option value="">房间</option>
+              <option value="1" selected>1 间</option>
+              <option value="2">2 间</option>
+              <option value="3">3 间</option>
+            </select>
+          </div>
+
+          <div class="results" id="results"></div>
+          <div class="empty" id="emptyState">没有匹配酒店，试试换个城市或酒店关键词。</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const hotels = [
+      {
+        id: 1,
+        city: "上海",
+        name: "大北旅臻酒店",
+        stars: "★★★★☆",
+        tags: ["商务差旅", "双早"],
+        ota: 890,
+        special: 650,
+        image: "https://images.unsplash.com/photo-1762417422532-7bdaaf7d457a?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: 2,
+        city: "上海",
+        name: "浦江国际酒店",
+        stars: "★★★★☆",
+        tags: ["协议价", "免费退"],
+        ota: 860,
+        special: 620,
+        image: "https://images.unsplash.com/photo-1762417422532-7bdaaf7d457a?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        id: 3,
+        city: "北京",
+        name: "望京商务酒店",
+        stars: "★★★★☆",
+        tags: ["含早", "近地铁"],
+        ota: 940,
+        special: 710,
+        image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=900&q=80"
+      }
+    ];
+
+    const resultsEl = document.getElementById("results");
+    const emptyEl = document.getElementById("emptyState");
+    const toastEl = document.getElementById("toast");
+
+    const filters = {
+      city: document.getElementById("filterCity"),
+      date: document.getElementById("filterDate"),
+      hotel: document.getElementById("filterHotel"),
+      room: document.getElementById("filterRoom")
+    };
+
+    function showToast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toastEl.classList.remove("show"), 1800);
+    }
+
+    function formatPrice(n) {
+      return "¥" + Number(n).toLocaleString("zh-CN");
+    }
+
+    function render(list) {
+      resultsEl.innerHTML = "";
+
+      if (!list.length) {
+        emptyEl.style.display = "block";
+        return;
+      }
+
+      emptyEl.style.display = "none";
+      list.forEach(item => {
+        const hotel = document.createElement("article");
+        hotel.className = "hotel";
+        hotel.innerHTML = `
+          <div class="hotel-cover" style="background-image:url('${item.image}')"></div>
+          <div>
+            <h3 class="hotel-title">${item.name}</h3>
+            <div class="stars">${item.stars}</div>
+            <div class="chips">
+              <span class="chip chip-blue">${item.tags[0] || "商务差旅"}</span>
+              <span class="chip chip-amber">${item.tags[1] || "双早"}</span>
+            </div>
+            <div class="price-row">
+              <div>
+                <div class="ota">OTA价 ${formatPrice(item.ota)}</div>
+                <div class="special">日均专享价 ${formatPrice(item.special)}</div>
+              </div>
+              <button class="book-btn" data-name="${item.name}">预订</button>
+            </div>
+          </div>
+        `;
+        resultsEl.appendChild(hotel);
+      });
+    }
+
+    function applyFilters() {
+      const cityKw = filters.city.value.trim().toLowerCase();
+      const hotelKw = filters.hotel.value.trim().toLowerCase();
+      const roomCount = Number(filters.room.value || 1);
+
+      const list = hotels
+        .filter(h => !cityKw || h.city.toLowerCase().includes(cityKw))
+        .filter(h => !hotelKw || h.name.toLowerCase().includes(hotelKw))
+        .map(h => ({ ...h, special: h.special * roomCount, ota: h.ota * roomCount }));
+
+      render(list);
+    }
+
+    Object.values(filters).forEach(input => {
+      input.addEventListener("input", applyFilters);
+      input.addEventListener("change", applyFilters);
+    });
+
+    resultsEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".book-btn");
+      if (!btn) return;
+      showToast(`${btn.dataset.name} 已加入预订流程`);
+    });
+
+    const stepCards = document.getElementById("stepCards");
+    stepCards.addEventListener("click", (e) => {
+      const card = e.target.closest(".step-card");
+      if (!card) return;
+      [...stepCards.children].forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+    });
+
+    stepCards.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const card = e.target.closest(".step-card");
+      if (!card) return;
+      e.preventDefault();
+      [...stepCards.children].forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+    });
+
+    document.getElementById("goPreview").addEventListener("click", () => {
+      document.getElementById("previewPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("demoBtn").addEventListener("click", () => {
+      showToast("已提交预约演示请求");
+    });
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      showToast("企业开通流程已发起");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    render(hotels.slice(0, 2));
+  </script>
+</body>
+</html>

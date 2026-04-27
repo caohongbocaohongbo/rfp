@@ -297,44 +297,23 @@
       ]
     };
 
-    // 4. 报价涨跌趋势数据 - 新增酒店维度
+    // 4. 报价涨跌趋势数据 - 饼状图数据
     const quoteTrendData = {
-      hotel: {
-        bar: {
-          涨价: [45,52,58,65,72,68,62,58,54,48,46,52],
-          持平: [95,105,115,125,135,130,122,115,108,98,92,100],
-          降价: [32,28,24,20,18,20,24,28,32,36,38,32]
-        },
-        line: {
-          签约中: [55,60,68,75,82,78,72,66,60,55,58,65],
-          放弃报价: [12,10,8,6,5,6,8,10,12,14,15,12],
-          已拒绝: [18,16,14,12,10,9,11,13,16,18,16,14]
-        }
-      },
-      night: {
-        bar: {
-          涨价: [120,135,150,165,180,175,160,155,145,130,125,140],
-          持平: [280,290,300,310,320,315,305,295,285,275,265,280],
-          降价: [95,85,75,65,55,60,70,80,90,100,110,95]
-        },
-        line: {
-          签约中: [150,160,170,180,190,185,175,165,155,145,150,160],
-          放弃报价: [25,22,18,15,12,10,13,16,20,23,25,20],
-          已拒绝: [45,42,38,32,28,25,30,35,40,42,38,35]
-        }
-      },
-      amount: {
-        bar: {
-          涨价: [3600,4050,4500,4950,5400,5250,4800,4650,4350,3750,3750,4200],
-          持平: [8400,8700,9000,9300,9600,9450,9150,8850,8550,8250,7950,8400],
-          降价: [2850,2550,2250,1950,1650,1800,2100,2400,2700,3000,3300,2850]
-        },
-        line: {
-          签约中: [4500,4800,5100,5400,5700,5550,5250,4950,4650,4350,4500,4800],
-          放弃报价: [750,660,540,450,360,300,390,480,600,720,750,600],
-          已拒绝: [1350,1260,1140,960,840,750,900,1050,1200,1260,1140,1050]
-        }
-      }
+      hotel: [
+        { value: 45, name: '涨价' },
+        { value: 95, name: '持平' },
+        { value: 32, name: '降价' }
+      ],
+      night: [
+        { value: 120, name: '涨价' },
+        { value: 280, name: '持平' },
+        { value: 95, name: '降价' }
+      ],
+      amount: [
+        { value: 3600, name: '涨价' },
+        { value: 8400, name: '持平' },
+        { value: 2850, name: '降价' }
+      ]
     };
 
     // 按钮样式更新函数 - 支持三个维度
@@ -650,95 +629,50 @@
         
         const option = {
           tooltip: { 
-            trigger: 'axis',
+            trigger: 'item',
             formatter: function(params) {
               const suffix = suffixMap[quoteTrendDataType];
-              let result = `${params[0].axisValue}<br/>`;
-              params.forEach(param => {
-                result += `${param.marker}${param.seriesName}: ${param.value.toLocaleString()}${suffix}<br/>`;
-              });
-              return result;
+              return `${params.marker}${params.name}: ${params.value.toLocaleString()}${suffix}<br/>占比: ${params.percent}%`;
             }
           },
           legend: {
-            data: ['涨价','持平','降价','签约中','放弃报价','已拒绝'],
+            data: ['涨价','持平','降价'],
             bottom: 0,
             textStyle: { color: '#4E5969', fontSize: 11 }
           },
-          grid: {
-            left: '3%',
-            right: '4%',
-            top: '12%',
-            bottom: '18%',
-            containLabel: true
-          },
-          xAxis: {
-            type: 'category',
-            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-            axisLine: { lineStyle: { color: '#C9CDD4' } },
-            axisLabel: { fontSize: 11 }
-          },
-          yAxis: {
-            type: 'value',
-            axisLine: { lineStyle: { color: '#C9CDD4' } },
-            splitLine: { lineStyle: { color: '#E5E6EB', type: 'dashed' } }
-          },
           series: [
-            // 分组柱状图 - 涨跌平（非堆叠）
-            { 
-              name: '涨价', 
-              type: 'bar', 
-              barGap: '10%',
-              barWidth: '18%',
-              itemStyle: { color: '#165DFF' }, 
-              data: quoteTrendData[quoteTrendDataType].bar.涨价 
-            },
-            { 
-              name: '持平', 
-              type: 'bar', 
-              barWidth: '18%',
-              itemStyle: { color: '#4080FF' }, 
-              data: quoteTrendData[quoteTrendDataType].bar.持平 
-            },
-            { 
-              name: '降价', 
-              type: 'bar', 
-              barWidth: '18%',
-              itemStyle: { color: '#91BAFF' }, 
-              data: quoteTrendData[quoteTrendDataType].bar.降价 
-            },
-            // 折线图 - 状态趋势
-            { 
-              name: '签约中', 
-              type: 'line', 
-              smooth: true, 
-              symbol: 'circle',
-              symbolSize: 6,
-              itemStyle: { color: '#165DFF' }, 
-              lineStyle: { width: 2 }, 
-              data: quoteTrendData[quoteTrendDataType].line.签约中 
-            },
-            { 
-              name: '放弃报价', 
-              type: 'line', 
-              smooth: true, 
-              symbol: 'circle',
-              symbolSize: 6,
-              itemStyle: { color: '#699EFF' }, 
-              lineStyle: { width: 2, type: 'dashed' }, 
-              data: quoteTrendData[quoteTrendDataType].line.放弃报价 
-            },
-            { 
-              name: '已拒绝', 
-              type: 'line', 
-              smooth: true, 
-              symbol: 'circle',
-              symbolSize: 6,
-              itemStyle: { color: '#B8D1FF' }, 
-              lineStyle: { width: 2, type: 'dotted' }, 
-              data: quoteTrendData[quoteTrendDataType].line.已拒绝 
+            {
+              name: '报价趋势',
+              type: 'pie',
+              radius: '65%',
+              center: ['50%', '45%'],
+              data: quoteTrendData[quoteTrendDataType],
+              itemStyle: {
+                borderRadius: 8,
+                borderColor: '#fff',
+                borderWidth: 2
+              },
+              label: {
+                show: true,
+                formatter: '{b}\n{d}%',
+                fontSize: 12,
+                color: '#4E5969'
+              },
+              labelLine: {
+                show: true,
+                length: 15,
+                length2: 10
+              },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
             }
-          ]
+          ],
+          color: ['#165DFF', '#4080FF', '#91BAFF']
         };
         
         quoteTrendChart.setOption(option);
@@ -754,12 +688,7 @@
             quoteTrendDataType = 'hotel';
             quoteTrendChart.setOption({
               series: [
-                { data: quoteTrendData[quoteTrendDataType].bar.涨价 },
-                { data: quoteTrendData[quoteTrendDataType].bar.持平 },
-                { data: quoteTrendData[quoteTrendDataType].bar.降价 },
-                { data: quoteTrendData[quoteTrendDataType].line.签约中 },
-                { data: quoteTrendData[quoteTrendDataType].line.放弃报价 },
-                { data: quoteTrendData[quoteTrendDataType].line.已拒绝 }
+                { data: quoteTrendData[quoteTrendDataType] }
               ]
             });
             updateButtonStyle('quoteTrend', 'hotel');
@@ -771,12 +700,7 @@
             quoteTrendDataType = 'night';
             quoteTrendChart.setOption({
               series: [
-                { data: quoteTrendData[quoteTrendDataType].bar.涨价 },
-                { data: quoteTrendData[quoteTrendDataType].bar.持平 },
-                { data: quoteTrendData[quoteTrendDataType].bar.降价 },
-                { data: quoteTrendData[quoteTrendDataType].line.签约中 },
-                { data: quoteTrendData[quoteTrendDataType].line.放弃报价 },
-                { data: quoteTrendData[quoteTrendDataType].line.已拒绝 }
+                { data: quoteTrendData[quoteTrendDataType] }
               ]
             });
             updateButtonStyle('quoteTrend', 'night');
@@ -788,12 +712,7 @@
             quoteTrendDataType = 'amount';
             quoteTrendChart.setOption({
               series: [
-                { data: quoteTrendData[quoteTrendDataType].bar.涨价 },
-                { data: quoteTrendData[quoteTrendDataType].bar.持平 },
-                { data: quoteTrendData[quoteTrendDataType].bar.降价 },
-                { data: quoteTrendData[quoteTrendDataType].line.签约中 },
-                { data: quoteTrendData[quoteTrendDataType].line.放弃报价 },
-                { data: quoteTrendData[quoteTrendDataType].line.已拒绝 }
+                { data: quoteTrendData[quoteTrendDataType] }
               ]
             });
             updateButtonStyle('quoteTrend', 'amount');

@@ -34,32 +34,93 @@
       border-color: #2563EB;
       box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
     }
+    /* 按钮点击反馈 */
+    .btn-press:active {
+      transform: scale(0.96);
+    }
+    /* 焦点状态 - 无障碍 */
+    .focus-ring:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.4);
+    }
+    .focus-ring:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.4);
+    }
+    /* 链接悬停下划线动画 */
+    .link-underline {
+      position: relative;
+    }
+    .link-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+    .link-underline:hover::after {
+      width: 100%;
+    }
+    /* 表单标签动画 */
+    .form-input {
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-input.error {
+      border-color: #EF4444;
+    }
+    /* 响应式排版 */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+      .container-padding {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+      .form-card {
+        padding: 16px !important;
+      }
+      .service-cards {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    /* reduced motion 支持 */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
   <!-- 导航栏 -->
-  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-gray-100">
-    <div class="max-w-[1920px] mx-auto px-[237px]">
-      <div class="flex items-center justify-between h-[81px]">
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-gray-100 transition-shadow duration-300" role="navigation" aria-label="主导航">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-[237px]">
+      <div class="flex items-center justify-between h-16 md:h-[81px]">
         <!-- Logo -->
         <div class="flex items-center space-x-3">
           <div class="w-10 h-10 rounded-lg gradient-blue-dark flex items-center justify-center">
             <img src="rfp-assets/image_10.png" class="w-[18px] h-[18px]" alt="Logo">
           </div>
-          <span class="text-xl font-bold">RFP<span class="text-blue-600">酒店</span></span>
+          <span class="text-xl font-bold hidden sm:block">RFP<span class="text-blue-600">酒店</span></span>
         </div>
 
-        <!-- 菜单项 -->
-        <div class="flex items-center space-x-8">
-          <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">首页</a>
-          <a href="solutions.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">解决方案</a>
-          <a href="learn-more.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">流程说明</a>
-          <a href="learn-more.html#about" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">关于我们</a>
-          <a href="index.html#contact" class="text-gray-700 hover:text-blue-600 transition-colors font-medium">联系我们</a>
+        <!-- 菜单项 - 桌面端 -->
+        <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+          <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium link-underline focus-ring rounded px-1 py-1">首页</a>
+          <a href="solutions.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium link-underline focus-ring rounded px-1 py-1">解决方案</a>
+          <a href="learn-more.html" class="text-gray-700 hover:text-blue-600 transition-colors font-medium link-underline focus-ring rounded px-1 py-1">流程说明</a>
+          <a href="learn-more.html#about" class="text-gray-700 hover:text-blue-600 transition-colors font-medium link-underline focus-ring rounded px-1 py-1">关于我们</a>
+          <a href="index.html#contact" class="text-gray-700 hover:text-blue-600 transition-colors font-medium link-underline focus-ring rounded px-1 py-1">联系我们</a>
         </div>
 
         <!-- CTA按钮 -->
-        <a href="start-using.html" class="gradient-blue text-white px-7 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300">
+        <a href="start-using.html" class="gradient-blue text-white px-5 py-2.5 md:px-7 md:py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 btn-press focus-ring">
           立即招标
         </a>
       </div>
@@ -67,85 +128,97 @@
   </nav>
 
   <!-- 主要内容区域 -->
-  <section class="min-h-screen pt-[81px] gradient-bg">
-    <div class="max-w-[1920px] mx-auto px-[127px] py-20">
-      <div class="max-w-[1200px] mx-auto">
+  <section class="min-h-screen pt-16 md:pt-[81px] gradient-bg">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-[127px] py-10 md:py-16 lg:py-20">
+      <div class="max-w-3xl md:max-w-[1200px] mx-auto">
         <!-- 页面标题 -->
-        <div class="text-center mb-16">
-          <h1 class="text-5xl font-bold text-white mb-6">开始使用</h1>
-          <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+        <div class="text-center mb-10 md:mb-16">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">开始使用</h1>
+          <p class="text-base md:text-xl text-blue-100 max-w-2xl md:max-w-3xl mx-auto px-4">
             填写以下信息，我们的专业团队将在24小时内与您联系，为您提供专属的酒店RFP解决方案
           </p>
         </div>
 
         <!-- 表单卡片 -->
-        <div class="bg-white rounded-2xl shadow-2xl p-12">
-          <form class="space-y-8">
+        <div class="bg-white rounded-xl md:rounded-2xl shadow-2xl p-6 md:p-10 lg:p-12 form-card">
+          <form class="space-y-6 md:space-y-8" novalidate>
             <!-- 公司名称 -->
             <div>
-              <label for="companyName" class="block text-lg font-semibold text-gray-900 mb-3">
-                公司名称 <span class="text-red-500">*</span>
+              <label for="companyName" class="block text-base md:text-lg font-semibold text-gray-900 mb-2 md:mb-3">
+                公司名称 <span class="text-red-500" aria-hidden="true">*</span>
+                <span class="sr-only">必填</span>
               </label>
-              <input 
-                type="text" 
-                id="companyName" 
+              <input
+                type="text"
+                id="companyName"
                 name="companyName"
-                class="w-full h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus transition-all duration-300"
+                class="w-full h-12 md:h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus form-input focus-ring transition-all duration-300"
                 placeholder="请输入您的公司全称"
                 required
+                aria-required="true"
+                autocomplete="organization-name"
               >
             </div>
 
             <!-- 联系人姓名 -->
             <div>
-              <label for="contactName" class="block text-lg font-semibold text-gray-900 mb-3">
-                联系人姓名 <span class="text-red-500">*</span>
+              <label for="contactName" class="block text-base md:text-lg font-semibold text-gray-900 mb-2 md:mb-3">
+                联系人姓名 <span class="text-red-500" aria-hidden="true">*</span>
+                <span class="sr-only">必填</span>
               </label>
-              <input 
-                type="text" 
-                id="contactName" 
+              <input
+                type="text"
+                id="contactName"
                 name="contactName"
-                class="w-full h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus transition-all duration-300"
+                class="w-full h-12 md:h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus form-input focus-ring transition-all duration-300"
                 placeholder="请输入联系人姓名"
                 required
+                aria-required="true"
+                autocomplete="name"
               >
             </div>
 
             <!-- 手机号码 -->
             <div>
-              <label for="phone" class="block text-lg font-semibold text-gray-900 mb-3">
-                手机号码 <span class="text-red-500">*</span>
+              <label for="phone" class="block text-base md:text-lg font-semibold text-gray-900 mb-2 md:mb-3">
+                手机号码 <span class="text-red-500" aria-hidden="true">*</span>
+                <span class="sr-only">必填</span>
               </label>
-              <input 
-                type="tel" 
-                id="phone" 
+              <input
+                type="tel"
+                id="phone"
                 name="phone"
-                class="w-full h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus transition-all duration-300"
+                class="w-full h-12 md:h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus form-input focus-ring transition-all duration-300"
                 placeholder="请输入您的手机号码"
                 required
+                aria-required="true"
+                autocomplete="tel"
               >
             </div>
 
             <!-- 邮箱 -->
             <div>
-              <label for="email" class="block text-lg font-semibold text-gray-900 mb-3">
-                邮箱地址 <span class="text-red-500">*</span>
+              <label for="email" class="block text-base md:text-lg font-semibold text-gray-900 mb-2 md:mb-3">
+                邮箱地址 <span class="text-red-500" aria-hidden="true">*</span>
+                <span class="sr-only">必填</span>
               </label>
-              <input 
-                type="email" 
-                id="email" 
+              <input
+                type="email"
+                id="email"
                 name="email"
-                class="w-full h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus transition-all duration-300"
+                class="w-full h-12 md:h-14 px-4 border-2 border-gray-200 rounded-lg text-gray-900 text-base input-focus form-input focus-ring transition-all duration-300"
                 placeholder="请输入您的邮箱地址"
                 required
+                aria-required="true"
+                autocomplete="email"
               >
             </div>
 
             <!-- 提交按钮 -->
-            <div class="pt-4">
-              <button 
+            <div class="pt-2 md:pt-4">
+              <button
                 type="submit"
-                class="w-full h-14 gradient-blue text-white text-lg font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300"
+                class="w-full h-12 md:h-14 gradient-blue text-white text-base md:text-lg font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 btn-press focus-ring"
               >
                 提交申请
               </button>
@@ -153,14 +226,14 @@
 
             <!-- 提示信息 -->
             <div class="flex items-start space-x-3 bg-blue-50 rounded-lg p-4 border border-blue-100">
-              <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5" aria-hidden="true">
                 <span class="text-white text-sm font-bold">!</span>
               </div>
               <div>
                 <h4 class="font-semibold text-gray-900 mb-2">温馨提示</h4>
                 <ul class="text-sm text-gray-600 space-y-1">
                   <li>• 请确保填写的信息真实有效，以便我们及时与您联系</li>
-                  <li>• 提交后，我们的专业顾问将在24小时内与您联系</li>
+                  <li>• 提交后，���们的专业顾问将在24小时内与您联系</li>
                   <li>• 如有紧急需求，可直接拨打客服热线：400-888-8888</li>
                 </ul>
               </div>
@@ -169,32 +242,32 @@
         </div>
 
         <!-- 服务承诺 -->
-        <div class="mt-16 grid grid-cols-3 gap-8">
-          <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="mt-10 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 service-cards">
+          <div class="bg-white rounded-xl p-5 md:p-6 shadow-lg text-center">
+            <div class="w-12 md:w-16 h-12 md:h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <svg class="w-6 md:w-8 h-6 md:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">快速响应</h3>
+            <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">快速响应</h3>
             <p class="text-gray-600 text-sm">24小时内专业顾问与您联系</p>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white rounded-xl p-5 md:p-6 shadow-lg text-center">
+            <div class="w-12 md:w-16 h-12 md:h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <svg class="w-6 md:w-8 h-6 md:h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">专业服务</h3>
+            <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">专业服务</h3>
             <p class="text-gray-600 text-sm">资深顾问提供一对一服务</p>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-            <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white rounded-xl p-5 md:p-6 shadow-lg text-center">
+            <div class="w-12 md:w-16 h-12 md:h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <svg class="w-6 md:w-8 h-6 md:h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">免费试用</h3>
+            <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">免费试用</h3>
             <p class="text-gray-600 text-sm">新用户可免费体验平台功能</p>
           </div>
         </div>
@@ -203,11 +276,11 @@
   </section>
 
   <!-- 页脚 -->
-  <footer class="bg-gray-900 text-gray-400 py-16">
-    <div class="max-w-[1920px] mx-auto px-[127px]">
-      <div class="grid grid-cols-4 gap-12 mb-12">
+  <footer class="bg-gray-900 text-gray-400 py-10 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-[127px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12 mb-8 md:mb-12">
         <div>
-          <div class="flex items-center space-x-3 mb-6">
+          <div class="flex items-center space-x-3 mb-4 md:mb-6">
             <div class="w-10 h-10 rounded-lg gradient-blue-dark flex items-center justify-center">
               <img src="rfp-assets/image_10.png" class="w-[18px] h-[18px]" alt="Logo">
             </div>
@@ -218,7 +291,7 @@
           </p>
         </div>
         <div>
-          <h4 class="text-white font-semibold mb-4">产品服务</h4>
+          <h4 class="text-white font-semibold mb-3 md:mb-4">产品服务</h4>
           <ul class="space-y-2 text-sm">
             <li><a href="#" class="hover:text-white transition-colors">RFP招标</a></li>
             <li><a href="#" class="hover:text-white transition-colors">酒店管理</a></li>
@@ -227,7 +300,7 @@
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-semibold mb-4">关于我们</h4>
+          <h4 class="text-white font-semibold mb-3 md:mb-4">关于我们</h4>
           <ul class="space-y-2 text-sm">
             <li><a href="learn-more.html#about" class="hover:text-white transition-colors">公司介绍</a></li>
             <li><a href="#" class="hover:text-white transition-colors">团队成员</a></li>
@@ -236,8 +309,8 @@
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-semibold mb-4">联系我们</h4>
-          <ul class="space-y-3 text-sm">
+          <h4 class="text-white font-semibold mb-3 md:mb-4">联系我们</h4>
+          <ul class="space-y-2 md:space-y-3 text-sm">
             <li class="flex items-center space-x-2">
               <img src="rfp-assets/image_11.png" class="w-5 h-[11.67px]" alt="Email">
               <span>contact@rfp-hotel.com</span>
@@ -253,7 +326,7 @@
           </ul>
         </div>
       </div>
-      <div class="border-t border-gray-800 pt-8 text-center text-sm">
+      <div class="border-t border-gray-800 pt-6 md:pt-8 text-center text-sm">
         <p>© 2024 RFP酒店平台. 保留所有权利. | <a href="#" class="hover:text-white">隐私政策</a> | <a href="#" class="hover:text-white">服务条款</a></p>
       </div>
     </div>
@@ -261,27 +334,74 @@
 
   <script>
     // 表单提交处理
-    document.querySelector('form').addEventListener('submit', function(e) {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      
+
       const formData = {
         companyName: document.getElementById('companyName').value,
         contactName: document.getElementById('contactName').value,
         phone: document.getElementById('phone').value,
         email: document.getElementById('email').value
       };
-      
+
       // 简单验证
-      if (!formData.companyName || !formData.contactName || !formData.phone || !formData.email) {
-        alert('请填写所有必填项');
+      let isValid = true;
+      const requiredFields = ['companyName', 'contactName', 'phone', 'email'];
+
+      requiredFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+          field.classList.add('error');
+          field.classList.remove('border-gray-200');
+          field.classList.add('border-red-500');
+          isValid = false;
+        } else {
+          field.classList.remove('error');
+          field.classList.add('border-gray-200');
+          field.classList.remove('border-red-500');
+        }
+      });
+
+      if (!isValid) {
         return;
       }
-      
-      // 模拟提交
-      alert('提交成功！我们的专业顾问将在24小时内与您联系。');
-      
-      // 清空表单
-      this.reset();
+
+      // 邮箱格式验证
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        const emailField = document.getElementById('email');
+        emailField.classList.add('error');
+        emailField.classList.remove('border-gray-200');
+        emailField.classList.add('border-red-500');
+        return;
+      }
+
+      // 模拟提交 - 显示成功状态
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = '提交中...';
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+      setTimeout(function() {
+        alert('提交成功！我们的专业顾问将在24小时内与您联系。');
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        form.reset();
+      }, 800);
+    });
+
+    // 输入时移除错误状态
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', function() {
+        if (this.value.trim()) {
+          this.classList.remove('error');
+          this.classList.remove('border-red-500');
+          this.classList.add('border-gray-200');
+        }
+      });
     });
 
     // 导航栏滚动效果
@@ -292,7 +412,7 @@
       } else {
         nav.classList.remove('shadow-lg');
       }
-    });
+    }, { passive: true });
   </script>
 </body>
 </html>

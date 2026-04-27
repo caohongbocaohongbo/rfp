@@ -1,0 +1,1534 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>履约质量分 - SiteMinder组件</title>
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --surface: #ffffff;
+      --surface-soft: #fbfcfe;
+      --surface-green: #f5fbf7;
+      --surface-green-2: #f4fbf7;
+      --surface-blue: #f8fbff;
+      --surface-orange: #fff7ed;
+      --surface-orange-2: #fffaf5;
+      --surface-red: #fef2f2;
+      --line: #dce7ef;
+      --line-soft: #e2e8f0;
+      --text: #293a4e;
+      --text-strong: #0f172a;
+      --muted: #949999;
+      --muted-dark: #64748b;
+      --teal: #008489;
+      --teal-soft: #eaf7f7;
+      --teal-line: #bee5e3;
+      --green: #138a63;
+      --green-deep: #166534;
+      --green-soft: #ecf8f1;
+      --green-line: #cfead9;
+      --orange: #ea580c;
+      --orange-deep: #9a3412;
+      --orange-soft: #fef3c7;
+      --orange-surface: #fffaf5;
+      --orange-line: #fed7aa;
+      --red: #b91c1c;
+      --red-soft: #fecaca;
+      --blue: #2563eb;
+      --blue-soft: #eef6ff;
+      --shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+      --radius-xl: 32px;
+      --radius-lg: 28px;
+      --radius-md: 24px;
+      --radius-sm: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; font-family: Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif; background: var(--bg); color: var(--text-strong); }
+    body { min-width: 1440px; }
+    button, input { font: inherit; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: #131b2c;
+      color: #adc2d9;
+      padding: 28px 0 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+    }
+
+    .brand {
+      padding: 0 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #ff6260, #d42d2d);
+      box-shadow: inset 0 2px 8px rgba(255,255,255,.25), 0 8px 20px rgba(0,0,0,.25);
+      position: relative;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,.88);
+      border-radius: 999px;
+    }
+
+    .brand-mark::before { width: 20px; height: 4px; left: 9px; top: 17px; }
+    .brand-mark::after { width: 4px; height: 20px; left: 17px; top: 9px; }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 10px 12px 20px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 86px;
+      padding: 14px 8px;
+      color: #a8c3db;
+      border-radius: 22px;
+      cursor: pointer;
+      transition: background-color .2s ease, color .2s ease, transform .2s ease;
+      border: 0;
+      background: transparent;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .nav-item:active { transform: scale(.98); }
+    .nav-item.active {
+      background: linear-gradient(180deg, #009499 0%, #008489 100%);
+      color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      border: 1.8px solid currentColor;
+      opacity: .95;
+      position: relative;
+    }
+    .nav-icon::before,
+    .nav-icon::after {
+      content: "";
+      position: absolute;
+      background: currentColor;
+      opacity: .95;
+      border-radius: 999px;
+    }
+    .nav-icon.wallet::before { inset: 7px 5px auto 5px; height: 2px; }
+    .nav-icon.wallet::after { width: 8px; height: 8px; right: 5px; top: 9px; border-radius: 50%; }
+    .nav-icon.grid::before { width: 14px; height: 2px; left: 5px; top: 8px; }
+    .nav-icon.grid::after { width: 14px; height: 2px; left: 5px; top: 16px; }
+    .nav-icon.box::before { width: 14px; height: 2px; left: 5px; top: 8px; }
+    .nav-icon.box::after { width: 2px; height: 14px; left: 13px; top: 6px; }
+    .nav-icon.report::before { width: 15px; height: 2px; left: 5px; top: 8px; }
+    .nav-icon.report::after { width: 12px; height: 2px; left: 5px; top: 16px; }
+    .nav-icon.user::before { width: 10px; height: 10px; left: 8px; top: 4px; border-radius: 50%; }
+    .nav-icon.user::after { width: 16px; height: 7px; left: 5px; bottom: 4px; border-radius: 999px 999px 6px 6px; }
+    .nav-label { font-size: 13px; font-weight: 500; line-height: 1.2; text-align: center; }
+
+    .main {
+      padding: 30px 20px;
+    }
+
+    .page {
+      width: 1530px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted-dark);
+    }
+
+    .breadcrumbs strong { color: var(--text-strong); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .page-header {
+      padding: 34px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+    h1 { font-size: 40px; line-height: 1.15; color: var(--text); }
+    .lead {
+      width: 980px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .tag-row, .chip-row, .pill-row, .actions, .stats-grid, .kpi-grid, .summary-mini, .penalty-grid, .bonus-grid, .time-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tag, .ghost-btn, .soft-btn, .solid-btn, .metric-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 15px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+      user-select: none;
+    }
+
+    .tag:active, .ghost-btn:active, .soft-btn:active, .solid-btn:active { transform: scale(.98); }
+    .tag.success { background: var(--green-soft); border-color: #bee5cb; color: #1f7a45; }
+    .tag.teal { background: var(--teal-soft); border-color: var(--teal-line); color: var(--teal); }
+    .tag.score { background: #eaf9ee; border-color: #cdefd8; color: #15803d; min-height: 36px; padding: 8px 14px; }
+
+    .ghost-btn {
+      background: #fff;
+      border-color: #d7e5ec;
+      color: var(--teal);
+    }
+    .ghost-btn:hover { box-shadow: 0 8px 18px rgba(0,132,137,.08); }
+
+    .soft-btn {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .solid-btn {
+      background: var(--green-deep);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .summary-row,
+    .analytics-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 420px;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .main-score {
+      padding: 32px 34px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      background: linear-gradient(110deg, #ffffff 0%, #f5fbfb 56%, #f2f8ff 100%);
+    }
+
+    .score-top,
+    .section-head,
+    .inline-head,
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .score-top .eyebrow {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .eyebrow-title { font-size: 16px; font-weight: 600; color: var(--text); }
+    .eyebrow-sub { font-size: 12px; color: var(--muted); }
+
+    .score-value-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .score-number {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .score-number .value {
+      font-size: 82px;
+      font-weight: 700;
+      line-height: .9;
+      color: var(--text);
+      letter-spacing: -0.04em;
+    }
+
+    .trend-box {
+      padding: 13px 15px;
+      border: 1px solid #d7e5ec;
+      border-radius: 18px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 120px;
+    }
+    .trend-box small { color: var(--muted); font-size: 12px; }
+    .trend-up { color: var(--green); font-size: 22px; font-weight: 700; }
+
+    .section-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mini-card {
+      padding: 24px 22px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mini-card.green { background: var(--surface-green-2); border-color: #cfead9; }
+    .mini-card.orange { background: var(--surface-orange-2); border-color: #f3dbc0; }
+    .mini-card .label { font-size: 14px; font-weight: 600; }
+    .mini-card .label.green, .green-text { color: var(--green-deep); }
+    .mini-card .label.orange, .orange-text { color: var(--orange); }
+    .mini-card .num { font-size: 28px; font-weight: 700; color: var(--text); }
+    .mini-card.green .num { color: var(--green); }
+    .mini-card.orange .num { color: var(--orange); }
+    .mini-card .hint { font-size: 12px; line-height: 1.5; color: var(--muted); }
+    .mini-card.green .hint { color: #4a7a5e; }
+    .mini-card.orange .hint { color: #9a6849; }
+
+    .section-card {
+      padding: 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-title { font-size: 24px; font-weight: 700; color: var(--text); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .kpi-card {
+      border-radius: 22px;
+      padding: 22px 20px;
+      border: 1px solid #dfeaf7;
+      background: var(--surface-blue);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .kpi-card.warning { background: #fff8f6; border-color: #f5ddd7; }
+    .kpi-card.warning-2 { background: #fff9f4; border-color: #f4e5d7; }
+    .kpi-title { font-size: 15px; font-weight: 600; color: #1e293b; }
+    .kpi-card.warning .kpi-title, .kpi-card.warning-2 .kpi-title { color: #92400e; }
+    .kpi-value { font-size: 34px; font-weight: 700; color: var(--text-strong); line-height: 1; }
+    .kpi-card.warning .kpi-value, .kpi-card.warning-2 .kpi-value { color: #c2410c; }
+    .kpi-sub { font-size: 12px; color: var(--muted-dark); }
+    .kpi-card.warning .kpi-sub, .kpi-card.warning-2 .kpi-sub { color: #9a3412; }
+
+    .analytics-main { display: flex; flex-direction: column; gap: 22px; }
+    .summary-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-chip {
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid #d7eceb;
+      background: #f4fbfb;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .summary-chip.warning { background: #fffaf5; border-color: #f3e2ce; }
+    .summary-chip.plain { background: #fff; border-color: #e5edf3; }
+    .summary-chip .cap { font-size: 12px; font-weight: 600; color: var(--muted); }
+    .summary-chip .big { font-size: 30px; font-weight: 700; color: var(--text); line-height: 1; }
+    .summary-chip .desc { font-size: 12px; font-weight: 600; color: var(--teal); }
+    .summary-chip.warning .desc { color: var(--orange); }
+
+    .analysis-columns {
+      display: grid;
+      grid-template-columns: 376px minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      border-radius: 22px;
+      border: 1px solid var(--line-soft);
+      background: #f8fafc;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .radar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+    }
+
+    .radar-chart {
+      width: 280px;
+      height: 280px;
+      position: relative;
+    }
+
+    .radar-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .radar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 10px;
+    }
+
+    .radar-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-strong);
+      font-weight: 500;
+    }
+
+    .radar-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .radar-score {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-left: 4px;
+    }
+
+    .spider-chart-container {
+      width: 100%;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spider-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .spider-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .spider-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* Spider/Radar Chart Styles */
+    .spider-chart-container {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spider-chart {
+      width: 220px;
+      height: 220px;
+      position: relative;
+    }
+
+    .spider-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .spider-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-strong);
+      font-weight: 500;
+    }
+
+    .spider-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .spider-score {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .spider-score-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+    }
+
+    .spider-score-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .metric-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .metric-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-strong);
+      font-weight: 600;
+    }
+
+    .metric-track {
+      height: 10px;
+      width: 100%;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .metric-fill {
+      height: 100%;
+      border-radius: inherit;
+      transition: width .4s ease;
+    }
+
+    /* 蜘蛛图（雷达图）样式 */
+    .radar-chart-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+    }
+
+    .radar-chart {
+      width: 280px;
+      height: 280px;
+    }
+
+    .radar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .radar-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-strong);
+      font-weight: 500;
+    }
+
+    .radar-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .radar-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .radar-score-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+    }
+
+    .radar-score-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* 蜘蛛图（雷达图）样式 */
+    .radar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+    }
+
+    .radar-chart {
+      width: 280px;
+      height: 280px;
+      position: relative;
+    }
+
+    .radar-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .radar-legend {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 20px;
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    .radar-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-strong);
+    }
+
+    .radar-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .radar-legend-value {
+      margin-left: auto;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .hotspot {
+      background: var(--surface-orange);
+      border-color: var(--orange-line);
+      gap: 14px;
+    }
+
+    .hotspot .title { color: var(--orange-deep); font-size: 16px; font-weight: 700; }
+    .hotspot .mini-badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #fff;
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .bullet-list, .suggest-list, .detail-list { display: flex; flex-direction: column; gap: 10px; }
+    .bullet-item, .suggest-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex: 0 0 8px;
+    }
+
+    .detail-list .row-card,
+    .bonus-rows .row-card,
+    .penalty-rows .row-card,
+    .time-list .time-row {
+      background: #fff;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .row-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .row-title { font-size: 13px; font-weight: 700; color: var(--text-strong); }
+    .row-sub { font-size: 12px; color: var(--muted-dark); line-height: 1.6; }
+    .row-right { display: flex; align-items: center; gap: 10px; }
+
+    .score-pill { padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .score-pill.blue { background: var(--blue-soft); color: var(--blue); }
+    .score-pill.cyan { background: #ecfeff; color: #0891b2; }
+    .score-pill.amber { background: #fffbeb; color: #d97706; }
+    .score-pill.orange { background: #fff7ed; color: var(--orange); }
+    .delta.plus { color: #059669; font-weight: 700; font-size: 12px; }
+    .delta.zero { color: var(--muted-dark); font-weight: 700; font-size: 12px; }
+    .delta.minus { color: #dc2626; font-weight: 700; font-size: 12px; }
+
+    .time-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .time-board {
+      background: var(--surface-soft);
+      border: 1px solid #e5edf3;
+      border-radius: 24px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .ring-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .ring {
+      width: 176px;
+      height: 176px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #008489 0deg 288deg,
+        #00a8b0 288deg 306deg,
+        #4dc4c9 306deg 324deg,
+        #99dde0 324deg 342deg,
+        #cceeef 342deg 360deg
+      );
+      display: grid;
+      place-items: center;
+      flex: 0 0 176px;
+    }
+
+    .ring::before {
+      content: "";
+      width: 124px;
+      height: 124px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(37,99,235,.08);
+    }
+
+    .ring-center {
+      position: absolute;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      width: 110px;
+    }
+
+    .ring-shell { position: relative; }
+    .ring-center .value { font-size: 36px; font-weight: 700; color: var(--text-strong); line-height: 1; }
+    .ring-center .cap { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .ring-copy { display: flex; flex-direction: column; gap: 10px; }
+    .ring-copy p { font-size: 13px; color: #334155; line-height: 1.6; }
+    .success-tag {
+      align-self: flex-start;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .time-stat {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line-soft);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .time-stat .small { font-size: 11px; font-weight: 600; color: var(--muted-dark); }
+    .time-stat .large { font-size: 20px; font-weight: 700; color: var(--text-strong); }
+    .time-stat.danger .large { color: #dc2626; }
+
+    .time-list { display: flex; flex-direction: column; gap: 10px; }
+    .time-list .time-row.special {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      justify-content: center;
+      color: #1d4ed8;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* 环形饼图样式 */
+    .donut-chart-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .donut-chart-container {
+      flex: 0 0 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .donut-chart {
+      width: 180px;
+      height: 180px;
+    }
+
+    .donut-chart circle {
+      transition: stroke-dasharray 0.3s ease;
+    }
+
+    .donut-legend {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .donut-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .donut-legend-label {
+      color: #475569;
+      flex: 1;
+    }
+
+    .donut-legend-value {
+      color: #1e293b;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .bonus-panel, .penalty-panel {
+      padding: 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .bonus-grid, .penalty-grid {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .highlight-card {
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      border: 1px solid #cfead9;
+      background: var(--surface-green);
+    }
+
+    .highlight-card .headline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .highlight-card .headline h3 { font-size: 16px; color: var(--green-deep); }
+    .highlight-card .headline p { font-size: 13px; line-height: 1.6; color: #2f7a58; }
+
+    .duo-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .duo-stat {
+      border: 1px solid #dcfce7;
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .duo-stat .cap { color: var(--muted-dark); font-size: 12px; font-weight: 600; }
+    .duo-stat .val { color: var(--green-deep); font-size: 28px; font-weight: 700; line-height: 1; }
+
+    .recommend {
+      border: 1px solid #dcfce7;
+      background: #fff;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .recommend h4 { color: var(--green-deep); font-size: 14px; }
+
+    .bonus-rows {
+      border-radius: 22px;
+      border: 1px solid #e5edf3;
+      background: var(--surface-soft);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .bonus-score { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+    .bonus-tag { padding: 6px 10px; border-radius: 999px; background: #ecfdf5; color: #15803d; font-size: 12px; font-weight: 700; }
+    .rule-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .penalty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+    .danger-card {
+      border-radius: 22px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border: 1px solid #fecaca;
+      background: var(--surface-red);
+    }
+
+    .danger-card.orange {
+      border-color: var(--orange-line);
+      background: var(--surface-orange);
+    }
+
+    .danger-card h3 { font-size: 16px; color: #991b1b; }
+    .danger-card.orange h3 { color: #9a3412; }
+    .danger-card p { font-size: 12px; line-height: 1.6; color: #b91c1c; }
+    .danger-card.orange p { color: #c2410c; }
+    .penalty-rows, .footer-actions { display: flex; flex-direction: column; gap: 10px; }
+    .ghost-pill {
+      align-self: flex-start;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      cursor: pointer;
+    }
+    .danger-card.orange .ghost-pill { border-color: var(--orange-line); color: #c2410c; }
+
+    .footer-actions { flex-direction: row; flex-wrap: wrap; }
+
+    .panel-caption { font-size: 13px; line-height: 1.6; color: var(--muted-dark); }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #293a4e;
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 14px;
+      box-shadow: 0 14px 30px rgba(17,24,39,.22);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 1000;
+      max-width: 320px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand"><div class="brand-mark" aria-hidden="true"></div></div>
+      <nav class="nav">
+        <button class="nav-item" data-nav="工作台"><span class="nav-icon grid" aria-hidden="true"></span><span class="nav-label">工作台</span></button>
+        <button class="nav-item active" data-nav="商机"><span class="nav-icon wallet" aria-hidden="true"></span><span class="nav-label">商机</span></button>
+        <button class="nav-item" data-nav="产品"><span class="nav-icon box" aria-hidden="true"></span><span class="nav-label">产品</span></button>
+        <button class="nav-item" data-nav="订单"><span class="nav-icon report" aria-hidden="true"></span><span class="nav-label">订单</span></button>
+        <button class="nav-item" data-nav="自助收款"><span class="nav-icon box" aria-hidden="true"></span><span class="nav-label">自助收款</span></button>
+        <button class="nav-item" data-nav="客户"><span class="nav-icon user" aria-hidden="true"></span><span class="nav-label">客户</span></button>
+        <button class="nav-item" data-nav="统计报表"><span class="nav-icon report" aria-hidden="true"></span><span class="nav-label">统计报表</span></button>
+        <button class="nav-item" data-nav="设置"><span class="nav-icon grid" aria-hidden="true"></span><span class="nav-label">设置</span></button>
+      </nav>
+    </aside>
+
+    <main class="main" id="main-content">
+      <div class="page">
+        <div class="breadcrumbs" aria-label="面包屑">
+          <span>订单通商家</span>
+          <span>/</span>
+          <strong>商机 / 履约质量分</strong>
+        </div>
+
+        <section class="card page-header">
+          <div>
+            <h1>履约质量分</h1>
+          </div>
+          <p class="lead">履约质量分代表贵酒店在订单通平台服务企业的能力。分数越高，代表履约能力越强，企业满意度更高，平台排名越靠前。为了让门店更快定位问题，我们把分数拆成基础分、加分项、减分项与关键履约指标。</p>
+          <div class="tag-row">
+            <button class="tag success" data-toast="当前综合等级为优秀，说明整体履约能力稳定。">综合等级 · 优秀</button>
+            <button class="tag teal" data-toast="统计周期为近 30 天，数据按 T+1 更新。">近30天统计 · T+1 更新</button>
+          </div>
+        </section>
+
+        <section class="summary-row">
+          <div class="card main-score">
+            <div class="score-top">
+              <div class="eyebrow">
+                <div class="eyebrow-title">当前履约质量分</div>
+                <div class="eyebrow-sub">总分 = 基础分 + 加分项 + 减分项</div>
+              </div>
+              <button class="ghost-btn" data-toast="这里可查看历史趋势原型，后续可接入折线图。">查看历史趋势</button>
+            </div>
+
+            <div class="score-value-row">
+              <div class="score-number">
+                <div class="value">4.52</div>
+                <div class="tag score">优秀</div>
+              </div>
+              <div class="trend-box">
+                <small>较昨日</small>
+                <div class="trend-up">↑ +0.45</div>
+              </div>
+            </div>
+
+            <p class="section-text">当前门店履约表现稳定，确认效率和基础保障较强；建议继续重点关注确认后推翻/到店无房与查无预订两类高风险问题。</p>
+          </div>
+
+          <div class="breakdown">
+            <div class="mini-card">
+              <div class="label">基础分</div>
+              <div class="num">4.14 / 5</div>
+              <div class="hint">由服务基础维度加权计算得出</div>
+            </div>
+            <div class="mini-card green">
+              <div class="label green">加分项</div>
+              <div class="num">+0.45</div>
+              <div class="hint">由服务表现产生的正向加分</div>
+            </div>
+            <div class="mini-card orange">
+              <div class="label orange">减分项</div>
+              <div class="num">-0.07</div>
+              <div class="hint">缺陷违约造成的累计扣分</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section-card">
+          <div class="section-head">
+            <h2 class="section-title">履约指标</h2>
+            <button class="ghost-btn" data-toast="风险明细页尚未接入，这里保留交互入口。">查看风险明细</button>
+          </div>
+          <div class="kpi-grid">
+            <article class="kpi-card">
+              <div class="kpi-title">确认前拒单率</div>
+              <div class="kpi-value">2.00%</div>
+              <div class="kpi-sub">拒绝订单数：2</div>
+            </article>
+            <article class="kpi-card">
+              <div class="kpi-title">保留房拒单率</div>
+              <div class="kpi-value">2.00%</div>
+              <div class="kpi-sub">保留房拒单数：2</div>
+            </article>
+            <article class="kpi-card warning">
+              <div class="kpi-title">推翻确认 / 到店无房率</div>
+              <div class="kpi-value">0.20%</div>
+              <div class="kpi-sub">异常订单数：2</div>
+            </article>
+            <article class="kpi-card warning-2">
+              <div class="kpi-title">查无预订率</div>
+              <div class="kpi-value">0.10%</div>
+              <div class="kpi-sub">查无预订订单数：2</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="analytics-row">
+          <div class="analytics-main">
+            <article class="card section-card">
+              <div class="section-head">
+                <div>
+                  <h2 class="section-title">数据分析区</h2>
+                  <p class="panel-caption">先看结论，再看原因。把履约基础分拆成趋势、结构与风险提示，帮助你快速定位该优先处理的问题。</p>
+                </div>
+                <button class="ghost-btn" data-toast="评分说明弹层待接入，当前为静态交互入口。">查看评分说明</button>
+              </div>
+
+              <div class="summary-mini">
+                <div class="summary-chip">
+                  <div class="cap">履约基础分</div>
+                  <div class="big">4.72 / 5.00</div>
+                  <div class="desc">较昨日 +0.03，继续保持稳定表现</div>
+                </div>
+                <div class="summary-chip warning">
+                  <div class="cap">主要风险项</div>
+                  <div class="big">2 项</div>
+                  <div class="desc">集中在确认后推翻与入住不顺畅</div>
+                </div>
+                <div class="summary-chip plain">
+                  <div class="cap">可立即改善</div>
+                  <div class="big">3 条</div>
+                  <div class="desc">优先处理接单速度、房态同步与前台核单</div>
+                </div>
+              </div>
+
+              <div class="analysis-columns">
+                <div class="panel">
+                  <div class="panel-head">
+                    <h3>履约基础分结构</h3>
+                  </div>
+                  <div class="radar-chart-container">
+                    <svg class="radar-chart" viewBox="0 0 320 280" preserveAspectRatio="xMidYMid meet">
+                      <defs>
+                        <radialGradient id="radarGradient" cx="50%" cy="50%" r="50%">
+                          <stop offset="0%" style="stop-color:#008489;stop-opacity:0.3" />
+                          <stop offset="100%" style="stop-color:#008489;stop-opacity:0.1" />
+                        </radialGradient>
+                      </defs>
+                      <!-- 背景网格 - 五边形 -->
+                      <g class="radar-grid">
+                        <polygon points="160,40 267,118 227,240 93,240 53,118" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                        <polygon points="160,70 237,126 207,210 113,210 83,126" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                        <polygon points="160,100 207,134 187,180 133,180 113,134" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                        <polygon points="160,130 177,142 167,150 153,150 143,142" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                        <!-- 轴线 -->
+                        <line x1="160" y1="140" x2="160" y2="40" stroke="#e2e8f0" stroke-width="1"/>
+                        <line x1="160" y1="140" x2="267" y2="118" stroke="#e2e8f0" stroke-width="1"/>
+                        <line x1="160" y1="140" x2="227" y2="240" stroke="#e2e8f0" stroke-width="1"/>
+                        <line x1="160" y1="140" x2="93" y2="240" stroke="#e2e8f0" stroke-width="1"/>
+                        <line x1="160" y1="140" x2="53" y2="118" stroke="#e2e8f0" stroke-width="1"/>
+                      </g>
+                      <!-- 数据区域 - 房态有效度4.2, 房价有效率5.0, 订单处理可效5.0, 可取消率4.8, 信息完整度4.8 -->
+                      <polygon points="160,64 267,118 218,226 102,226 61,122" fill="url(#radarGradient)" stroke="#008489" stroke-width="2"/>
+                      <!-- 数据点 -->
+                      <circle cx="160" cy="64" r="5" fill="#008489" stroke="#fff" stroke-width="2"/>
+                      <circle cx="267" cy="118" r="5" fill="#008489" stroke="#fff" stroke-width="2"/>
+                      <circle cx="218" cy="226" r="5" fill="#008489" stroke="#fff" stroke-width="2"/>
+                      <circle cx="102" cy="226" r="5" fill="#008489" stroke="#fff" stroke-width="2"/>
+                      <circle cx="61" cy="122" r="5" fill="#008489" stroke="#fff" stroke-width="2"/>
+                      <!-- 维度标签 -->
+                      <text x="160" y="30" text-anchor="middle" font-size="12" fill="#64748b" font-weight="600">房态有效度</text>
+                      <text x="160" y="42" text-anchor="middle" font-size="11" fill="#008489" font-weight="700">4.2</text>
+                      <text x="285" y="115" text-anchor="start" font-size="12" fill="#64748b" font-weight="600">房价有效率</text>
+                      <text x="285" y="127" text-anchor="start" font-size="11" fill="#008489" font-weight="700">5.0</text>
+                      <text x="235" y="258" text-anchor="middle" font-size="12" fill="#64748b" font-weight="600">订单处理可效</text>
+                      <text x="235" y="270" text-anchor="middle" font-size="11" fill="#008489" font-weight="700">5.0</text>
+                      <text x="85" y="258" text-anchor="middle" font-size="12" fill="#64748b" font-weight="600">可取消率</text>
+                      <text x="85" y="270" text-anchor="middle" font-size="11" fill="#008489" font-weight="700">4.8</text>
+                      <text x="35" y="115" text-anchor="end" font-size="12" fill="#64748b" font-weight="600">信息完整度</text>
+                      <text x="35" y="127" text-anchor="end" font-size="11" fill="#008489" font-weight="700">4.8</text>
+                    </svg>
+                  </div>
+                  <div class="radar-legend">
+                    <div class="legend-item"><span class="legend-dot" style="background:#008489"></span><span>满分 5.0</span></div>
+                    <div class="legend-item"><span class="legend-line"></span><span>当前得分</span></div>
+                  </div>
+                </div>
+                  <div class="spider-chart-container">
+                    <svg class="spider-chart" viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <radialGradient id="spiderGradient" cx="50%" cy="50%" r="50%">
+                          <stop offset="0%" style="stop-color:#008489;stop-opacity:0.6" />
+                          <stop offset="100%" style="stop-color:#008489;stop-opacity:0.15" />
+                        </radialGradient>
+                      </defs>
+                      <!-- 背景网格 - 5个同心五边形 -->
+                      <polygon points="150,30 258,108 216,210 84,210 42,108" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                      <polygon points="150,54 234,114 202,186 98,186 66,114" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                      <polygon points="150,78 210,120 188,162 112,162 90,120" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                      <polygon points="150,102 186,126 174,138 126,138 114,126" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                      <!-- 轴线 -->
+                      <line x1="150" y1="30" x2="150" y2="120" stroke="#e2e8f0" stroke-width="1"/>
+                      <line x1="258" y1="108" x2="150" y2="120" stroke="#e2e8f0" stroke-width="1"/>
+                      <line x1="216" y1="210" x2="150" y2="120" stroke="#e2e8f0" stroke-width="1"/>
+                      <line x1="84" y1="210" x2="150" y2="120" stroke="#e2e8f0" stroke-width="1"/>
+                      <line x1="42" y1="108" x2="150" y2="120" stroke="#e2e8f0" stroke-width="1"/>
+                      <!-- 数据区域 - 根据5个维度的值计算坐标 -->
+                      <!-- 房态有效度: 4.2/5 = 84% -> 150, 30 + (120-30)*0.16 = 150, 54 -->
+                      <!-- 房价有效率: 5.0/5 = 100% -> 150, 30 -->
+                      <!-- 订单处理可效: 5.0/5 = 100% -> 258, 108 -->
+                      <!-- 可取消率: 4.8/5 = 96% -> 216 - (216-150)*0.04, 210 - (210-120)*0.04 = 213, 206 -->
+                      <!-- 信息完整度: 4.8/5 = 96% -> 84 + (150-84)*0.04, 210 - (210-120)*0.04 = 87, 206 -->
+                      <polygon points="150,54 258,108 213,206 87,206 48,110" fill="url(#spiderGradient)" stroke="#008489" stroke-width="2"/>
+                      <!-- 数据点 -->
+                      <circle cx="150" cy="54" r="4" fill="#008489"/>
+                      <circle cx="258" cy="108" r="4" fill="#008489"/>
+                      <circle cx="213" cy="206" r="4" fill="#008489"/>
+                      <circle cx="87" cy="206" r="4" fill="#008489"/>
+                      <circle cx="48" cy="110" r="4" fill="#008489"/>
+                      <!-- 维度标签 -->
+                      <text x="150" y="22" text-anchor="middle" font-size="11" fill="#64748b" font-weight="600">房价有效率</text>
+                      <text x="150" y="14" text-anchor="middle" font-size="12" fill="#008489" font-weight="700">5.0</text>
+                      <text x="270" y="108" text-anchor="start" font-size="11" fill="#64748b" font-weight="600">订单处理可效</text>
+                      <text x="270" y="120" text-anchor="start" font-size="12" fill="#008489" font-weight="700">5.0</text>
+                      <text x="225" y="228" text-anchor="middle" font-size="11" fill="#64748b" font-weight="600">可取消率</text>
+                      <text x="225" y="240" text-anchor="middle" font-size="12" fill="#008489" font-weight="700">4.8</text>
+                      <text x="75" y="228" text-anchor="middle" font-size="11" fill="#64748b" font-weight="600">信息完整度</text>
+                      <text x="75" y="240" text-anchor="middle" font-size="12" fill="#008489" font-weight="700">4.8</text>
+                      <text x="30" y="108" text-anchor="end" font-size="11" fill="#64748b" font-weight="600">房态有效度</text>
+                      <text x="30" y="120" text-anchor="end" font-size="12" fill="#008489" font-weight="700">4.2</text>
+                    </svg>
+                  </div>
+                  <div class="spider-legend">
+                    <div class="legend-item"><span class="legend-dot" style="background:#008489"></span><span>满分 5.0</span></div>
+                  </div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:16px;">
+                  <div class="panel hotspot">
+                    <div class="panel-head">
+                      <div class="title">问题热区</div>
+                      <div class="mini-badge">需优先处理</div>
+                    </div>
+                    <div class="bullet-list">
+                      <div class="bullet-item"><span class="dot" style="background:#f97316"></span><span>确认后推翻 / 到店无房 1 单，直接拉低确认准确度</span></div>
+                      <div class="bullet-item"><span class="dot" style="background:#fb923c"></span><span>查无预订或入住不顺畅 2 单，影响入住顺畅度</span></div>
+                    </div>
+                    <div class="panel-caption" style="color:#b45309;font-weight:600;">建议先复查房态同步与夜审交接，再对前台核单流程做一次抽查。</div>
+                    <button class="ghost-btn" style="align-self:flex-start;border-color:#fed7aa;color:#9a3412;" data-toast="异常订单列表原型待接入。">去看异常订单</button>
+                  </div>
+
+                  <div class="panel">
+                    <div class="panel-head">
+                      <h3>维度明细</h3>
+                      <span class="panel-caption">按优先级排序</span>
+                    </div>
+                    <div class="detail-list">
+                      <div class="row-card"><div class="row-left"><div class="row-title">接单及时性</div><div class="row-sub">保持 5 分钟内接单节奏</div></div><div class="row-right"><span class="score-pill blue">92 分</span><span class="delta plus">+2</span></div></div>
+                      <div class="row-card"><div class="row-left"><div class="row-title">保留房稳定性</div><div class="row-sub">高峰时段复核房态，减少落差</div></div><div class="row-right"><span class="score-pill cyan">86 分</span><span class="delta zero">0</span></div></div>
+                      <div class="row-card"><div class="row-left"><div class="row-title">确认准确度</div><div class="row-sub">重点减少确认后推翻</div></div><div class="row-right"><span class="score-pill amber">78 分</span><span class="delta minus">-4</span></div></div>
+                      <div class="row-card"><div class="row-left"><div class="row-title">入住顺畅度</div><div class="row-sub">加强前台核单与入住指引</div></div><div class="row-right"><span class="score-pill orange">74 分</span><span class="delta minus">-3</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <aside class="card time-card">
+            <div class="section-head">
+              <div>
+                <h2 style="font-size:22px;color:var(--text);">订单处理时效</h2>
+                <p class="panel-caption">当前统计周期：2026/03/17 - 2026/04/16</p>
+              </div>
+              <button class="ghost-btn" data-toast="明细页原型暂未接入。">查看明细</button>
+            </div>
+
+            <div class="time-board">
+              <div class="donut-chart-wrap">
+                <div class="donut-chart-container">
+                  <svg class="donut-chart" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 背景圆环 -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#e2e8f0" stroke-width="24"/>
+                    <!-- 5min内 80% - #008489 -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#008489" stroke-width="24"
+                            stroke-dasharray="351.86 439.82" stroke-dashoffset="0"
+                            transform="rotate(-90 100 100)"/>
+                    <!-- 10min内 5% - #00a0a5 -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#00a0a5" stroke-width="24"
+                            stroke-dasharray="21.99 439.82" stroke-dashoffset="-351.86"
+                            transform="rotate(-90 100 100)"/>
+                    <!-- 30min内 5% - #26b0b5 -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#26b0b5" stroke-width="24"
+                            stroke-dasharray="21.99 439.82" stroke-dashoffset="-373.85"
+                            transform="rotate(-90 100 100)"/>
+                    <!-- 60min内 3% - #4dc0c4 -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#4dc0c4" stroke-width="24"
+                            stroke-dasharray="13.19 439.82" stroke-dashoffset="-395.84"
+                            transform="rotate(-90 100 100)"/>
+                    <!-- >60min 7% - #73d0d3 -->
+                    <circle cx="100" cy="100" r="70" fill="none" stroke="#73d0d3" stroke-width="24"
+                            stroke-dasharray="30.79 439.82" stroke-dashoffset="-409.03"
+                            transform="rotate(-90 100 100)"/>
+                    <!-- 中心空白 -->
+                    <circle cx="100" cy="100" r="52" fill="#fff"/>
+                    <!-- 中心文字 -->
+                    <text x="100" y="95" text-anchor="middle" font-size="14" fill="#64748b" font-weight="600">平均确认</text>
+                    <text x="100" y="118" text-anchor="middle" font-size="28" fill="#008489" font-weight="700">5.2min</text>
+                  </svg>
+                </div>
+                <div class="donut-legend">
+                  <div class="donut-legend-item">
+                    <span class="donut-legend-dot" style="background:#008489"></span>
+                    <span class="donut-legend-label">5分钟内</span>
+                    <span class="donut-legend-value">80%</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <span class="donut-legend-dot" style="background:#00a0a5"></span>
+                    <span class="donut-legend-label">10分钟内</span>
+                    <span class="donut-legend-value">5%</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <span class="donut-legend-dot" style="background:#26b0b5"></span>
+                    <span class="donut-legend-label">30分钟内</span>
+                    <span class="donut-legend-value">5%</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <span class="donut-legend-dot" style="background:#4dc0c4"></span>
+                    <span class="donut-legend-label">60分钟内</span>
+                    <span class="donut-legend-value">3%</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <span class="donut-legend-dot" style="background:#73d0d3"></span>
+                    <span class="donut-legend-label">60分钟以上</span>
+                    <span class="donut-legend-value">7%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="time-list">
+                <div class="time-row"><span>5 分钟内确认</span><strong>80%</strong></div>
+                <div class="time-row"><span>10 分钟内确认</span><strong>5%</strong></div>
+                <div class="time-row"><span>30 分钟内确认</span><strong>5%</strong></div>
+                <div class="time-row"><span>60 分钟内确认</span><strong>3%</strong></div>
+                <div class="time-row"><span>60 分钟以上</span><strong>7%</strong></div>
+                <button class="time-row special" data-toast="超时订单列表原型暂未接入。">查看超时订单</button>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="card bonus-panel">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">加分项</h2>
+              <p class="panel-caption" style="color:#2f7a58;">企业服务的额外加分项，鼓励主动优化入住体验。我的加分项 +0.45，较昨日 +0.01。</p>
+            </div>
+            <div class="pill-row">
+              <div class="tag success">当前 +0.45</div>
+              <div class="tag" style="background:#fff;border-color:#d7e5ec;color:var(--muted);">较昨日 +0.01</div>
+            </div>
+          </div>
+
+          <div class="bonus-grid">
+            <div class="highlight-card">
+              <div class="headline">
+                <h3>加分概览</h3>
+                <p>我的当前加分表现稳定，建议继续维持快速接单和保留房能力。</p>
+              </div>
+              <div class="duo-stats">
+                <div class="duo-stat"><div class="cap">当前加分</div><div class="val">+0.45</div></div>
+                <div class="duo-stat"><div class="cap">可提升空间</div><div class="val">+0.10</div></div>
+              </div>
+              <div class="recommend">
+                <h4>今日建议</h4>
+                <div class="suggest-list">
+                  <div class="suggest-item"><span class="dot" style="background:#22c55e"></span><span>把当天订单 5 分钟内接单率稳定在高位</span></div>
+                  <div class="suggest-item"><span class="dot" style="background:#22c55e"></span><span>继续保持保留房可用，避免资源浪费</span></div>
+                </div>
+                <button class="solid-btn" data-toast="达成路径详情原型待接入。">查看达成路径</button>
+              </div>
+            </div>
+
+            <div class="bonus-rows">
+              <div class="row-card"><div class="row-left"><div class="row-title">当天订单 5 分钟内接单</div><div class="row-sub">减少等待时间，是当前最容易持续拿到的稳定加分项。</div></div><div class="bonus-score"><div class="bonus-tag">+0.15</div><button class="rule-btn" data-toast="查看规则：当天订单 5 分钟内接单可获得额外加分。">查看规则</button></div></div>
+              <div class="row-card"><div class="row-left"><div class="row-title">所有产品均能提供保留房</div><div class="row-sub">房态稳定会直接影响确认效率，也能支撑长期加分。</div></div><div class="bonus-score"><div class="bonus-tag">+0.10</div><button class="rule-btn" data-toast="查看规则：保留房可用率稳定可获得持续加分。">查看规则</button></div></div>
+              <div class="row-card"><div class="row-left"><div class="row-title">当天预订订单确认率达到 100%</div><div class="row-sub">把确认链路跑顺后，这一项会明显抬高整体基础分。</div></div><div class="bonus-score"><div class="bonus-tag">+0.10</div><button class="rule-btn" data-toast="查看规则：当天预订订单确认率达 100% 可获取额外积分。">查看规则</button></div></div>
+              <div class="row-card"><div class="row-left"><div class="row-title">连续 30 天无缺陷</div><div class="row-sub">这是结果型加分项，更适合用来衡量长期履约稳定度。</div></div><div class="bonus-score"><div class="bonus-tag">+0.10</div><button class="rule-btn" data-toast="查看规则：连续 30 天无缺陷可得到长期稳定加分。">查看规则</button></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card penalty-panel">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">减分项</h2>
+              <p class="panel-caption" style="color:#9e5e38;">缺陷违约请尽量避免。我的减分项 -0.07，较昨日 -0.01。</p>
+            </div>
+            <div class="pill-row">
+              <div class="tag" style="background:#fffaf5;border-color:#f3dbc0;color:#ea580c;">累计 -0.07</div>
+              <div class="tag" style="background:#fff;border-color:#d7e5ec;color:var(--muted);">较昨日 -0.01</div>
+              <button class="ghost-btn" data-toast="减分明细页原型待接入。">去看明细</button>
+            </div>
+          </div>
+
+          <div class="penalty-grid">
+            <div class="danger-card">
+              <div>
+                <h3>服务缺陷扣分</h3>
+                <p>当前影响最大，建议优先处理确认后推翻与入住不顺畅。</p>
+              </div>
+              <div class="penalty-rows">
+                <div class="row-card" style="background:rgba(255,255,255,.68);border-color:transparent;"><span class="row-title" style="color:#7f1d1d;">确认前拒单</span><strong style="color:#b91c1c;">0 单 | 0.00</strong></div>
+                <div class="row-card" style="background:rgba(255,255,255,.68);border-color:transparent;"><span class="row-title" style="color:#7f1d1d;">保留房拒单</span><strong style="color:#b91c1c;">0 单 | 0.00</strong></div>
+                <div class="row-card" style="background:rgba(255,255,255,.68);border-color:transparent;"><span class="row-title" style="color:#7f1d1d;">确认后推翻 / 到店无房</span><strong style="color:#dc2626;">1 单 | -1.00</strong></div>
+                <div class="row-card" style="background:rgba(255,255,255,.68);border-color:transparent;"><span class="row-title" style="color:#7f1d1d;">查无预订或入住不顺畅</span><strong style="color:#dc2626;">2 单 | -0.40</strong></div>
+              </div>
+              <div class="footer-actions">
+                <button class="ghost-pill" data-toast="服务缺陷规则说明弹层待接入。">查看规则</button>
+                <button class="ghost-pill" data-toast="如何避免指南弹层待接入。">如何避免</button>
+              </div>
+            </div>
+
+            <div class="danger-card orange">
+              <div>
+                <h3>财务缺陷扣分</h3>
+                <p>目前稳定，但仍建议保持发票时效与回传完整度。</p>
+              </div>
+              <div class="row-card" style="background:rgba(255,255,255,.68);border-color:transparent;"><span class="row-title" style="color:#7c2d12;">欠发票</span><strong style="color:#c2410c;">0 次 | 0.00</strong></div>
+              <div class="panel" style="background:#fff1e6;border:none;padding:12px 14px;gap:8px;">
+                <h4 style="font-size:13px;color:#9a3412;">防守建议</h4>
+                <p class="panel-caption" style="color:#7c2d12;">补开发票前先核对入住完成订单，避免遗漏；月底前集中复查一次开票状态。</p>
+              </div>
+              <div class="footer-actions">
+                <button class="ghost-pill" style="border-color:#fed7aa;color:#c2410c;" data-toast="财务缺陷规则说明弹层待接入。">查看规则</button>
+                <button class="ghost-pill" style="border-color:#fed7aa;color:#c2410c;" data-toast="财务明细页原型待接入。">查看明细</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script>
+    const toastEl = document.getElementById('toast');
+    function showToast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+    }
+
+    document.querySelectorAll('[data-toast]').forEach(el => {
+      el.addEventListener('click', () => showToast(el.dataset.toast));
+    });
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+        showToast(`已切换到 ${item.dataset.nav}，当前原型仅完整还原“商机 / 履约质量分”页面。`);
+      });
+    });
+  </script>
+</body>
+</html>

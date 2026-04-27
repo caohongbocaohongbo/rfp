@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SiteMinder 组件原型</title>
+  <link rel="stylesheet" href="./siteminder组件.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero-card card">
+      <div>
+        <p class="eyebrow">SiteMinder design preview</p>
+        <h1>SiteMinder 风格组件库</h1>
+        <p class="hero-copy">从参考页面提取蓝色顶栏、浅灰侧边导航、圆角筛选器、主操作按钮、统计卡、状态标签、房型列表卡片，组合成可点击演示的 HTML 原型。</p>
+      </div>
+      <div class="hero-actions">
+        <button class="ghost-btn" id="themeToggle">切换密度</button>
+        <button class="primary-btn" id="focusFilters">定位到筛选区</button>
+      </div>
+    </header>
+
+    <section class="layout-grid">
+      <aside class="left-rail card">
+        <div class="section-head">
+          <h2>Reusable parts</h2>
+          <p>Blue-accented navigation and filter primitives for a mature hotel SaaS backend.</p>
+        </div>
+
+        <div class="rail-group">
+          <span class="group-label">Property overview</span>
+          <div class="pill-row compact">
+            <button class="pill active">Overview</button>
+          </div>
+          <label class="field field-search">
+            <span>Search hotels, channels or rates</span>
+            <input type="text" id="librarySearch" placeholder="Search hotels, channels or rates" />
+          </label>
+          <label class="field">
+            <span>Property group</span>
+            <select id="propertyGroupSelect">
+              <option>APAC premium hotels</option>
+              <option>Harbour Hotel Group</option>
+              <option>Urban Stay Collection</option>
+            </select>
+          </label>
+          <button class="primary-btn wide" id="applyLibraryFilters">Apply filters</button>
+          <div class="chip success">Published</div>
+          <p class="muted">Built as reusable base components for dashboards, distribution screens and filter bars.</p>
+        </div>
+
+        <div class="rail-group">
+          <span class="group-label">Extended reusable components</span>
+          <p class="muted">More faithful building blocks derived from pricing, inventory, booking and rules screens.</p>
+          <button class="ghost-btn wide" id="batchUpdateBtn">Batch update</button>
+          <div class="segmented" id="librarySegmented">
+            <button class="segment active" data-filter="added">Added</button>
+            <button class="segment" data-filter="not-added">Not added</button>
+            <button class="segment" data-filter="all">All</button>
+          </div>
+        </div>
+
+        <div class="metric-card compact-card">
+          <span class="metric-label">Room revenue (USD)</span>
+          <div class="metric-main">
+            <strong>266,592</strong>
+            <span class="chip positive">↑ 51.3%</span>
+          </div>
+          <button class="ghost-inline" id="dateSwitcher">2024年4月9日</button>
+        </div>
+
+        <div class="mini-calendar card-inner">
+          <div class="calendar-day">SAT 20</div>
+          <div class="calendar-dot">0</div>
+        </div>
+
+        <div class="accordion card-inner open" data-accordion>
+          <button class="accordion-trigger">
+            <span>销售照顾</span>
+            <span class="accordion-icon">−</span>
+          </button>
+          <div class="accordion-body">
+            <div class="sub-card">
+              <div class="sub-card-head">
+                <strong>酒店收益率规则</strong>
+                <span class="chip positive">正在进行的</span>
+              </div>
+              <p>可用性：10 | 房间类型：3 | 价格计划：1 | 渠道：2</p>
+              <p>适用日期：始终 | 活动日期：周日、周五、周六</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rate-table card-inner">
+          <div class="rate-head">
+            <span>Rate plan name</span>
+            <span>Rate setup</span>
+          </div>
+          <div class="rate-row"><span>Bed and Breakfast</span><span>Derived from Best Available Rate</span><span class="chip positive">+US$50</span></div>
+        </div>
+
+        <article class="room-card rail-room-card" data-added="true">
+          <div class="room-thumb">Room image</div>
+          <div class="room-copy">
+            <h3>家庭房</h3>
+            <p>32m² · 2张床 · 1个浴室 · 禁烟</p>
+            <button class="chip-button active" data-room-toggle>已添加</button>
+          </div>
+        </article>
+      </aside>
+
+      <main class="main-stage card">
+        <div class="topbar">
+          <div class="brand-block">
+            <div class="brand-mark">◫</div>
+            <strong>SiteMinder OS</strong>
+          </div>
+          <nav class="top-tabs" id="topTabs">
+            <button class="top-tab active" data-context="distribution">Distribution</button>
+            <button class="top-tab" data-context="guests">Guests</button>
+            <button class="top-tab" data-context="reservations">Reservations</button>
+            <button class="top-tab" data-context="insights">Insights</button>
+          </nav>
+          <div class="topbar-actions">
+            <span class="hotel-badge">Harbour Hotel</span>
+            <button class="icon-btn">⌂</button>
+            <button class="icon-btn">◌</button>
+            <div class="avatar">LH</div>
+          </div>
+        </div>
+
+        <div class="workspace">
+          <nav class="workspace-nav" id="workspaceNav">
+            <span class="workspace-title">Workspace</span>
+            <button class="workspace-item active" data-panel="channelHub">Channel hub</button>
+            <button class="workspace-item" data-panel="availability">Availability</button>
+            <button class="workspace-item" data-panel="ratePlans">Rate plans</button>
+            <button class="workspace-item" data-panel="channels">Channels</button>
+            <button class="workspace-item" data-panel="guests">Guests</button>
+            <span class="workspace-title">Quick links</span>
+            <button class="workspace-item" data-panel="performance">Performance</button>
+            <button class="workspace-item" data-panel="propertySettings">Property settings</button>
+          </nav>
+
+          <section class="workspace-content">
+            <div class="content-head">
+              <div>
+                <h2 id="contextTitle">Distribution settings</h2>
+                <p id="contextCopy">Clear, blue-accented controls designed for hotel teams to filter and act quickly.</p>
+              </div>
+              <div class="pill-row" id="subTabs">
+                <button class="pill active" data-subtab="overview">Overview</button>
+                <button class="pill" data-subtab="rate-plans">Rate plans</button>
+                <button class="pill" data-subtab="channels">Channels</button>
+                <button class="pill" data-subtab="restrictions">Restrictions</button>
+              </div>
+            </div>
+
+            <section class="card filter-card" id="filterZone">
+              <div class="filter-head">
+                <div>
+                  <h3>Filters</h3>
+                  <p>Use fast hotel-friendly controls to refine channels, rate plans and property groups.</p>
+                </div>
+                <button class="status-count" id="statusCounter">3 active</button>
+              </div>
+
+              <div class="filter-row">
+                <label class="field grow">
+                  <span>Search property, channel or rate</span>
+                  <input type="text" id="mainSearch" placeholder="Search property, channel or rate" />
+                </label>
+
+                <label class="field select-field">
+                  <span>Property</span>
+                  <select id="propertySelect">
+                    <option value="all">All properties</option>
+                    <option value="apac">APAC premium hotels</option>
+                    <option value="harbour">Harbour Hotel Group</option>
+                    <option value="urban">Urban Stay Collection</option>
+                  </select>
+                </label>
+
+                <button class="ghost-btn" id="moreFiltersBtn">More filters</button>
+                <button class="primary-btn" id="applyFiltersBtn">Apply filters</button>
+              </div>
+
+              <div class="filter-extra hidden" id="advancedFilters">
+                <label class="field grow">
+                  <span>Channel manager</span>
+                  <select id="channelManagerSelect">
+                    <option>All channel managers</option>
+                    <option>SiteMinder</option>
+                    <option>Booking.com</option>
+                    <option>Expedia</option>
+                  </select>
+                </label>
+                <label class="field grow">
+                  <span>Sync status</span>
+                  <select id="syncStatusSelect">
+                    <option>Any status</option>
+                    <option>Healthy</option>
+                    <option>Needs review</option>
+                    <option>Disconnected</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="status-row" id="statusFilters">
+                <button class="chip filter-chip active" data-status="published">Published</button>
+                <button class="chip filter-chip active warning" data-status="review">Needs review</button>
+                <button class="chip filter-chip active info" data-status="connected">Connected</button>
+              </div>
+            </section>
+
+            <div class="info-grid">
+              <section class="card info-card">
+                <span class="info-label">Property group</span>
+                <strong id="propertyGroupValue">APAC premium hotels</strong>
+              </section>
+              <section class="card info-card small">
+                <span class="info-label">Sync status</span>
+                <strong class="chip success">Healthy</strong>
+              </section>
+            </div>
+
+            <div class="panel-surface" id="panelSurface">
+              <section class="panel active" data-panel-surface="overview">
+                <div class="metrics-grid">
+                  <article class="metric-card">
+                    <span class="metric-label">今日概览</span>
+                    <strong>23</strong>
+                    <p>待售房型</p>
+                  </article>
+                  <article class="metric-card green">
+                    <span class="metric-label">操作效率</span>
+                    <strong>95%</strong>
+                    <p>配置完成率</p>
+                  </article>
+                  <article class="metric-card orange">
+                    <span class="metric-label">风险提醒</span>
+                    <strong>6</strong>
+                    <p>待处理异常</p>
+                  </article>
+                </div>
+
+                <section class="card data-card">
+                  <div class="section-head row">
+                    <div>
+                      <h3>数据与列表组件</h3>
+                      <p>适合继续扩展为房价、库存、直连预订等模块。</p>
+                    </div>
+                    <div class="segmented small" id="viewSwitcher">
+                      <button class="segment active" data-view="default">Default view</button>
+                      <button class="segment" data-view="extended">Extended view</button>
+                    </div>
+                  </div>
+
+                  <div class="table-toolbar">
+                    <input type="text" id="roomTypeFilter" placeholder="Filter room types" />
+                    <input type="text" id="ratePlanFilter" placeholder="Filter rate plans" />
+                    <button class="primary-btn" id="addRatePlanBtn">Add a rate plan</button>
+                  </div>
+
+                  <div class="table-card">
+                    <div class="table-head">
+                      <span></span>
+                      <span>Rate plan</span>
+                      <span>Rate setup</span>
+                    </div>
+                    <div class="table-row" data-expandable>
+                      <button class="expand-btn">+</button>
+                      <span>Bed and Breakfast</span>
+                      <span>Derived from Best Available Rate (-US$5)</span>
+                    </div>
+                    <div class="table-detail hidden">
+                      <span></span>
+                      <span colspan="2">已连接 4 个渠道，最近同步 5 分钟前。</span>
+                    </div>
+                    <div class="table-row" data-expandable>
+                      <button class="expand-btn">+</button>
+                      <span>Best Available Rate</span>
+                      <span>—</span>
+                    </div>
+                    <div class="table-detail hidden">
+                      <span></span>
+                      <span colspan="2">作为基准价格计划，用于派生其他报价。</span>
+                    </div>
+                  </div>
+
+                  <section class="room-showcase card-inner">
+                    <h3>房型列表卡片</h3>
+                    <article class="room-card" data-added="true">
+                      <div class="room-thumb">Room image</div>
+                      <div class="room-copy">
+                        <h3>家庭房</h3>
+                        <p>32m² · 1 king bed · 1 sofa · 早餐</p>
+                        <button class="chip-button active" data-room-toggle>Active</button>
+                      </div>
+                    </article>
+                  </section>
+
+                  <section class="keywords card-inner">
+                    <h3>推理出的风格关键词</h3>
+                    <p>品牌主色为高饱和蓝，用于顶栏、主按钮、激活标签。大面积使用白色与浅灰背景，形成克制的 SaaS 控制台视觉。卡片、筛选器、表格均使用圆角边框与中等留白，强调信息结构而不是装饰。</p>
+                  </section>
+                </section>
+              </section>
+
+              <section class="panel" data-panel-surface="rate-plans">
+                <div class="card narrative-card">
+                  <h3>Rate plans</h3>
+                  <p>这里演示价格计划视图。切换时保留同一套筛选器，仅替换内容区域，符合后台产品的一致交互。</p>
+                  <div class="mini-list">
+                    <div><span>Best Available Rate</span><span class="chip info">Connected</span></div>
+                    <div><span>Weekend Saver</span><span class="chip warning">Needs review</span></div>
+                    <div><span>Corporate Member Rate</span><span class="chip success">Published</span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="panel" data-panel-surface="channels">
+                <div class="card narrative-card">
+                  <h3>Channels</h3>
+                  <p>渠道视图展示相同的状态筛选器如何快速筛出异常连接。</p>
+                  <div class="channel-grid">
+                    <div class="channel-card"><strong>Booking.com</strong><span class="chip success">Healthy</span></div>
+                    <div class="channel-card"><strong>Expedia</strong><span class="chip warning">Needs review</span></div>
+                    <div class="channel-card"><strong>Agoda</strong><span class="chip info">Connected</span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="panel" data-panel-surface="restrictions">
+                <div class="card narrative-card">
+                  <h3>Restrictions</h3>
+                  <p>限制视图用来承接最常见的入住天数、停售与截止时间设置。</p>
+                  <div class="restriction-stack">
+                    <label><input type="checkbox" checked /> 最少入住 2 晚</label>
+                    <label><input type="checkbox" /> 停止到达</label>
+                    <label><input type="checkbox" checked /> 截止预订时间 18:00</label>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script src="./siteminder组件.js"></script>
+</body>
+</html>

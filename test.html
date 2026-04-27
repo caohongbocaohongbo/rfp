@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红色加力 - 酒店管理系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00848A',
+                        primaryHover: '#006c70',
+                        bgLight: '#f4f7f9',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 自定义滚动条及细节样式 */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+        .step-line::after {
+            content: ''; position: absolute; top: 20px; left: 60%; width: 80%; height: 1px; background-color: #cbd5e1; z-index: 0;
+        }
+        .step-line:last-child::after { display: none; }
+        .browser-mockup { border-top: 12px solid #e2e8f0; border-radius: 8px 8px 0 0; position: relative; }
+        .browser-mockup::before {
+            content: ''; position: absolute; top: -8px; left: 12px; width: 8px; height: 8px; border-radius: 50%;
+            background-color: #fca5a5; box-shadow: 14px 0 0 #fcd34d, 28px 0 0 #86efac;
+        }
+    </style>
+</head>
+<body class="bg-bgLight h-screen flex overflow-hidden text-gray-800">
+
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col hidden md:flex z-10">
+        <div class="h-16 flex items-center px-6 border-b border-gray-100">
+            <div class="flex items-center text-primary font-bold text-xl tracking-wider">
+                <i class="fa-solid fa-cube mr-2 text-2xl"></i> 红色加力
+            </div>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-house w-6 text-center"></i> 首页</a></li>
+                <li class="relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r"></div>
+                    <a href="#" class="flex items-center px-6 py-3 bg-teal-50 text-primary font-medium transition"><i class="fa-solid fa-file-contract w-6 text-center"></i> 加力自签</a>
+                </li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-box-open w-6 text-center"></i> 产品管理 <i class="fa-solid fa-chevron-down ml-auto text-xs"></i></a></li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-calendar-alt w-6 text-center"></i> 价格日历</a></li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-briefcase w-6 text-center"></i> 商务管理</a></li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-handshake w-6 text-center"></i> 产品合作 <i class="fa-solid fa-chevron-down ml-auto text-xs"></i></a></li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-file-alt w-6 text-center"></i> 说明服务</a></li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-list-ul w-6 text-center"></i> 预约管理 <i class="fa-solid fa-chevron-down ml-auto text-xs"></i></a></li>
+                <li><a href="#" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-50 transition"><i class="fa-solid fa-cog w-6 text-center"></i> 企业设置 <i class="fa-solid fa-chevron-down ml-auto text-xs"></i></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10 shrink-0">
+            <div class="flex items-center">
+                <button class="text-gray-500 hover:text-primary md:hidden mr-4"><i class="fa-solid fa-bars text-xl"></i></button>
+                <button class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-outdent"></i></button>
+            </div>
+            <div class="flex items-center space-x-5 text-gray-500">
+                <button class="hover:text-primary transition"><i class="fa-regular fa-circle-question text-lg"></i></button>
+                <button class="hover:text-primary transition"><i class="fa-regular fa-bell text-lg"></i></button>
+                <div class="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded transition">
+                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600"><i class="fa-solid fa-user"></i></div>
+                    <span class="text-sm font-medium text-gray-700">urner</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-6">
+                
+                <div class="xl:col-span-2 space-y-6">
+                    
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative flex flex-col md:flex-row items-center">
+                        <div class="absolute inset-0 bg-gradient-to-br from-teal-50 to-white opacity-50 z-0"></div>
+                        
+                        <div class="p-8 z-10 flex-1">
+                            <h1 class="text-3xl font-bold text-gray-800 mb-4 tracking-tight">红色加力商旅专享价</h1>
+                            <p class="text-gray-600 mb-2 leading-relaxed">
+                                红色加力只服务B端客户，包括：国央企、TMC、航司、银行、费控，助力酒店获取更多B端新增流量。
+                            </p>
+                            <p class="text-xs text-gray-400 mb-6">
+                                注：商旅专享价仅在红色加力平台上售卖，并承诺不分销到OTA渠道。
+                            </p>
+                            <div class="flex space-x-4">
+                                <button onclick="alert('即将跳转至报价录入页面！')" class="bg-primary hover:bg-primaryHover text-white px-6 py-2.5 rounded-md shadow-md shadow-primary/30 transition transform hover:-translate-y-0.5 font-medium">去报价</button>
+                                <button class="bg-white border border-gray-300 text-gray-400 px-6 py-2.5 rounded-md cursor-not-allowed">查看报价</button>
+                            </div>
+                        </div>
+                        
+                        <div class="hidden md:flex p-6 z-10 w-64 justify-center items-center">
+                            <svg viewBox="0 0 200 200" class="w-full h-full text-primary" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="50" y="40" width="100" height="120" rx="4" fill="#e6f2f3" stroke="none"/>
+                                <rect x="50" y="40" width="100" height="120" rx="4"/>
+                                <path d="M50 70h100 M80 40v120 M120 40v120" stroke-opacity="0.2"/>
+                                <rect x="65" y="60" width="15" height="15" rx="2" fill="#00848A"/>
+                                <rect x="90" y="60" width="15" height="15" rx="2"/>
+                                <rect x="115" y="60" width="15" height="15" rx="2"/>
+                                <rect x="65" y="90" width="15" height="15" rx="2"/>
+                                <rect x="90" y="90" width="15" height="15" rx="2" fill="#00848A"/>
+                                <rect x="115" y="90" width="15" height="15" rx="2"/>
+                                <path d="M20 160h160" stroke-width="3"/>
+                                <circle cx="160" cy="120" r="15" fill="#fff"/>
+                                <circle cx="160" cy="120" r="15"/>
+                                <text x="156" y="125" stroke="none" fill="#00848A" font-size="14" font-weight="bold">$</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h2 class="text-lg font-bold text-gray-800 mb-8">报价流程步骤</h2>
+                        <div class="flex flex-col md:flex-row justify-between relative px-4 md:px-10">
+                            
+                            <div class="flex flex-col items-center text-center w-full md:w-1/3 mb-6 md:mb-0 relative step-line">
+                                <div class="w-12 h-12 rounded-full border-2 border-primary text-primary flex items-center justify-center bg-white z-10 mb-3 relative">
+                                    <i class="fa-solid fa-computer-mouse"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2">核对收款信息</h3>
+                                <p class="text-xs text-gray-500 max-w-[200px] flex items-start text-left">
+                                    <i class="fa-solid fa-circle-info mt-0.5 mr-1 text-primary/70"></i>
+                                    用于确保后续订单准确高效收款。
+                                </p>
+                            </div>
+
+                            <div class="flex flex-col items-center text-center w-full md:w-1/3 mb-6 md:mb-0 relative step-line">
+                                <div class="w-12 h-12 rounded-full border-2 border-primary text-primary flex items-center justify-center bg-white z-10 mb-3">
+                                    <i class="fa-regular fa-file-lines"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2">录入报价</h3>
+                                <p class="text-xs text-gray-500 max-w-[200px] flex items-start text-left">
+                                    <i class="fa-solid fa-circle-info mt-0.5 mr-1 text-primary/70"></i>
+                                    请确保报价优势，有利于获取更多商旅订单。
+                                </p>
+                            </div>
+
+                            <div class="flex flex-col items-center text-center w-full md:w-1/3 relative step-line">
+                                <div class="w-12 h-12 rounded-full border-2 border-gray-200 text-gray-300 flex items-center justify-center bg-white z-10 mb-3">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-400 mb-2">开始售卖</h3>
+                                <p class="text-xs text-gray-400 max-w-[200px] flex items-start text-left">
+                                    <i class="fa-solid fa-circle-info mt-0.5 mr-1 text-gray-300"></i>
+                                    报价录入完成，系统自动上架输出给各大企业。
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-800 mb-4">说明优势卡片区</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            
+                            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                                <div class="w-10 h-10 mb-4 text-primary opacity-80 flex items-center">
+                                    <i class="fa-solid fa-network-wired text-3xl"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-gray-800 mb-2">红色加力是谁</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed">在天下房仓下辖独立运营，提供供应链服务：直连酒店产品、协议店托管、直连技术、TMC、航司、银行、OA/费控等。</p>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                                <div class="w-10 h-10 mb-4 text-primary opacity-80 flex items-center">
+                                    <i class="fa-solid fa-chart-line text-3xl"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-gray-800 mb-2">服务客户规模</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed">签约旅行规模超突破200亿元，带来持续优质的企业流量，稳定收入。</p>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                                <div class="w-10 h-10 mb-4 text-primary opacity-80 flex items-center relative">
+                                    <i class="fa-solid fa-crown text-3xl"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-gray-800 mb-2">商旅专享说明</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed">邀请酒店参与计划，提供比公开渠道更具竞争，大企业端的价格极具吸引力。</p>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                                <div class="w-10 h-10 mb-4 text-primary opacity-80 flex items-center">
+                                    <i class="fa-solid fa-file-invoice-dollar text-3xl"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-gray-800 mb-2">如何结算</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed">通过订单通后台以上线收款，合计清晰，快捷付款回收。</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="xl:col-span-1">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-full">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4">报价展示区域</h2>
+                        <h3 class="text-sm font-bold text-gray-800 mb-4">企业侧查价页面示例 (携程风格)</h3>
+                        
+                        <div class="border border-gray-200 rounded-lg p-2 bg-gray-50/50 shadow-inner">
+                            <div class="browser-mockup bg-white rounded-b-lg border border-gray-200 shadow-sm overflow-hidden text-sm">
+                                <div class="h-32 bg-gray-200 relative overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hotel Room" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/20"></div>
+                                </div>
+                                
+                                <div class="px-3 py-2 border-b border-gray-100 flex space-x-2 bg-white text-xs">
+                                    <input type="text" value="城市" class="w-1/4 border rounded px-2 py-1 bg-gray-50 text-gray-500" readonly>
+                                    <input type="text" value="2024-07-11  📅" class="w-1/3 border rounded px-2 py-1 bg-gray-50 text-gray-500 text-center" readonly>
+                                    <input type="text" value="酒店名称" class="w-1/4 border rounded px-2 py-1 bg-gray-50 text-gray-500" readonly>
+                                    <button class="w-1/6 border rounded bg-gray-50 text-gray-500">成/房 <i class="fa-solid fa-angle-down"></i></button>
+                                </div>
+
+                                <div class="p-3 border-b border-gray-100 flex hover:bg-gray-50 transition cursor-default">
+                                    <img src="https://images.unsplash.com/photo-1551882547-ff40eb0d1e73?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="w-24 h-24 object-cover rounded mr-3" alt="Hotel Exterior">
+                                    <div class="flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h4 class="font-bold text-gray-800 truncate">大北旅秀酒店</h4>
+                                            <div class="text-yellow-400 text-[10px] mb-1">
+                                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                            </div>
+                                            <div class="flex space-x-1 mb-2">
+                                                <span class="border border-primary text-primary px-1 py-0.5 rounded text-[10px]">商务首选</span>
+                                                <span class="border border-primary text-primary px-1 py-0.5 rounded text-[10px]">双早</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end items-end w-full">
+                                            <div class="text-right mr-2">
+                                                <div class="text-gray-400 line-through text-[10px]">OTA价 ¥890</div>
+                                                <div class="text-red-500 font-bold"><span class="text-xs">B端专享价 ¥</span><span class="text-lg">650</span></div>
+                                            </div>
+                                            <button class="bg-primary text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-primaryHover transition">预订</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 flex hover:bg-gray-50 transition cursor-default">
+                                    <img src="https://images.unsplash.com/photo-1542314831-c6a4d27ce6a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" class="w-24 h-24 object-cover rounded mr-3" alt="Hotel Exterior">
+                                    <div class="flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h4 class="font-bold text-gray-800 truncate">大北旅秀酒店</h4>
+                                            <div class="text-yellow-400 text-[10px] mb-1">
+                                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                            </div>
+                                            <div class="flex space-x-1 mb-2">
+                                                <span class="border border-primary text-primary px-1 py-0.5 rounded text-[10px]">商务首选</span>
+                                                <span class="border border-primary text-primary px-1 py-0.5 rounded text-[10px]">双早</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end items-end w-full">
+                                            <div class="text-right mr-2">
+                                                <div class="text-gray-400 line-through text-[10px]">OTA价 ¥860</div>
+                                                <div class="text-red-500 font-bold"><span class="text-xs">B端专享价 ¥</span><span class="text-lg">650</span></div>
+                                            </div>
+                                            <button class="bg-primary text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-primaryHover transition">预订</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="h-12 w-full"></div>
+        </div>
+    </main>
+
+</body>
+</html>
