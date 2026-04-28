@@ -585,7 +585,7 @@
       }
     }
 
-    // 4. 酒店签约价格分布 - 双向条形图（与Figma设计一致）
+    // 4. 酒店签约价格分布 - 双向条形图（金额列在中间）
     function initPriceDistributionChart() {
       try {
         const chartDom = document.getElementById('priceDistributionChart');
@@ -608,19 +608,23 @@
               type: 'shadow'
             },
             formatter: function(params) {
-              const priceRange = params[0].name;
+              const priceRange = priceRanges[params[0].dataIndex];
               let result = `<div style="font-weight:bold;margin-bottom:5px;">${priceRange}</div>`;
               params.forEach(param => {
-                result += `${param.marker} ${param.seriesName}: ${param.value}家<br/>`;
+                if (param.seriesName !== '标签') {
+                  result += `${param.marker} ${param.seriesName}: ${param.value}家<br/>`;
+                }
               });
               return result;
             }
           },
           grid: [
             // 左侧网格（今年）
-            { left: '8%', width: '35%', top: '5%', bottom: '5%', containLabel: true },
+            { left: '3%', width: '28%', top: '5%', bottom: '5%', containLabel: false },
+            // 中间网格（标签）
+            { left: '32%', width: '15%', top: '5%', bottom: '5%', containLabel: false },
             // 右侧网格（去年）
-            { right: '8%', width: '35%', top: '5%', bottom: '5%', containLabel: true }
+            { right: '3%', width: '28%', top: '5%', bottom: '5%', containLabel: false }
           ],
           xAxis: [
             // 左侧X轴（今年）- 反向显示
@@ -633,7 +637,7 @@
               axisLabel: { show: false },
               splitLine: { show: false }
             },
-            // 右侧X轴（去年）
+            // 中间X轴（标签）
             {
               type: 'value',
               gridIndex: 1,
@@ -641,10 +645,19 @@
               axisTick: { show: false },
               axisLabel: { show: false },
               splitLine: { show: false }
+            },
+            // 右侧X轴（去年）
+            {
+              type: 'value',
+              gridIndex: 2,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: { show: false },
+              splitLine: { show: false }
             }
           ],
           yAxis: [
-            // 左侧Y轴（今年）- 显示价格区间标签
+            // 左侧Y轴（今年）- 不显示标签
             {
               type: 'category',
               gridIndex: 0,
@@ -652,17 +665,27 @@
               position: 'left',
               axisLine: { show: false },
               axisTick: { show: false },
+              axisLabel: { show: false }
+            },
+            // 中间Y轴（标签）- 显示价格区间
+            {
+              type: 'category',
+              gridIndex: 1,
+              data: priceRanges,
+              position: 'left',
+              axisLine: { show: false },
+              axisTick: { show: false },
               axisLabel: {
                 fontSize: 12,
                 color: '#4E5969',
-                margin: 8,
-                align: 'right'
+                margin: 0,
+                align: 'center'
               }
             },
             // 右侧Y轴（去年）- 不显示标签
             {
               type: 'category',
-              gridIndex: 1,
+              gridIndex: 2,
               data: priceRanges,
               position: 'right',
               axisLine: { show: false },
@@ -687,10 +710,20 @@
               data: currentYearData
             },
             {
-              name: '去年',
+              name: '标签',
               type: 'bar',
               xAxisIndex: 1,
               yAxisIndex: 1,
+              barWidth: '0%',
+              itemStyle: { color: 'transparent' },
+              data: priceRanges.map(() => 0),
+              tooltip: { show: false }
+            },
+            {
+              name: '去年',
+              type: 'bar',
+              xAxisIndex: 2,
+              yAxisIndex: 2,
               barWidth: '50%',
               itemStyle: {
                 color: '#CFE4FF',
