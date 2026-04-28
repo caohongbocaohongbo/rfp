@@ -228,8 +228,7 @@
             </div>
           </div>
         </div>
-        <div id="quoteTrendChart" class="w-[489px] h-[260px] mb-[16px]"></div>
-        <div id="quoteTrendBarChart" class="w-[489px] h-[278px]"></div>
+        <div id="quoteTrendChart" class="w-[489px] h-[520px]"></div>
       </div>
     </div>
 
@@ -285,7 +284,7 @@
     ];
 
     // 图表实例存储
-    let fixedPriceChart, quoteTypeChart, quoteTrendChart, quoteTrendBarChart, cityTop10Chart;
+    let fixedPriceChart, quoteTypeChart, quoteTrendChart, cityTop10Chart;
 
     // 数据类型状态
     let fixedPriceDataType = 'hotel';
@@ -525,8 +524,8 @@
             series: [{
               name: '涨跌平趋势',
               type: 'pie',
-              radius: ['40%', '70%'],
-              center: ['50%', '45%'],
+              radius: ['35%', '65%'],
+              center: ['50%', '48%'],
               itemStyle: {
                 borderRadius: 8,
                 borderColor: '#fff',
@@ -558,102 +557,7 @@
           quoteTrendChart.setOption(pieOption);
         }
 
-        // 柱状图
-        const barChartDom = document.getElementById('quoteTrendBarChart');
-        if (barChartDom) {
-          quoteTrendBarChart = echarts.init(barChartDom);
-
-          const barOption = {
-            tooltip: {
-              trigger: 'axis',
-              backgroundColor: 'rgba(255, 255, 255, 0.95)',
-              borderColor: '#165DFF',
-              borderWidth: 1,
-              textStyle: {
-                color: '#333'
-              },
-              axisPointer: {
-                type: 'shadow',
-                shadowStyle: {
-                  color: 'rgba(22, 93, 255, 0.1)'
-                }
-              },
-              formatter: function(params) {
-                let result = `<div style="font-weight:bold;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:5px;">${params[0].axisValue}</div>`;
-                let total = 0;
-                params.forEach(param => {
-                  total += param.value;
-                });
-                params.forEach(param => {
-                  const percent = ((param.value / total) * 100).toFixed(1);
-                  result += `<div style="display:flex;align-items:center;margin:6px 0;">` +
-                           `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${param.color};margin-right:8px;"></span>` +
-                           `<span style="flex:1;">${param.seriesName}:</span>` +
-                           `<span style="font-weight:bold;margin-left:10px;">${param.value}</span>` +
-                           `<span style="color:#666;margin-left:5px;font-size:12px;">(${percent}%)</span>` +
-                           `</div>`;
-                });
-                result += `<div style="margin-top:8px;padding-top:5px;border-top:1px solid #eee;text-align:right;">` +
-                         `<span style="color:#666;">总计: <strong>${total}</strong></span>` +
-                         `</div>`;
-                return result;
-              }
-            },
-            grid: {
-              left: '3%',
-              right: '4%',
-              bottom: '3%',
-              top: '10%',
-              containLabel: true
-            },
-            xAxis: {
-              type: 'category',
-              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-              axisLine: {
-                lineStyle: { color: '#C9CDD4' }
-              },
-              axisLabel: {
-                fontSize: 11,
-                color: '#4E5969'
-              }
-            },
-            yAxis: {
-              type: 'value',
-              axisLine: { show: false },
-              axisTick: { show: false },
-              axisLabel: { show: false },
-              splitLine: { show: false }
-            },
-            series: [
-              {
-                name: '涨价',
-                type: 'bar',
-                stack: 'total',
-                barWidth: '60%',
-                itemStyle: { color: '#165DFF' },
-                data: [45, 52, 58, 65, 72, 68, 62, 58, 54, 48, 46, 52]
-              },
-              {
-                name: '持平',
-                type: 'bar',
-                stack: 'total',
-                itemStyle: { color: '#4080FF' },
-                data: [95, 105, 115, 125, 135, 130, 122, 115, 108, 98, 92, 100]
-              },
-              {
-                name: '降价',
-                type: 'bar',
-                stack: 'total',
-                itemStyle: { color: '#91BAFF' },
-                data: [32, 28, 24, 20, 18, 20, 24, 28, 32, 36, 38, 32]
-              }
-            ]
-          };
-
-          quoteTrendBarChart.setOption(barOption);
-        }
-
-        console.log('Quote trend charts initialized successfully');
+        console.log('Quote trend chart initialized successfully');
       } catch (error) {
         console.error('Error initializing quote trend charts:', error);
       }
@@ -863,7 +767,7 @@
           if (fixedPriceChart) fixedPriceChart.resize();
           if (quoteTypeChart) quoteTypeChart.resize();
           if (quoteTrendChart) quoteTrendChart.resize();
-          if (quoteTrendBarChart) quoteTrendBarChart.resize();
+
           if (cityTop10Chart) cityTop10Chart.resize();
           console.log('Charts resized successfully');
         }, 250);
