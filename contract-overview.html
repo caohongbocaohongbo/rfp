@@ -55,6 +55,18 @@
       }
     }
 
+    /* 图例交互样式 */
+    .legend-item {
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    .legend-item.selected {
+      transform: scale(1.05);
+    }
+    .legend-item.selected .text-\[15px\] {
+      color: #165DFF !important;
+    }
+
     /* 响应式断点 */
     @media (max-width: 1400px) {
       .overview-card {
@@ -65,6 +77,15 @@
       .overview-row {
         flex-direction: column !important;
         height: auto;
+      }
+    }
+    @media (max-width: 768px) {
+      .overview-card {
+        min-width: 100% !important;
+      }
+      #fixedPriceChart, #discountChart, #cityTop10Chart {
+        width: 100% !important;
+        height: 250px !important;
       }
     }
   </style>
@@ -108,7 +129,7 @@
           </div>
           <!-- 右侧图例 -->
           <div class="w-[176px] h-[270px] flex flex-col justify-start items-start ml-[72px]">
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="0">
               <div class="w-[42px] rounded-[4px] bg-[rgba(46,103,232,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -116,7 +137,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="1">
               <div class="w-[42px] rounded-[4px] bg-[rgba(63,123,240,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -124,7 +145,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="2">
               <div class="w-[42px] rounded-[4px] bg-[rgba(102,151,241,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[60px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -132,7 +153,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="3">
               <div class="w-[42px] rounded-[4px] bg-[rgba(138,177,241,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[60px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -140,7 +161,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="4">
               <div class="w-[42px] rounded-[4px] bg-[rgba(168,195,242,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -148,7 +169,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="5">
               <div class="w-[42px] rounded-[4px] bg-[rgba(192,211,244,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -156,7 +177,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="6">
               <div class="w-[42px] rounded-[4px] bg-[rgba(210,223,246,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -164,7 +185,7 @@
                 </div>
               </div>
             </div>
-            <div class="w-[176px] h-[18px] flex flex-row justify-start items-center">
+            <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center cursor-pointer hover:opacity-80 transition-opacity" data-index="7">
               <div class="w-[42px] rounded-[4px] bg-[rgba(231,238,249,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[60px] h-[15px] flex justify-center items-start">
                 <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
@@ -726,6 +747,95 @@
       }
     }
 
+    // 绑定图例点击交互
+    function bindLegendInteractions() {
+      const legendItems = document.querySelectorAll('.legend-item');
+      
+      legendItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          if (!fixedPriceChart) return;
+          
+          // 切换选中状态
+          const isSelected = item.classList.contains('selected');
+          
+          // 重置所有图例样式
+          legendItems.forEach(li => {
+            li.classList.remove('selected');
+            li.style.opacity = '1';
+          });
+          
+          if (!isSelected) {
+            // 选中当前图例
+            item.classList.add('selected');
+            item.style.opacity = '1';
+            
+            // 其他图例变暗
+            legendItems.forEach((li, i) => {
+              if (i !== index) {
+                li.style.opacity = '0.3';
+              }
+            });
+            
+            // 高亮图表对应部分
+            fixedPriceChart.dispatchAction({
+              type: 'highlight',
+              seriesIndex: 0,
+              dataIndex: index
+            });
+            
+            // 显示tooltip
+            fixedPriceChart.dispatchAction({
+              type: 'showTip',
+              seriesIndex: 0,
+              dataIndex: index
+            });
+          } else {
+            // 取消选中，恢复所有
+            legendItems.forEach(li => {
+              li.style.opacity = '1';
+            });
+            
+            // 取消高亮
+            fixedPriceChart.dispatchAction({
+              type: 'downplay',
+              seriesIndex: 0
+            });
+            
+            // 隐藏tooltip
+            fixedPriceChart.dispatchAction({
+              type: 'hideTip'
+            });
+          }
+        });
+        
+        // 鼠标悬停效果
+        item.addEventListener('mouseenter', () => {
+          if (!item.classList.contains('selected')) {
+            item.style.opacity = '0.8';
+          }
+        });
+        
+        item.addEventListener('mouseleave', () => {
+          if (!item.classList.contains('selected')) {
+            item.style.opacity = '1';
+          }
+        });
+      });
+      
+      // 监听图表点击事件，同步更新图例状态
+      if (fixedPriceChart) {
+        fixedPriceChart.on('click', function(params) {
+          const index = params.dataIndex;
+          const legendItem = legendItems[index];
+          
+          if (legendItem) {
+            // 触发图例点击
+            legendItem.click();
+          }
+        });
+      }
+    }
+
     // 响应式处理函数
     function handleResize() {
       try {
@@ -761,6 +871,9 @@
         // 绑定按钮事件
         bindFixedPriceButtonEvents();
         bindDiscountButtonEvents();
+        
+        // 绑定图例交互
+        bindLegendInteractions();
         
         // 添加窗口大小变化监听
         window.addEventListener('resize', handleResize);
