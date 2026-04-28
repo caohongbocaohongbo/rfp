@@ -54,6 +54,17 @@
     }
 
     /* 响应式断点 */
+    @media (max-width: 1800px) {
+      .overview-row {
+        flex-wrap: wrap;
+        height: auto;
+      }
+      .overview-row > div {
+        flex: 1 1 calc(33.333% - 20px);
+        min-width: 500px;
+        margin-bottom: 24px;
+      }
+    }
     @media (max-width: 1400px) {
       .overview-card {
         width: 100% !important;
@@ -63,6 +74,10 @@
       .overview-row {
         flex-direction: column !important;
         height: auto;
+      }
+      .overview-row > div {
+        flex: 1 1 100%;
+        width: 100% !important;
       }
     }
   </style>
@@ -79,7 +94,7 @@
     </div>
 
     <!-- 第一行：三个卡片 -->
-    <div class="w-full h-[620px] mb-[28px] flex justify-start items-start overview-row">
+    <div class="w-full h-[620px] mb-[28px] flex flex-wrap justify-start items-start overview-row">
       <!-- 固定价报价情况 -->
       <div class="w-[584px] h-[620px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px] mr-[13px]">
         <div class="w-[534px] h-[31px] mb-[20px] flex justify-between items-center relative">
@@ -228,7 +243,7 @@
             </div>
           </div>
         </div>
-        <div id="quoteTrendChart" class="w-[489px] h-[520px]"></div>
+        <div id="quoteTrendChart" class="w-[489px] h-[520px] mt-[150px]"></div>
       </div>
     </div>
 
