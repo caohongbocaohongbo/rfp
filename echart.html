@@ -54,6 +54,12 @@
       }
     }
 
+    /* 页面最小宽度支持1366px，超出时显示横向滚动条 */
+    html, body {
+      min-width: 1366px;
+      overflow-x: auto;
+    }
+
     /* 响应式断点 */
     @media (max-width: 768px) {
       .chart-card {
