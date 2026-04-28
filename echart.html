@@ -54,43 +54,48 @@
       }
     }
 
-    /* 页面最小宽度支持1366px，超出时显示横向滚动条 */
+    /* 页面最小宽度1200px，保持布局不变 */
     html, body {
-      min-width: 1366px;
+      min-width: 1200px;
       overflow-x: auto;
     }
 
-    /* 响应式断点 */
-    @media (max-width: 768px) {
-      .chart-card {
-        width: 100% !important;
-        margin-right: 0 !important;
-        margin-bottom: 24px;
+    /* 1200px-1400px：保持布局，内容自适应 */
+    @media (max-width: 1400px) {
+      main {
+        padding: 15px !important;
       }
-      .chart-row {
-        flex-direction: column !important;
-        height: auto;
+      /* 卡片间距调整 */
+      .chart-card {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+      }
+      /* 按钮组调整 */
+      .w-\[213px\] {
+        width: 190px !important;
+      }
+      .w-\[71px\] {
+        width: 60px !important;
+      }
+      /* 图表容器调整 */
+      .chart-container {
+        height: 280px !important;
       }
     }
 
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .chart-card {
-        width: calc(50% - 8px) !important;
-        margin-right: 16px !important;
+    /* 小于1200px：保持布局但允许滚动 */
+    @media (max-width: 1200px) {
+      html, body {
+        overflow-x: auto;
       }
-      .chart-row .chart-card:last-child {
-        margin-right: 0 !important;
+      main {
+        min-width: 1200px;
       }
     }
 
-    @media (min-width: 1025px) {
-      .chart-card {
-        width: calc(50% - 12px) !important;
-        margin-right: 24px !important;
-      }
-      .chart-row .chart-card:last-child {
-        margin-right: 0 !important;
-      }
+    /* 大于1400px：自动兼容，使用默认样式 */
+    @media (min-width: 1401px) {
+      /* 使用默认样式，无需额外调整 */
     }
   </style>
 </head>

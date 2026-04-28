@@ -55,9 +55,9 @@
       }
     }
 
-    /* 页面最小宽度支持1366px，超出时显示横向滚动条 */
+    /* 页面最小宽度1200px，保持布局不变 */
     html, body {
-      min-width: 1366px;
+      min-width: 1200px;
       overflow-x: auto;
     }
 
@@ -73,40 +73,56 @@
       color: #165DFF !important;
     }
 
-    /* 响应式断点 */
+    /* 1200px-1400px：保持布局，内容自适应 */
     @media (max-width: 1400px) {
-      .overview-row {
-        flex-direction: column !important;
-      }
-      .overview-card {
-        width: 100% !important;
-        margin-right: 0 !important;
-        margin-bottom: 24px;
-      }
-    }
-    @media (max-width: 1024px) {
-      .overview-row {
-        flex-direction: column !important;
-        gap: 24px !important;
-      }
-      .overview-card {
-        width: 100% !important;
-        min-width: 100% !important;
-      }
-    }
-    @media (max-width: 768px) {
       main {
-        padding: 16px !important;
+        padding: 20px !important;
       }
       .overview-card {
-        min-width: 100% !important;
-        padding-left: 16px !important;
-        padding-right: 16px !important;
+        min-width: 0 !important;
       }
-      #fixedPriceChart, #discountChart, #cityTop10Chart {
-        width: 100% !important;
-        height: 250px !important;
+      /* 固定价报价情况卡片在1200px-1400px时调整 */
+      .overview-card[style*="height: 514px"] {
+        height: auto !important;
+        min-height: 480px;
       }
+      /* 图表区域调整 */
+      #fixedPriceChart, #discountChart {
+        width: 240px !important;
+        height: 240px !important;
+      }
+      /* 图例区域调整 */
+      .legend-item {
+        margin-bottom: 12px !important;
+      }
+      /* 集团折扣情况内部卡片调整 */
+      .overview-card .flex-1.min-w-0.rounded-\[20px\] {
+        padding: 14px !important;
+      }
+      /* 品牌折扣卡片调整 */
+      .overview-card .w-full.h-\[78px\] {
+        height: 70px !important;
+        padding: 12px !important;
+      }
+      /* 城市TOP10图表调整 */
+      #cityTop10Chart {
+        height: 300px !important;
+      }
+    }
+
+    /* 小于1200px：保持布局但允许滚动 */
+    @media (max-width: 1200px) {
+      html, body {
+        overflow-x: auto;
+      }
+      main {
+        min-width: 1200px;
+      }
+    }
+
+    /* 大于1400px：自动兼容，使用默认样式 */
+    @media (min-width: 1401px) {
+      /* 使用默认样式，无需额外调整 */
     }
   </style>
 </head>
