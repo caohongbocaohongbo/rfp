@@ -205,7 +205,7 @@
       </div>
 
       <!-- 报价涨跌平趋势 -->
-      <div class="w-[529px] h-[619px] rounded-[8px] border chart-border shadow-[0px_0px_30px_0px_rgba(0,0,0,0.08)] bg-[rgba(255,255,255,1)] flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px]">
+      <div class="w-[529px] h-[619px] rounded-[8px] border chart-border shadow-[0px_0px_30px_0px_rgba(0,0,0,0.08)] bg-[rgba(255,255,255,1)] flex flex-col justify-start items-center pt-[20px] pr-[20px] pl-[20px]">
         <div class="w-[489px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
           <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px] inline-flex items-center">
             报价涨跌平趋势
@@ -228,7 +228,7 @@
             </div>
           </div>
         </div>
-        <div id="quoteTrendChart" class="w-[220px] h-[125px] mb-[16px]"></div>
+        <div id="quoteTrendChart" class="w-[489px] h-[260px] mb-[16px]"></div>
         <div id="quoteTrendBarChart" class="w-[489px] h-[278px]"></div>
       </div>
     </div>
@@ -497,24 +497,58 @@
           const pieOption = {
             tooltip: {
               trigger: 'item',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              borderColor: '#165DFF',
+              borderWidth: 1,
+              textStyle: {
+                color: '#333'
+              },
               formatter: function(params) {
-                return `${params.name}: ${params.percent}%`;
+                return `<div style="font-weight:bold;margin-bottom:5px;">${params.name}</div>` +
+                       `<div style="display:flex;align-items:center;">` +
+                       `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${params.color};margin-right:8px;"></span>` +
+                       `<span>占比: <strong>${params.percent}%</strong></span>` +
+                       `</div>`;
+              }
+            },
+            legend: {
+              orient: 'horizontal',
+              bottom: '5%',
+              left: 'center',
+              itemWidth: 12,
+              itemHeight: 12,
+              textStyle: {
+                fontSize: 12,
+                color: '#4E5969'
               }
             },
             series: [{
               name: '涨跌平趋势',
               type: 'pie',
-              radius: '65%',
-              center: ['50%', '50%'],
+              radius: ['40%', '70%'],
+              center: ['50%', '45%'],
               itemStyle: {
                 borderRadius: 8,
                 borderColor: '#fff',
-                borderWidth: 2
+                borderWidth: 3
               },
               label: {
                 show: true,
                 formatter: '{b}\n{d}%',
-                fontSize: 10
+                fontSize: 12,
+                fontWeight: 'bold'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: 14,
+                  fontWeight: 'bold'
+                },
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.2)'
+                }
               },
               data: currentData,
               color: ['#165DFF', '#4080FF', '#91BAFF']
@@ -532,8 +566,37 @@
           const barOption = {
             tooltip: {
               trigger: 'axis',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              borderColor: '#165DFF',
+              borderWidth: 1,
+              textStyle: {
+                color: '#333'
+              },
               axisPointer: {
-                type: 'shadow'
+                type: 'shadow',
+                shadowStyle: {
+                  color: 'rgba(22, 93, 255, 0.1)'
+                }
+              },
+              formatter: function(params) {
+                let result = `<div style="font-weight:bold;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:5px;">${params[0].axisValue}</div>`;
+                let total = 0;
+                params.forEach(param => {
+                  total += param.value;
+                });
+                params.forEach(param => {
+                  const percent = ((param.value / total) * 100).toFixed(1);
+                  result += `<div style="display:flex;align-items:center;margin:6px 0;">` +
+                           `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${param.color};margin-right:8px;"></span>` +
+                           `<span style="flex:1;">${param.seriesName}:</span>` +
+                           `<span style="font-weight:bold;margin-left:10px;">${param.value}</span>` +
+                           `<span style="color:#666;margin-left:5px;font-size:12px;">(${percent}%)</span>` +
+                           `</div>`;
+                });
+                result += `<div style="margin-top:8px;padding-top:5px;border-top:1px solid #eee;text-align:right;">` +
+                         `<span style="color:#666;">总计: <strong>${total}</strong></span>` +
+                         `</div>`;
+                return result;
               }
             },
             grid: {
