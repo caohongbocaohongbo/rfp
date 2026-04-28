@@ -69,19 +69,33 @@
 
     /* 响应式断点 */
     @media (max-width: 1400px) {
+      .overview-row {
+        flex-direction: column !important;
+      }
       .overview-card {
         width: 100% !important;
         margin-right: 0 !important;
         margin-bottom: 24px;
       }
+    }
+    @media (max-width: 1024px) {
       .overview-row {
         flex-direction: column !important;
-        height: auto;
+        gap: 24px !important;
+      }
+      .overview-card {
+        width: 100% !important;
+        min-width: 100% !important;
       }
     }
     @media (max-width: 768px) {
+      main {
+        padding: 16px !important;
+      }
       .overview-card {
         min-width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
       }
       #fixedPriceChart, #discountChart, #cityTop10Chart {
         width: 100% !important;
@@ -102,9 +116,9 @@
     </div>
 
     <!-- 第一行：固定价报价情况 + 集团折扣情况 -->
-    <div class="w-full h-[620px] mb-[28px] flex justify-start items-start overview-row">
+    <div class="w-full mb-[28px] flex justify-start items-start overview-row gap-[24px]">
       <!-- 固定价报价情况 -->
-      <div class="w-[calc(50%-12px)] h-[620px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-center overview-card mr-[24px]">
+      <div class="flex-1 min-w-0 rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-center overview-card">
         <div class="w-[calc(100%-50px)] h-[31px] mt-[25px] flex justify-between items-center">
           <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px]">
             固定价报价情况
@@ -122,13 +136,13 @@
             </div>
           </div>
         </div>
-        <div class="w-[calc(100%-50px)] h-[519px] mt-[20px] flex justify-start items-center">
+        <div class="w-[calc(100%-50px)] mt-[20px] flex flex-col lg:flex-row justify-start items-center gap-[24px] lg:gap-[40px] pb-[24px]">
           <!-- 左侧环形图 -->
-          <div class="w-[560px] h-[320px] flex flex-col justify-start items-start relative">
-            <div id="fixedPriceChart" class="w-[270px] h-[270px] absolute top-[20px] left-[118px]"></div>
+          <div class="flex-1 min-w-0 flex flex-col justify-start items-center relative">
+            <div id="fixedPriceChart" class="w-[270px] h-[270px]"></div>
           </div>
           <!-- 右侧图例 -->
-          <div class="w-[176px] h-[270px] flex flex-col justify-start items-start ml-[72px]">
+          <div class="flex flex-col justify-start items-start shrink-0">
             <div class="legend-item w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px] cursor-pointer hover:opacity-80 transition-opacity" data-index="0">
               <div class="w-[42px] rounded-[4px] bg-[rgba(46,103,232,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
@@ -198,15 +212,15 @@
       </div>
 
       <!-- 集团折扣情况 -->
-      <div class="w-[calc(50%-12px)] h-[620px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[24px] pr-[24px] pb-[24px] pl-[24px] overview-card">
+      <div class="flex-1 min-w-0 rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[24px] pr-[24px] pb-[24px] pl-[24px] overview-card">
         <div class="w-full h-[31px] mb-[20px] flex justify-start items-center">
           <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px]">
             集团折扣情况
           </h2>
         </div>
-        <div class="w-full h-[519px] flex justify-start items-center gap-[18px]">
+        <div class="w-full flex flex-col xl:flex-row justify-start items-stretch gap-[18px]">
           <!-- 左侧报价明细 -->
-          <div class="flex-1 h-[519px] rounded-[20px] border border-[rgba(226,232,240,1)] bg-[rgba(255,255,255,0.88)] flex flex-col justify-start items-start pt-[18px] pr-[18px] pb-[18px] pl-[18px] min-w-0">
+          <div class="flex-1 min-w-0 rounded-[20px] border border-[rgba(226,232,240,1)] bg-[rgba(255,255,255,0.88)] flex flex-col justify-start items-start pt-[18px] pr-[18px] pb-[18px] pl-[18px]">
             <div class="w-full h-[30px] flex flex-row justify-start items-center mb-[16px]">
               <div class="h-[20px] mr-[10px] flex flex-col justify-center items-center">
                 <div class="text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] font-semibold tracking-[-0.15px]">
@@ -295,7 +309,7 @@
             </div>
           </div>
           <!-- 右侧环形图 -->
-          <div class="flex-1 h-[519px] rounded-[20px] border border-[rgba(226,232,240,1)] bg-[rgba(255,255,255,0.88)] flex flex-col justify-start items-start pt-[18px] pr-[18px] pb-[18px] pl-[18px] min-w-0">
+          <div class="flex-1 min-w-0 min-h-[300px] rounded-[20px] border border-[rgba(226,232,240,1)] bg-[rgba(255,255,255,0.88)] flex flex-col justify-start items-start pt-[18px] pr-[18px] pb-[18px] pl-[18px]">
             <div class="w-full h-[38px] flex flex-row justify-between items-center mb-[16px]">
               <div class="flex-1 h-[18px] flex justify-start items-end">
                 <div class="text-[14px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[18.2px] font-normal tracking-[-0.15px]">
@@ -324,13 +338,13 @@
     </div>
 
     <!-- 第二行：集团城市TOP10情况 -->
-    <div class="w-full h-[540px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[24px] pr-[24px] pb-[24px] pl-[24px]">
+    <div class="w-full rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[24px] pr-[24px] pb-[24px] pl-[24px]">
       <div class="w-full h-[31px] mb-[20px] flex justify-start items-center">
         <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px]">
           集团城市TOP10情况
         </h2>
       </div>
-      <div class="w-full h-[439px] flex flex-col justify-start items-start pt-[30px] pr-[20px] pb-[20px] pl-[20px]">
+      <div class="w-full flex flex-col justify-start items-start pt-[30px] pr-[20px] pb-[20px] pl-[20px]">
         <!-- 图例 -->
         <div class="w-full h-[14px] flex flex-row justify-center items-center mb-[20px]">
           <div class="w-[118px] h-[14px] flex flex-row justify-start items-center mr-[20px]">
