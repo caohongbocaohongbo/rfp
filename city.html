@@ -104,10 +104,9 @@
             </div>
           </div>
         </div>
-        <div class="w-[534px] h-[519px] flex flex-col justify-center items-start">
-          <div class="w-[560px] h-[320px] flex flex-col justify-start items-start">
-            <div id="fixedPriceChart" class="w-[270px] h-[270px] mt-[20px] ml-[118px]"></div>
-            <div class="w-[176px] h-[270px] flex flex-col justify-start items-start mt-[25px] ml-[64px]">
+        <div class="w-[534px] flex-1 flex flex-row justify-start items-start">
+          <div id="fixedPriceChart" class="w-[320px] h-[320px] mt-[20px] ml-[40px]"></div>
+          <div class="w-[176px] h-[320px] flex flex-col justify-center items-start ml-[20px]">
               <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
                 <div class="w-[42px] rounded-[4px] bg-[rgba(46,103,232,1)] min-h-[18px] mr-[12px]"></div>
                 <div class="w-[45px] h-[15px] flex justify-center items-start">
@@ -172,7 +171,6 @@
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -618,10 +616,18 @@
             formatter: function(params) {
               const cityIdx = params[0].dataIndex;
               const city = cityTop10Data.cities[cityIdx];
+              const currentYear = cityTop10Data.currentYear[cityIdx];
+              const lastYear = cityTop10Data.lastYear[cityIdx];
+              const yoy = ((currentYear - lastYear) / lastYear * 100).toFixed(1);
+              const yoyColor = yoy >= 0 ? '#00B42A' : '#F53F3F';
+              const yoyIcon = yoy >= 0 ? '↑' : '↓';
               let result = `<div style="font-weight:bold;margin-bottom:5px;">${city}</div>`;
               params.forEach(param => {
                 result += `${param.marker} ${param.seriesName}: ${param.value}<br/>`;
               });
+              result += `<div style="margin-top:5px;padding-top:5px;border-top:1px solid #eee;">`;
+              result += `<span style="color:${yoyColor};font-weight:bold;">${yoyIcon} 同比: ${yoy}%</span>`;
+              result += `</div>`;
               return result;
             }
           },
