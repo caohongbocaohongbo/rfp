@@ -585,7 +585,7 @@
       }
     }
 
-    // 4. 酒店签约价格分布 - 双向条形图
+    // 4. 酒店签约价格分布 - 双向条形图（与Figma设计一致）
     function initPriceDistributionChart() {
       try {
         const chartDom = document.getElementById('priceDistributionChart');
@@ -596,6 +596,11 @@
 
         priceDistributionChart = echarts.init(chartDom);
 
+        // 数据：价格区间从上到下是 ¥800 到 ¥0~200
+        const priceRanges = ['¥800', '¥701~800', '¥651~700', '¥601~650', '¥551~600', '¥501~550', '¥451~500', '¥401~450', '¥351~400', '¥301~350', '¥251~300', '¥201~250', '¥0~200'];
+        const currentYearData = [80, 100, 150, 200, 260, 320, 380, 420, 350, 280, 220, 180, 120];
+        const lastYearData = [70, 90, 130, 180, 240, 300, 360, 400, 340, 270, 210, 170, 110];
+
         const option = {
           tooltip: {
             trigger: 'axis',
@@ -603,7 +608,7 @@
               type: 'shadow'
             },
             formatter: function(params) {
-              const priceRange = params[0].axisValue;
+              const priceRange = params[0].name;
               let result = `<div style="font-weight:bold;margin-bottom:5px;">${priceRange}</div>`;
               params.forEach(param => {
                 result += `${param.marker} ${param.seriesName}: ${param.value}家<br/>`;
@@ -611,22 +616,24 @@
               return result;
             }
           },
-          grid: {
-            left: '3%',
-            right: '3%',
-            bottom: '3%',
-            top: '5%',
-            containLabel: true
-          },
+          grid: [
+            // 左侧网格（今年）
+            { left: '8%', width: '35%', top: '5%', bottom: '5%', containLabel: true },
+            // 右侧网格（去年）
+            { right: '8%', width: '35%', top: '5%', bottom: '5%', containLabel: true }
+          ],
           xAxis: [
+            // 左侧X轴（今年）- 反向显示
             {
               type: 'value',
               gridIndex: 0,
+              inverse: true,
               axisLine: { show: false },
               axisTick: { show: false },
               axisLabel: { show: false },
               splitLine: { show: false }
             },
+            // 右侧X轴（去年）
             {
               type: 'value',
               gridIndex: 1,
@@ -637,30 +644,31 @@
             }
           ],
           yAxis: [
+            // 左侧Y轴（今年）- 显示价格区间标签
             {
               type: 'category',
               gridIndex: 0,
-              data: priceDistributionData.priceRanges,
+              data: priceRanges,
+              position: 'left',
               axisLine: { show: false },
               axisTick: { show: false },
               axisLabel: {
                 fontSize: 12,
                 color: '#4E5969',
-                margin: 10
+                margin: 8,
+                align: 'right'
               }
             },
+            // 右侧Y轴（去年）- 不显示标签
             {
               type: 'category',
               gridIndex: 1,
-              data: priceDistributionData.priceRanges,
+              data: priceRanges,
+              position: 'right',
               axisLine: { show: false },
               axisTick: { show: false },
               axisLabel: { show: false }
             }
-          ],
-          grid: [
-            { left: '8%', width: '38%', containLabel: false },
-            { right: '8%', width: '38%', containLabel: false }
           ],
           series: [
             {
@@ -668,29 +676,27 @@
               type: 'bar',
               xAxisIndex: 0,
               yAxisIndex: 0,
-              barWidth: '60%',
+              barWidth: '50%',
               itemStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                  { offset: 0, color: 'rgba(91,162,255,1)' },
-                  { offset: 1, color: 'rgba(29,116,234,1)' }
+                  { offset: 0, color: '#5BA2FF' },
+                  { offset: 1, color: '#1D74EA' }
                 ]),
-                borderRadius: [0, 4, 4, 0]
+                borderRadius: [4, 0, 0, 4]
               },
-              data: priceDistributionData.currentYear
+              data: currentYearData
             },
             {
               name: '去年',
               type: 'bar',
               xAxisIndex: 1,
               yAxisIndex: 1,
-              barWidth: '60%',
+              barWidth: '50%',
               itemStyle: {
-                color: 'rgba(207,228,255,1)',
-                borderColor: 'rgba(175,207,255,1)',
-                borderWidth: 1,
-                borderRadius: [4, 0, 0, 4]
+                color: '#CFE4FF',
+                borderRadius: [0, 4, 4, 0]
               },
-              data: priceDistributionData.lastYear
+              data: lastYearData
             }
           ]
         };
