@@ -94,15 +94,15 @@
     </div>
 
     <!-- 第一行：两个卡片 -->
-    <div class="w-full h-[644px] mb-[28px] flex flex-wrap justify-start items-start overview-row">
+    <div class="w-full mb-[28px] flex flex-wrap justify-start items-start overview-row gap-[20px]">
       <!-- 固定价报价情况 -->
-      <div class="w-[858px] h-[644px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px] mr-[20px]">
-        <div class="w-[808px] h-[55px] flex flex-row flex-nowrap justify-start items-center mb-[20px]">
+      <div class="flex-1 min-w-[400px] max-w-[calc(50%-10px)] h-[644px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px]">
+        <div class="w-full h-[55px] flex flex-row flex-nowrap justify-start items-center mb-[20px]">
           <div class="w-[150px] h-[38px] font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold">
             <span class="tracking-[-0.70px]">固定价报价情况</span>
           </div>
-          <div class="w-[658px] h-[55px] flex flex-row flex-nowrap justify-between items-center">
-            <div class="w-[443px] min-h-[28px] flex flex-col flex-nowrap justify-start items-start gap-[10px] pt-[10px] box-border pr-[10px] pb-[10px] pl-[10px]"></div>
+          <div class="flex-1 h-[55px] flex flex-row flex-nowrap justify-between items-center">
+            <div class="flex-1 min-h-[28px] flex flex-col flex-nowrap justify-start items-start gap-[10px] pt-[10px] box-border pr-[10px] pb-[10px] pl-[10px]"></div>
             <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row flex-nowrap justify-end items-center box-border">
               <div id="fixedPrice-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
                 <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] tracking-[normal] font-normal">
@@ -122,11 +122,11 @@
             </div>
           </div>
         </div>
-        <div class="w-[808px] h-[519px] flex justify-start items-center">
-          <div class="w-[560px] h-[320px] flex flex-col flex-nowrap justify-start items-start ml-[118px]">
-            <div id="fixedPriceChart" class="w-[270px] h-[270px] mt-[20px] ml-[118px]"></div>
+        <div class="w-full flex-1 flex justify-center items-center">
+          <div class="flex-1 h-full flex flex-col flex-nowrap justify-center items-center">
+            <div id="fixedPriceChart" class="w-[270px] h-[270px]"></div>
           </div>
-          <div class="w-[176px] h-[270px] flex flex-col flex-nowrap justify-start items-start">
+          <div class="w-[176px] flex flex-col flex-nowrap justify-center items-start">
             <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
               <div class="w-[42px] rounded-[4px] bg-[rgba(46,103,232,1)] min-h-[18px] mr-[12px]"></div>
               <div class="w-[45px] h-[15px] flex justify-center items-start">
@@ -196,8 +196,8 @@
       </div>
 
       <!-- 报价类型占比 -->
-      <div class="w-[858px] h-[644px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px]">
-        <div class="w-[808px] h-[28px] flex flex-row flex-nowrap justify-between items-center mb-[20px]">
+      <div class="flex-1 min-w-[400px] max-w-[calc(50%-10px)] h-[644px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px]">
+        <div class="w-full h-[28px] flex flex-row flex-nowrap justify-between items-center mb-[20px]">
           <div class="w-[108px] h-[28px] flex justify-start items-start">
             <div class="font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold flex-shrink-0">
               <span class="tracking-[-0.70px]">报价类型占比</span>
@@ -221,15 +221,15 @@
             </div>
           </div>
         </div>
-        <div id="quoteTypeChart" class="w-[808px] h-[546px]"></div>
+        <div id="quoteTypeChart" class="w-full flex-1"></div>
       </div>
     </div>
 
     <!-- 第二行：两个卡片 -->
-    <div class="w-[1736px] h-[615px] rounded-[24px] flex flex-row flex-nowrap justify-start items-start">
+    <div class="w-full flex flex-wrap justify-start items-start gap-[20px]">
       <!-- 报价涨跌平趋势 -->
-      <div class="w-[858px] h-[615px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-center pt-[25px] box-border pb-[25px] mr-[20px]">
-        <div class="w-[808px] h-[28px] flex flex-row flex-nowrap justify-between items-center mb-[20px]">
+      <div class="flex-1 min-w-[400px] max-w-[calc(50%-10px)] h-[615px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-center pt-[25px] box-border pb-[25px]">
+        <div class="w-full h-[28px] flex flex-row flex-nowrap justify-between items-center mb-[20px] px-[25px]">
           <div class="w-[150px] h-[38px] font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold inline-flex items-center">
             <div class=""><span class="tracking-[-0.70px]">报价涨跌平趋势</span></div>
           </div>
@@ -251,38 +251,35 @@
             </div>
           </div>
         </div>
-        <div id="quoteTrendChart" class="w-[764px] h-[517px]"></div>
+        <div id="quoteTrendChart" class="w-full flex-1 px-[25px]"></div>
       </div>
 
       <!-- 酒店签约价格分布 -->
-      <div class="w-[858px] h-[611px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] box-border pr-[25px] pb-[25px] pl-[25px]">
-        <div class="w-[808px] h-[31px] mb-[20px] flex justify-start items-center">
+      <div class="flex-1 min-w-[400px] max-w-[calc(50%-10px)] h-[611px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] box-border pr-[25px] pb-[25px] pl-[25px]">
+        <div class="w-full h-[31px] mb-[20px] flex justify-start items-center">
           <div class="font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold flex-shrink-0">
             <span class="tracking-[-0.70px]">酒店签约价格分布</span>
           </div>
         </div>
-        <div class="w-[808px] h-[510px] rounded-[20px] flex flex-col flex-nowrap justify-start items-start pt-[20px] box-border pr-[20px] pb-[20px] pl-[20px]">
+        <div class="w-full flex-1 rounded-[20px] flex flex-col flex-nowrap justify-start items-start pt-[20px] box-border pr-[20px] pb-[20px] pl-[20px]">
           <!-- 表头 -->
-          <div class="w-[768px] h-[14px] flex flex-row flex-nowrap justify-center items-center box-border mb-[23px]">
-            <div class="w-[278px] h-[14px] flex flex-row flex-nowrap justify-start items-center mr-[20px]">
-              <div class="w-[278px] h-[12px] flex justify-start items-start">
-                <div class="mt-[0.50px] ml-[136px] font-[Inter] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-semibold flex-shrink-0">
+          <div class="w-full h-[14px] flex flex-row flex-nowrap justify-center items-center box-border mb-[23px]">
+            <div class="flex-1 h-[14px] flex flex-row flex-nowrap justify-start items-center mr-[20px]">
+              <div class="flex-1 h-[12px] flex justify-center items-start">
+                <div class="font-[Inter] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-semibold flex-shrink-0">
                   <span class="tracking-[0px]">今年</span>
                 </div>
-                <div class="mt-[0.50px] ml-[61.50px] font-[TikTok_Sans] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-bold flex-shrink-0">
+                <div class="ml-[40px] font-[TikTok_Sans] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-bold flex-shrink-0">
                   <span class="tracking-[0px]">VS</span>
+                </div>
+                <div class="ml-[40px] font-[Inter] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-semibold">
+                  <span class="tracking-[0px]">去年</span>
                 </div>
               </div>
             </div>
-            <div class="mr-[20px] font-[Inter] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-semibold">
-              <span class="tracking-[0px]">去年</span>
-            </div>
-            <div class="w-[143px] h-[14px] flex flex-row flex-nowrap justify-start items-center">
-              <div class="w-[143px] min-h-[12px]"></div>
-            </div>
           </div>
           <!-- 价格分布图表 -->
-          <div id="priceDistributionChart" class="w-[768px] h-[424px]"></div>
+          <div id="priceDistributionChart" class="w-full flex-1"></div>
         </div>
       </div>
     </div>
@@ -678,7 +675,7 @@
               axisLabel: {
                 fontSize: 12,
                 color: '#4E5969',
-                margin: 0,
+                margin: -90,
                 align: 'center',
                 fontWeight: 'bold'
               }
