@@ -60,7 +60,7 @@
         height: auto;
       }
       .overview-row > div {
-        flex: 1 1 calc(33.333% - 20px);
+        flex: 1 1 calc(50% - 20px);
         min-width: 500px;
         margin-bottom: 24px;
       }
@@ -93,189 +93,197 @@
       </h1>
     </div>
 
-    <!-- 第一行：三个卡片 -->
-    <div class="w-full h-[620px] mb-[28px] flex flex-wrap justify-start items-start overview-row">
+    <!-- 第一行：两个卡片 -->
+    <div class="w-full h-[644px] mb-[28px] flex flex-wrap justify-start items-start overview-row">
       <!-- 固定价报价情况 -->
-      <div class="w-[584px] h-[620px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px] mr-[13px]">
-        <div class="w-[534px] h-[31px] mb-[20px] flex justify-between items-center relative">
-          <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px]">
-            固定价报价情况
-          </h2>
-          <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row justify-end items-center">
-            <div id="fixedPrice-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                酒店
+      <div class="w-[858px] h-[644px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px] mr-[20px]">
+        <div class="w-[808px] h-[55px] flex flex-row flex-nowrap justify-start items-center mb-[20px]">
+          <div class="w-[150px] h-[38px] font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold">
+            <span class="tracking-[-0.70px]">固定价报价情况</span>
+          </div>
+          <div class="w-[658px] h-[55px] flex flex-row flex-nowrap justify-between items-center">
+            <div class="w-[443px] min-h-[28px] flex flex-col flex-nowrap justify-start items-start gap-[10px] pt-[10px] box-border pr-[10px] pb-[10px] pl-[10px]"></div>
+            <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row flex-nowrap justify-end items-center box-border">
+              <div id="fixedPrice-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+                <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] tracking-[normal] font-normal">
+                  <span class="tracking-[-0.15px]">酒店</span>
+                </div>
               </div>
-            </div>
-            <div id="fixedPrice-night-btn" class="w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                间夜量
+              <div id="fixedPrice-night-btn" class="w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+                <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] tracking-[normal] font-normal">
+                  <span class="tracking-[-0.15px]">间夜量</span>
+                </div>
               </div>
-            </div>
-            <div id="fixedPrice-amount-btn" class="w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                金额
+              <div id="fixedPrice-amount-btn" class="w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+                <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] tracking-[normal] font-normal">
+                  <span class="tracking-[-0.15px]">金额</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="w-[534px] flex-1 flex flex-row justify-start items-start">
-          <div id="fixedPriceChart" class="w-[320px] h-[320px] mt-[20px] ml-[40px]"></div>
-          <div class="w-[176px] h-[320px] flex flex-col justify-center items-start ml-[20px]">
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(46,103,232,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[45px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    新报价
-                  </div>
+        <div class="w-[808px] h-[519px] flex justify-start items-center">
+          <div class="w-[560px] h-[320px] flex flex-col flex-nowrap justify-start items-start ml-[118px]">
+            <div id="fixedPriceChart" class="w-[270px] h-[270px] mt-[20px] ml-[118px]"></div>
+          </div>
+          <div class="w-[176px] h-[270px] flex flex-col flex-nowrap justify-start items-start">
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(46,103,232,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[45px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">新报价</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(63,123,240,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[45px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    议价中
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(63,123,240,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[45px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">议价中</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(102,151,241,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[60px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    修订报价
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(102,151,241,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[60px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">修订报价</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(138,177,241,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[60px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    保持原价
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(138,177,241,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[60px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">保持原价</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(168,195,242,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[45px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    已中签
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(168,195,242,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[45px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">已中签</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(192,211,244,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[45px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    已拒绝
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(192,211,244,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[45px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">已拒绝</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center mb-[18px]">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(210,223,246,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[45px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    未报价
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center mb-[18px]">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(210,223,246,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[45px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">未报价</span>
                 </div>
               </div>
-              <div class="w-[176px] h-[18px] flex flex-row justify-start items-center">
-                <div class="w-[42px] rounded-[4px] bg-[rgba(231,238,249,1)] min-h-[18px] mr-[12px]"></div>
-                <div class="w-[60px] h-[15px] flex justify-center items-start">
-                  <div class="text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] font-bold tracking-[-0.23px]">
-                    放弃报价
-                  </div>
+            </div>
+            <div class="w-[176px] h-[18px] flex flex-row flex-nowrap justify-start items-center">
+              <div class="w-[42px] rounded-[4px] bg-[rgba(231,238,249,1)] min-h-[18px] mr-[12px]"></div>
+              <div class="w-[60px] h-[15px] flex justify-center items-start">
+                <div class="font-[Inter] text-[15px] whitespace-nowrap text-[rgba(100,116,139,1)] leading-[15px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[-0.23px]">放弃报价</span>
                 </div>
               </div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- 报价类型占比 -->
-      <div class="w-[569px] h-[620px] rounded-[8px] border chart-border shadow-[0px_0px_30px_0px_rgba(0,0,0,0.08)] bg-[rgba(255,255,255,1)] flex flex-col justify-start items-start pt-[20px] pr-[20px] pl-[20px] mr-[13px]">
-        <div class="w-[529px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
+      <div class="w-[858px] h-[644px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] pr-[25px] pb-[25px] pl-[25px]">
+        <div class="w-[808px] h-[28px] flex flex-row flex-nowrap justify-between items-center mb-[20px]">
           <div class="w-[108px] h-[28px] flex justify-start items-start">
-            <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px]">
-              报价类型占比
-            </h2>
-          </div>
-          <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row justify-end items-center">
-            <div id="quoteType-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                酒店
-              </div>
-            </div>
-            <div id="quoteType-night-btn" class="w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                间夜量
-              </div>
-            </div>
-            <div id="quoteType-amount-btn" class="w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                金额
-              </div>
+            <div class="font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold flex-shrink-0">
+              <span class="tracking-[-0.70px]">报价类型占比</span>
             </div>
           </div>
-        </div>
-        <div id="quoteTypeChart" class="w-[529px] h-[546px]"></div>
-      </div>
-
-      <!-- 报价涨跌平趋势 -->
-      <div class="w-[529px] h-[619px] rounded-[8px] border chart-border shadow-[0px_0px_30px_0px_rgba(0,0,0,0.08)] bg-[rgba(255,255,255,1)] flex flex-col justify-start items-center pt-[20px] pr-[20px] pl-[20px]">
-        <div class="w-[489px] h-[28px] flex flex-row justify-between items-center mb-[16px]">
-          <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px] inline-flex items-center">
-            报价涨跌平趋势
-          </h2>
-          <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row justify-end items-center">
-            <div id="quoteTrend-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                酒店
+          <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row flex-nowrap justify-end items-center box-border">
+            <div id="quoteType-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+              <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] tracking-[normal] font-normal">
+                <span class="tracking-[-0.15px]">酒店</span>
               </div>
             </div>
-            <div id="quoteTrend-night-btn" class="w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                间夜量
+            <div id="quoteType-night-btn" class="w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+              <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] tracking-[normal] font-normal">
+                <span class="tracking-[-0.15px]">间夜量</span>
               </div>
             </div>
-            <div id="quoteTrend-amount-btn" class="w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer">
-              <div class="text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]">
-                金额
+            <div id="quoteType-amount-btn" class="w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+              <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] tracking-[normal] font-normal">
+                <span class="tracking-[-0.15px]">金额</span>
               </div>
             </div>
           </div>
         </div>
-        <div id="quoteTrendChart" class="w-[489px] h-[520px] mt-[150px]"></div>
+        <div id="quoteTypeChart" class="w-[808px] h-[546px]"></div>
       </div>
     </div>
 
-    <!-- 第二行：集团城市TOP10情况 -->
-    <div class="w-full h-[615px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[24px] pr-[24px] pb-[24px] pl-[24px]">
-      <div class="w-full h-[31px] mb-[20px] flex justify-start items-center">
-        <h2 class="text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] font-extrabold tracking-[-0.70px]">
-          集团城市TOP10情况
-        </h2>
-      </div>
-      <div class="w-full h-[510px] rounded-[20px] border border-[rgba(220,234,251,1)] bg-gradient-to-b from-white to-[rgba(248,251,255,1)] flex flex-col justify-start items-start pt-[40px] pr-[20px] pb-[20px] pl-[20px]">
-        <!-- 图例 -->
-        <div class="w-full h-[14px] flex flex-row justify-center items-center mb-[30px]">
-          <div class="w-[118px] h-[14px] flex flex-row justify-start items-center mr-[20px]">
-            <div class="w-[14px] rounded-[999px] bg-gradient-to-b from-[rgba(91,162,255,1)] to-[rgba(29,116,234,1)] min-h-[14px] mr-[8px]"></div>
-            <div class="w-[96px] h-[12px] flex justify-center items-end">
-              <div class="text-[12px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] font-semibold">
-                今年城市签约均价
+    <!-- 第二行：两个卡片 -->
+    <div class="w-[1736px] h-[615px] rounded-[24px] flex flex-row flex-nowrap justify-start items-start">
+      <!-- 报价涨跌平趋势 -->
+      <div class="w-[858px] h-[615px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-center pt-[25px] box-border pb-[25px] mr-[20px]">
+        <div class="w-[808px] h-[28px] flex flex-row flex-nowrap justify-between items-center mb-[20px]">
+          <div class="w-[150px] h-[38px] font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold inline-flex items-center">
+            <div class=""><span class="tracking-[-0.70px]">报价涨跌平趋势</span></div>
+          </div>
+          <div class="w-[213px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(242,243,245,1)] flex flex-row flex-nowrap justify-end items-center box-border">
+            <div id="quoteTrend-hotel-btn" class="w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+              <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] tracking-[normal] font-normal">
+                <span class="tracking-[-0.15px]">酒店</span>
               </div>
             </div>
-          </div>
-          <div class="w-[118px] h-[14px] flex flex-row justify-start items-center">
-            <div class="w-[14px] rounded-[999px] border border-[rgba(175,207,255,1)] bg-[rgba(207,228,255,1)] min-h-[14px] mr-[8px]"></div>
-            <div class="w-[96px] h-[12px] flex justify-center items-end">
-              <div class="text-[12px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] font-semibold">
-                去年城市签约均价
+            <div id="quoteTrend-night-btn" class="w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+              <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] tracking-[normal] font-normal">
+                <span class="tracking-[-0.15px]">间夜量</span>
+              </div>
+            </div>
+            <div id="quoteTrend-amount-btn" class="w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer">
+              <div class="font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] tracking-[normal] font-normal">
+                <span class="tracking-[-0.15px]">金额</span>
               </div>
             </div>
           </div>
         </div>
-        <!-- 柱状图 -->
-        <div id="cityTop10Chart" class="w-full h-[372px]"></div>
+        <div id="quoteTrendChart" class="w-[764px] h-[517px]"></div>
+      </div>
+
+      <!-- 酒店签约价格分布 -->
+      <div class="w-[858px] h-[611px] rounded-[24px] border border-[rgba(226,232,240,1)] card-shadow bg-[rgba(255,255,255,0.96)] flex flex-col justify-start items-start pt-[25px] box-border pr-[25px] pb-[25px] pl-[25px]">
+        <div class="w-[808px] h-[31px] mb-[20px] flex justify-start items-center">
+          <div class="font-[Inter] text-[22px] whitespace-nowrap text-[rgba(15,23,42,1)] leading-[normal] tracking-[normal] font-extrabold flex-shrink-0">
+            <span class="tracking-[-0.70px]">酒店签约价格分布</span>
+          </div>
+        </div>
+        <div class="w-[808px] h-[510px] rounded-[20px] flex flex-col flex-nowrap justify-start items-start pt-[20px] box-border pr-[20px] pb-[20px] pl-[20px]">
+          <!-- 表头 -->
+          <div class="w-[768px] h-[14px] flex flex-row flex-nowrap justify-center items-center box-border mb-[23px]">
+            <div class="w-[278px] h-[14px] flex flex-row flex-nowrap justify-start items-center mr-[20px]">
+              <div class="w-[278px] h-[12px] flex justify-start items-start">
+                <div class="mt-[0.50px] ml-[136px] font-[Inter] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-semibold flex-shrink-0">
+                  <span class="tracking-[0px]">今年</span>
+                </div>
+                <div class="mt-[0.50px] ml-[61.50px] font-[TikTok_Sans] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-bold flex-shrink-0">
+                  <span class="tracking-[0px]">VS</span>
+                </div>
+              </div>
+            </div>
+            <div class="mr-[20px] font-[Inter] text-[14px] whitespace-nowrap text-[rgba(51,65,85,1)] leading-[12px] tracking-[normal] font-semibold">
+              <span class="tracking-[0px]">去年</span>
+            </div>
+            <div class="w-[143px] h-[14px] flex flex-row flex-nowrap justify-start items-center">
+              <div class="w-[143px] min-h-[12px]"></div>
+            </div>
+          </div>
+          <!-- 价格分布图表 -->
+          <div id="priceDistributionChart" class="w-[768px] h-[424px]"></div>
+        </div>
       </div>
     </div>
   </main>
@@ -299,7 +307,7 @@
     ];
 
     // 图表实例存储
-    let fixedPriceChart, quoteTypeChart, quoteTrendChart, cityTop10Chart;
+    let fixedPriceChart, quoteTypeChart, quoteTrendChart, priceDistributionChart;
 
     // 数据类型状态
     let fixedPriceDataType = 'hotel';
@@ -378,11 +386,11 @@
       ]
     };
 
-    // 城市TOP10数据
-    const cityTop10Data = {
-      cities: ['北京', '上海', '深圳', '重庆', '成都', '南京', '天津', '石家庄', '香港', '福州'],
-      currentYear: [288, 247, 216, 198, 182, 138, 139, 123, 101, 81],
-      lastYear: [250, 228, 208, 190, 175, 133, 134, 118, 97, 78]
+    // 酒店签约价格分布数据
+    const priceDistributionData = {
+      priceRanges: ['¥0~200', '¥201~250', '¥251~300', '¥301~350', '¥351~400', '¥401~450', '¥451~500', '¥501~550', '¥551~600', '¥601~650', '¥651~700', '¥701~800', '¥800'],
+      currentYear: [120, 180, 220, 280, 350, 420, 380, 320, 260, 200, 150, 100, 80],
+      lastYear: [100, 160, 200, 260, 320, 400, 360, 300, 240, 180, 130, 90, 70]
     };
 
     // 1. 固定价报价情况 - 环形图
@@ -498,10 +506,9 @@
       }
     }
 
-    // 3. 报价涨跌平趋势 - 饼图+柱状图
+    // 3. 报价涨跌平趋势 - 饼图
     function initQuoteTrendChart() {
       try {
-        // 饼图
         const pieChartDom = document.getElementById('quoteTrendChart');
         if (pieChartDom) {
           quoteTrendChart = echarts.init(pieChartDom);
@@ -574,20 +581,20 @@
 
         console.log('Quote trend chart initialized successfully');
       } catch (error) {
-        console.error('Error initializing quote trend charts:', error);
+        console.error('Error initializing quote trend chart:', error);
       }
     }
 
-    // 4. 集团城市TOP10情况 - 分组柱状图
-    function initCityTop10Chart() {
+    // 4. 酒店签约价格分布 - 双向条形图
+    function initPriceDistributionChart() {
       try {
-        const chartDom = document.getElementById('cityTop10Chart');
+        const chartDom = document.getElementById('priceDistributionChart');
         if (!chartDom) {
-          console.error('cityTop10Chart container not found');
+          console.error('priceDistributionChart container not found');
           return;
         }
 
-        cityTop10Chart = echarts.init(chartDom);
+        priceDistributionChart = echarts.init(chartDom);
 
         const option = {
           tooltip: {
@@ -596,84 +603,102 @@
               type: 'shadow'
             },
             formatter: function(params) {
-              const cityIdx = params[0].dataIndex;
-              const city = cityTop10Data.cities[cityIdx];
-              const currentYear = cityTop10Data.currentYear[cityIdx];
-              const lastYear = cityTop10Data.lastYear[cityIdx];
-              const yoy = ((currentYear - lastYear) / lastYear * 100).toFixed(1);
-              const yoyColor = yoy >= 0 ? '#00B42A' : '#F53F3F';
-              const yoyIcon = yoy >= 0 ? '↑' : '↓';
-              let result = `<div style="font-weight:bold;margin-bottom:5px;">${city}</div>`;
+              const priceRange = params[0].axisValue;
+              let result = `<div style="font-weight:bold;margin-bottom:5px;">${priceRange}</div>`;
               params.forEach(param => {
-                result += `${param.marker} ${param.seriesName}: ${param.value}<br/>`;
+                result += `${param.marker} ${param.seriesName}: ${param.value}家<br/>`;
               });
-              result += `<div style="margin-top:5px;padding-top:5px;border-top:1px solid #eee;">`;
-              result += `<span style="color:${yoyColor};font-weight:bold;">${yoyIcon} 同比: ${yoy}%</span>`;
-              result += `</div>`;
               return result;
             }
           },
           grid: {
             left: '3%',
-            right: '4%',
+            right: '3%',
             bottom: '3%',
-            top: '10%',
+            top: '5%',
             containLabel: true
           },
-          xAxis: {
-            type: 'category',
-            data: cityTop10Data.cities,
-            axisLine: {
-              lineStyle: { color: '#C9CDD4' }
+          xAxis: [
+            {
+              type: 'value',
+              gridIndex: 0,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: { show: false },
+              splitLine: { show: false }
             },
-            axisLabel: {
-              fontSize: 14,
-              color: '#4E5969',
-              fontWeight: 'bold'
-            },
-            axisTick: {
-              show: false
+            {
+              type: 'value',
+              gridIndex: 1,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: { show: false },
+              splitLine: { show: false }
             }
-          },
-          yAxis: {
-            type: 'value',
-            axisLine: { show: false },
-            axisTick: { show: false },
-            axisLabel: { show: false },
-            splitLine: { show: false }
-          },
+          ],
+          yAxis: [
+            {
+              type: 'category',
+              gridIndex: 0,
+              data: priceDistributionData.priceRanges,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: {
+                fontSize: 12,
+                color: '#4E5969',
+                margin: 10
+              }
+            },
+            {
+              type: 'category',
+              gridIndex: 1,
+              data: priceDistributionData.priceRanges,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: { show: false }
+            }
+          ],
+          grid: [
+            { left: '8%', width: '38%', containLabel: false },
+            { right: '8%', width: '38%', containLabel: false }
+          ],
           series: [
             {
-              name: '今年城市签约均价',
+              name: '今年',
               type: 'bar',
-              barWidth: '24%',
-              barGap: '20%',
+              xAxisIndex: 0,
+              yAxisIndex: 0,
+              barWidth: '60%',
               itemStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                   { offset: 0, color: 'rgba(91,162,255,1)' },
                   { offset: 1, color: 'rgba(29,116,234,1)' }
-                ])
+                ]),
+                borderRadius: [0, 4, 4, 0]
               },
-              data: cityTop10Data.currentYear
+              data: priceDistributionData.currentYear
             },
             {
-              name: '去年城市签约均价',
+              name: '去年',
               type: 'bar',
-              barWidth: '24%',
+              xAxisIndex: 1,
+              yAxisIndex: 1,
+              barWidth: '60%',
               itemStyle: {
                 color: 'rgba(207,228,255,1)',
                 borderColor: 'rgba(175,207,255,1)',
-                borderWidth: 1
+                borderWidth: 1,
+                borderRadius: [4, 0, 0, 4]
               },
-              data: cityTop10Data.lastYear
+              data: priceDistributionData.lastYear
             }
           ]
         };
 
-        cityTop10Chart.setOption(option);
-        console.log('City TOP10 chart initialized successfully');
+        priceDistributionChart.setOption(option);
+        console.log('Price distribution chart initialized successfully');
       } catch (error) {
-        console.error('Error initializing city TOP10 chart:', error);
+        console.error('Error initializing price distribution chart:', error);
       }
     }
 
@@ -689,12 +714,12 @@
           return;
         }
 
-        const activeClass = 'w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex justify-center items-center cursor-pointer';
-        const activeTextClass = 'text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] font-normal tracking-[-0.15px]';
+        const activeClass = 'w-[71px] h-[28px] rounded-[50px] border border-[rgba(239,239,243,1)] bg-[rgba(255,255,255,1)] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer';
+        const activeTextClass = 'font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(22,93,255,1)] leading-[20px] tracking-[normal] font-normal';
         
-        const inactiveClass = 'w-[71px] h-[28px] rounded-[4px] flex justify-center items-center cursor-pointer';
-        const inactiveTextClass = 'text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] font-normal tracking-[-0.15px]';
-        const inactiveTextClass2 = 'text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] font-normal tracking-[-0.15px]';
+        const inactiveClass = 'w-[71px] h-[28px] rounded-[4px] flex flex-row flex-nowrap justify-center items-center box-border cursor-pointer';
+        const inactiveTextClass = 'font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(29,33,41,1)] leading-[20px] tracking-[normal] font-normal';
+        const inactiveTextClass2 = 'font-[Inter] text-[14px] whitespace-nowrap text-center text-[rgba(78,89,105,1)] leading-[20px] tracking-[normal] font-normal';
 
         // 重置所有按钮
         hotelBtn.className = inactiveClass;
@@ -782,8 +807,7 @@
           if (fixedPriceChart) fixedPriceChart.resize();
           if (quoteTypeChart) quoteTypeChart.resize();
           if (quoteTrendChart) quoteTrendChart.resize();
-
-          if (cityTop10Chart) cityTop10Chart.resize();
+          if (priceDistributionChart) priceDistributionChart.resize();
           console.log('Charts resized successfully');
         }, 250);
       } catch (error) {
@@ -803,7 +827,7 @@
         initFixedPriceChart();
         initQuoteTypeChart();
         initQuoteTrendChart();
-        initCityTop10Chart();
+        initPriceDistributionChart();
         
         // 初始化按钮样式
         updateButtonStyle('fixedPrice', 'hotel');
